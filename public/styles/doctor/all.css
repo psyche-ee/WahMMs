@@ -1,0 +1,101 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+}
+
+body {
+    background-color: #F2F1FE;
+    display: flex;
+    height: 100vh;
+}
+
+aside {
+    width: 300px;
+    height: 100vh;
+    background-color: #D81616;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 20px;
+}
+
+nav a span{
+    font-size: 16px;
+    color: white;
+    border-bottom: 3px solid transparent;
+    transition: 0.5s ease;
+    margin-left: 8px;
+}
+
+nav a span:hover {
+    border-bottom: 3px solid white;
+}
+
+nav a i {
+    font-size: 20px;
+    color: white;
+    margin-left: 20px;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    background-color: #E46E6E;
+    margin: 0 0 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    padding: 20px 15px;
+    color: white;
+    gap: 10px;
+}
+
+.logo img {
+    width: 28px;
+    border-radius: 5px;
+}
+
+.logo h1 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.settings-toggle, .appointments-toggle {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+  
+.settings-options , .appointments-options {
+    display: none;
+    flex-direction: column;
+    padding-left: 50px;
+    margin-top: 10px;
+}
+  
+.settings-options a , .appointments-options a {
+    font-size: 14px;
+    padding: 10px 0;
+    color: white;
+    background-color: transparent;
+    text-decoration: none;
+}
+  
+.settings-options a:hover , .appointments-options a:hover {
+    color: #000;
+    background-color: #E46E6E;
+}
+  
+  /* Optional icon rotation for dropdown */
+.settings-toggle.open .dropdown-icon , .appointments-toggle.open .dropdown-icon{
+    transform: rotate(180deg);
+    transition: transform 0.3s;
+}

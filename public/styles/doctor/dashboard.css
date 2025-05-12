@@ -1,0 +1,193 @@
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.header h1 {
+    color: #D81616;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+form {
+    background-color: white;
+    width: 490px;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    padding: 15px 10px;
+    gap: 10px;
+}
+
+form input{
+    border: none;
+    outline: none;
+    font-size: 1rem;
+}
+
+form button {
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    padding: 0 10px;
+    font-size: 1.25rem;
+}
+
+.sched_appointments {
+    display: flex;
+    height: 240px;
+    width: 100%;
+    justify-content: space-evenly;
+    padding: 10px;
+    margin-top: 40px;
+    overflow: hidden;
+}
+
+.sched_appointments h1 {
+    color: #D81616;
+    font-size: 2.5rem;
+}
+
+.scheduleToday {
+    background-color: white;
+    max-width: 480px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    height: 100%;
+    scrollbar-width: thin;
+    overflow-y: auto;
+}
+
+.scheduleToday h4 {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin: 10px;
+}
+
+.scheduleToday .appointments_table {
+    overflow-y: auto;
+    flex: 1;
+}
+  
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+  
+thead {
+    position: sticky;
+    top: 0;
+    background-color: #D81616;
+    color: white;
+    z-index: 1;
+}
+  
+th, td {
+    padding: 10px 14px;
+    font-size: 1.125rem;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.appointments_table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.appointments_table tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+  
+.appointments_table tbody tr:hover {
+    background-color: #e6f7ff;
+}
+
+.total_appointments , .total_patients {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    width: 230px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+}
+
+.data {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    height: 40%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.quickActions {
+    width: 100%;
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.action_Buttons h3 {
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.action_Buttons {
+    height: 140px;
+    width: 380px;
+    background-color: white;
+    padding: 15px 15px 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    margin-left: 8.5%;
+}
+
+.button_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.addPatient {
+    height: 69px;
+    width: 155px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.addPatient i {
+    font-size: 1.5rem;
+    color: #D81616;
+}
+

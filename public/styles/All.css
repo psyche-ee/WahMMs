@@ -1,0 +1,599 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    scrollbar-width: none;
+}
+
+body {
+    background: linear-gradient(to right, #DA5353 0%, rgba(218, 83, 83, 0) 50%, #FFFFFF 100%);
+    height: 100vh;                         
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 8%;
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+    background-color: #D81616;
+}
+
+.logo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.logo img {
+    width: 92px;
+    height: 76px;
+    background-color: white;
+    border-radius: 10px;
+    margin-right: 1rem;
+}
+
+.logo h1 {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+}
+
+.hamburger {
+    display: none;
+}
+
+nav a {
+    margin-left: 40px;
+    font-size: 28px;
+    color: white;
+    font-weight: bold;
+    border-bottom: 3px solid transparent;
+    transition: 0.3s ease;
+}
+
+nav a:hover {
+    border-bottom: 3px solid white;
+}
+
+.auth_control {
+    display: flex;
+    align-items: center;
+    width: 130px;
+}
+
+.loginbtn {
+    background-color: white;
+    width: 117px;
+    height: 63px;
+    border-radius: 10px;
+    margin-left: 30px;
+    border: 2.5px solid white;
+    font-size: 24px;
+    cursor: pointer;
+    color: #D81616;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    transition: 0.5s ease;
+    font-weight: 700;
+}
+
+.loginbtn:hover {
+    background-color: #D81616;
+    color: white;
+}
+
+.active {
+    border-bottom: 3px solid white;
+}
+
+/* This targets the <img> directly */
+.profile {
+    width: 70px; /* match the login button height */
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    margin-left: 30px; /* match login button margin */
+    border: 2.5px solid white;
+    transition: 0.3s ease;
+}
+
+.logged-in #profile-pic {
+    display: inline-block;
+}
+
+.logged-in #show-login {
+    display: none;
+} 
+
+/* Optional hover effect */
+.profile:hover {
+    transform: scale(1.05);
+}
+
+
+/* overlay and login */
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms ease-in-out;
+}
+
+.overlay.active {
+    opacity: 1;
+    pointer-events: all; /* allows interaction when active */
+}
+
+.form {
+    position: fixed; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    height: 600px;
+    width: 600px;
+    border-radius: 20px;
+    /* opacity: 0; */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    pointer-events: all;
+    /* transition: opacity 0.3s ease; */
+}
+
+/* .form.active {
+    opacity: 1;
+    pointer-events: all;
+} */
+
+.settings {
+    position: fixed; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    height: 600px;
+    width: 600px;
+    border-radius: 20px;
+    opacity: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.settings.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.settings p {
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.pp {
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.pp img {
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+}
+
+.pp h2 {
+    font-size: 20px;
+}
+
+.pp p {
+    font-size: 14px;
+}
+
+.close_btn {
+    align-self: flex-end;
+    height: 80px;
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close_btn p {
+    font-size: 80px;
+    cursor: pointer;
+    transition: 0.3s ease-in;
+}
+
+.close_btn p:hover {
+    transform: rotate(90deg);
+}
+
+.form h2 {
+    font-size: 56px;
+    margin: 0 40px 10px;
+}
+
+.form form {
+    display: flex;
+    flex-direction: column;
+}
+
+#signup-form input {
+    margin: 5px 40px;
+    padding: 14px 20px;
+}
+
+#signup-form h2 {
+    margin: 0 40px;
+}
+
+#signup-form button {
+    margin: 10px 40px;
+}
+
+#forgot-form input {
+    margin: 20px 40px 30px;
+}
+
+#forgot-form button {
+    margin: 10px 40px;
+}
+
+#signup-form div input {
+    width: 85%;
+}
+
+.form input {
+    padding: 20px;
+    margin: 10px 40px;
+    font-size: 20px;
+    background-color: #D9D9D9;
+    color: #898888;
+    border: none;
+    border-radius: 15px;
+}
+
+.form a {
+    color: black;
+    font-size: 20px;
+    text-decoration: 1px underline white;
+    transition: 0.5s ease;
+}
+
+.form a:hover {
+    text-decoration: 1px underline #D81616;
+}
+
+.pwd {
+    margin: 10px 40px 15px;
+    width: 170px;
+}
+
+.create_one {
+    margin: 10px 40px;
+    align-self: center;
+}
+
+.form span {
+    color: #D81616;
+}
+
+.form button {
+    height: 60px;
+    margin: 0 40px 10px;
+    font-size: 24px;
+    font-weight: 700;
+    background-color: #D81616;
+    color: white;
+    border: 2px solid #D81616;
+    transition: 0.5s ease;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.form button:hover {
+    background-color: white;
+    color: #D81616;
+}
+
+.settings_modal , .notifications_modal , .change_pass_modal,
+        .sample_modal, .profile_modal {
+            border: none;
+            margin: 10rem 8% auto auto;
+            padding: 20px 40px;
+            width: 450px;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            height: 550px;
+            outline: none;
+        }
+
+        .logout_confirm_modal {
+            margin: auto;
+            padding: 20px 40px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+        }
+
+        .logout_button_container {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .logout_button_container button {
+            padding: 10px 20px;
+            margin: 20px 0 0;
+            width: 150px;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            outline: none;
+        }
+
+        #logout {
+            background-color: #D81616;
+            color: white;
+            transition: 0.5s ease;
+        }
+
+        #no_logout {
+            background-color: white;
+            color: #D81616;
+            border: 2px solid #D81616;
+            transition: 0.5s ease;
+        }
+
+        #logout:hover {
+            background-color: white;
+            color: #D81616;
+            border: 2px solid #D81616;
+        }
+
+        #no_logout:hover {
+            background-color: #D81616;
+            color: white;
+        }
+
+        .settings_modal p {
+            cursor: pointer;
+            margin: 20px 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .pp {
+            margin: 20px;
+        }
+
+.settings_modal i {
+    font-size: 28px;
+    margin-right: 10px;
+}
+
+.change_pass_modal form{
+    display: flex;
+    flex-direction: column;
+    margin-top: 15%;
+}
+
+.change_pass_modal form input {
+    outline: none;
+    border: none;
+}
+
+.change_pass_modal form label {
+    margin: 10px 10px 0;
+}
+
+.password-field {
+    display: flex;
+    margin: 10px 0 20px;
+    border: 1px solid #898888;
+    border-radius: 5px;
+    padding: 15px 20px;
+}
+
+.password-field button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: black;
+    margin-left: 10px;
+}
+
+.save_cancel_cntnr {
+    width: 100%;
+    margin: 40px 0;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.save_cancel_cntnr button {
+    padding: 10px 20px;
+    border-radius: 20px;
+    outline: none;
+    border: 2px solid #D81616;
+    font-size: 24px;
+    font-weight: 700;
+    width: 150px;
+    cursor: pointer;
+    transition: 0.5s ease;
+}
+
+.submit_btn {
+    background-color: #D81616;
+    color: white;
+}
+
+.cancel_btn {
+    background-color: white;
+    color: #D81616;
+}
+
+.submit_btn:hover {
+    background-color: white;
+    color: #D81616;
+    border: 2px solid #D81616;
+}
+
+.cancel_btn:hover {
+    background-color: #D81616;
+    color: white;
+    border: 2px solid #D81616;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .logo img {
+        width: 40px;
+        height: auto;
+    }
+
+    nav {
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        height: 100vh;
+        opacity: 0;
+        right: 0;
+        background-color: #1E1E1E;
+        padding: 20px;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 25px;
+        pointer-events: none;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    nav a {
+        margin-left: 20px;
+    }
+    
+    nav.active {
+        opacity: 1;
+        pointer-events: auto;
+        visibility: visible;
+    }
+
+    .hamburger {
+        display: block;
+        cursor: pointer;
+        font-size: 32px;
+        color: white;
+        transition: 0.5s ease;
+    }
+
+    .hamburger:hover {
+        transform: scale(1.2);
+    }
+
+    .logo h1 {
+        font-size: 1.5rem;
+    }
+
+    nav a {
+        font-size: 1.125rem;
+    }
+
+    .loginbtn {
+        font-size: 1.125rem;
+        width: 100px;
+        height: 50px;
+        margin-left: 20px;
+    }
+
+    .form {
+        width: 85%;
+        height: 55%;
+        padding: 10px;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .form h2 {
+        font-size: 2rem;
+        margin: 10px 20px;
+    }
+
+    .form input {
+        font-size: 1.125rem;
+        padding: 15px;
+        margin: 10px 20px 5px;
+    }
+
+    .close_btn {
+        height: 50px;
+        width: 50px;
+    }
+
+    .close_btn p {
+        font-size: 50px;
+    }
+
+    .pwd {
+        margin: 15px 20px;
+    }
+
+    .create_one {
+        margin: 15px;
+    }
+
+    .settings_modal, .notifications_modal, .change_pass_modal,
+            .sample_modal, .profile_modal {
+                width: 85%;
+                height: auto;
+                margin: 10rem auto;
+            }
+
+            .logout_confirm_modal {
+                padding: 20px;
+            }
+
+            .logout_button_container button {
+                width: auto;
+                font-size: 1.125rem;
+                width: 100px;
+            }
+
+            .logout_confirm_modal h1 {
+                text-align: center;
+                font-size: 1.5rem;
+            }
+  
+}

@@ -1,0 +1,78 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Poppins, sans-serif;
+    text-decoration: none;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to left, white, #D81616);
+}
+
+main {
+    background-color: #FFFAFA;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 3rem;
+    max-height: 90vh;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.sticky_header {
+    background-color: #D81616; 
+    padding: 20px;
+    border-radius: 20px 20px 0 0;
+    color: white;
+}
+
+form {
+    margin: 10px;
+}
+
+form div {
+    display: flex;
+    flex-direction: column;
+    margin: 40px 20px;
+}
+
+form div h4 {
+    margin-bottom: 20px;
+}
+
+form div input, select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form div label {
+    margin: 5px 5px 10px;
+    color: #555;
+}
+
+span {
+    color: red;
+}
+
+form button {
+    background-color: #D81616;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border: 1px solid #D81616;
+    transition: 0.5s ease;
+}
+
+form button:hover {
+    background-color: #FFFAFA;
+    color: #D81616;
+}

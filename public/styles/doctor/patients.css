@@ -1,0 +1,55 @@
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    padding: 20px;
+}
+
+.table_container {
+    max-height: 90vh;
+    width: 95%;
+    max-width: 1200px;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+  
+.table_container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+  
+.patients_table {
+    overflow-y: auto;
+    flex: 1;
+}
+  
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+  
+thead {
+    position: sticky;
+    top: 0;
+    background-color: #D81616;
+    color: white;
+    z-index: 1;
+}
+  
+th, td {
+    padding: 14px 18px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+  
+tbody tr:hover {
+    background-color: #eef6ff;
+}
