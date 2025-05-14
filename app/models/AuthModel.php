@@ -66,7 +66,6 @@ class AuthModel extends Model {
     
 
     public function login($email, $password, $userIp, $userAgent) {
-        //$rememberMe,
         $rule = new ValidationRules;
 
         $this->db->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
@@ -92,11 +91,6 @@ class AuthModel extends Model {
         Session::reset(["user_id" => $userId, "ip" => $userIp, "user_agent" => $userAgent]);
         
         $_SESSION['user_id'] = $user['id']; // Store user ID in session
-        //if (!empty($rememberMe) && $rememberMe === "rememberme") {
-        //    Cookie::reset($userId);
-        //} else {
-        //    Cookie::remove($userId);
-        //}
 
         $date = date('js F, Y - h:i:s A');
 
@@ -292,8 +286,7 @@ class AuthModel extends Model {
         // Destroy user session
         Session::destroy();
     
-        // Optionally, remove any cookies
-        // Cookie::reset($userId);
+        
     
         return true;
     }

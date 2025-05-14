@@ -19,9 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     //Settings Modal's Button Activator Variables
-    const open_notif = document.getElementById('open_notif');
+    
     const open_change_pass = document.getElementById('open_change_pass');
-    const sample = document.getElementById('sample');
     const open_profile = document.getElementById('open_profile');
     const open_logout = document.getElementById('open_logout');
 
@@ -33,16 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const logout_confirm_modal = document.querySelector('.logout_confirm_modal');
 
     //Adding eventListener to Buttons to activate and deactivate modals
-    open_notif.addEventListener("click", () => {
-        notifications_modal.showModal();
-    });
 
     open_change_pass.addEventListener("click", () => {
         change_pass_modal.showModal();
-    });
-
-    sample.addEventListener("click", () => {
-        sample_modal.showModal();
     });
 
     open_profile.addEventListener("click", () => {
@@ -103,9 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    //profilePic?.addEventListener("click", () => {
-    //    settings.classList.add("active");
-    //});
 
     // Close when clicking outside the form
     window.addEventListener("click", (e) => {
@@ -181,20 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
         settings_modal.close();
     });
 
-    // // Helper to update navbar buttons
-    // function updateAuthDisplay() {
-    //     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    //     if (isLoggedIn) {
-    //         profilePic.style.display = 'inline-block';
-    //         loginBtn.style.display = 'none';
-    //     } else {
-    //         loginBtn.style.display = 'inline-block';
-    //         profilePic.style.display = 'none';
-    //     }
-    // }
-
-    // // Call on load
-    // updateAuthDisplay();
+   
 });
 
 

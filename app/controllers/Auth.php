@@ -110,7 +110,6 @@ class Auth extends Controller {
         if ($this->request->isPost()) {
             $email      = $this->request->data("email");
             $password   = $this->request->data("password");
-            //$rememberMe = $this->request->data("remember_me");
     
             $rule = new ValidationRules();
             

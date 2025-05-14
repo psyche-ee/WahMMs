@@ -25,20 +25,18 @@
     <dialog class="settings_modal">
         <div class="pp">
             <img src="<?= baseurl() ?>/public/assets/profile_pic.jpg" alt="">
+            <?php if(isset($_SESSION['name'])): ?>
+                <h3 class="name"><?= htmlspecialchars($_SESSION['name']) ?></h3>
+            <?php endif; ?>
+
             <?php if(isset($_SESSION['email'])): ?>
-                <p><?= htmlspecialchars($_SESSION['email']) ?></p>
+                <p class="email"><?= htmlspecialchars($_SESSION['email']) ?></p>
             <?php endif; ?>
         </div>
-        <p id="open_notif"><i class="fa-regular fa-bell"></i>Notifications</p>
+        <div class="settingsline"></div>
         <p id="open_change_pass"><i class="fa-regular fa-pen-to-square"></i>Change Password</p>
-        <p id="sample"><i class="fa-regular fa-bell"></i>Notifications</p>
         <p id="open_profile"><i class="fa-regular fa-user"></i>Profile</p>
         <p id="open_logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</p>
-    </dialog>
-
-    <dialog class="notifications_modal">
-        <button>Back</button>
-        <h1>Notifications</h1>
     </dialog>
 
     <dialog class="change_pass_modal">
@@ -63,11 +61,6 @@
         </div>
     </form>
 </dialog>
-
-    <dialog class="sample_modal">
-        <button>Back</button>
-        <h1>Notifications</h1>
-    </dialog>
 
     <dialog class="profile_modal">
         <button>Back</button>

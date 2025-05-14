@@ -202,21 +202,25 @@ nav a:hover {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
 }
 
 .pp img {
     height: 120px;
     width: 120px;
     border-radius: 50%;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 }
 
-.pp h2 {
-    font-size: 20px;
+.pp .name {
+    font-size: 1.5rem;
+    margin: 20px 0 0;
 }
 
-.pp p {
-    font-size: 14px;
+.pp .email {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 20px 0 0;
+    color: #555;
 }
 
 .close_btn {
@@ -326,77 +330,83 @@ nav a:hover {
     color: #D81616;
 }
 
-.settings_modal , .notifications_modal , .change_pass_modal,
-        .sample_modal, .profile_modal {
-            border: none;
-            margin: 10rem 8% auto auto;
-            padding: 20px 40px;
-            width: 450px;
-            border-radius: 20px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            height: 550px;
-            outline: none;
-        }
+.settings_modal , .change_pass_modal, .sample_modal, .profile_modal {
+    border: none;
+    margin: 10rem 8% auto auto;
+    padding: 20px 40px;
+    width: 450px;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    height: 550px;
+    outline: none;
+}
 
-        .logout_confirm_modal {
-            margin: auto;
-            padding: 20px 40px;
-            border-radius: 10px;
-            border: none;
-            outline: none;
-        }
+.logout_confirm_modal {
+    margin: auto;
+    padding: 20px 40px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
 
-        .logout_button_container {
-            display: flex;
-            justify-content: space-evenly;
-        }
+.logout_button_container {
+    display: flex;
+    justify-content: space-evenly;
+}
 
-        .logout_button_container button {
-            padding: 10px 20px;
-            margin: 20px 0 0;
-            width: 150px;
-            font-size: 24px;
-            font-weight: bold;
-            border-radius: 20px;
-            border: none;
-            cursor: pointer;
-            outline: none;
-        }
+.logout_button_container button {
+    padding: 10px 20px;
+    margin: 20px 0 0;
+    width: 150px;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
 
-        #logout {
-            background-color: #D81616;
-            color: white;
-            transition: 0.5s ease;
-        }
+#logout {
+    background-color: #D81616;
+    color: white;
+    transition: 0.5s ease;
+}
 
-        #no_logout {
-            background-color: white;
-            color: #D81616;
-            border: 2px solid #D81616;
-            transition: 0.5s ease;
-        }
+#no_logout {
+    background-color: white;
+    color: #D81616;
+    border: 2px solid #D81616;
+    transition: 0.5s ease;
+}
 
-        #logout:hover {
-            background-color: white;
-            color: #D81616;
-            border: 2px solid #D81616;
-        }
+#logout:hover {
+    background-color: white;
+    color: #D81616;
+    border: 2px solid #D81616;
+}
 
-        #no_logout:hover {
-            background-color: #D81616;
-            color: white;
-        }
+#no_logout:hover {
+    background-color: #D81616;
+    color: white;
+}
 
-        .settings_modal p {
-            cursor: pointer;
-            margin: 20px 0;
-            font-size: 24px;
-            font-weight: 700;
-        }
+.settings_modal p {
+    cursor: pointer;
+    margin: 40px 0;
+    font-size: 24px;
+    font-weight: 700;
+}
 
-        .pp {
-            margin: 20px;
-        }
+.pp {
+    margin: 20px;
+}
+
+.settingsline {
+    width: 100%;
+    height: 2px;
+    background-color: #898888;
+    margin: 20px 0;
+}
 
 .settings_modal i {
     font-size: 28px;
@@ -407,6 +417,11 @@ nav a:hover {
     display: flex;
     flex-direction: column;
     margin-top: 15%;
+}
+
+.change_pass_modal h1 {
+    font-size: 2rem;
+    margin: 10px;
 }
 
 .change_pass_modal form input {
@@ -574,26 +589,25 @@ nav a:hover {
         margin: 15px;
     }
 
-    .settings_modal, .notifications_modal, .change_pass_modal,
-            .sample_modal, .profile_modal {
-                width: 85%;
-                height: auto;
-                margin: 10rem auto;
-            }
+    .settings_modal, .notifications_modal, .change_pass_modal, .sample_modal, .profile_modal {
+        width: 85%;
+        height: auto;
+        margin: 10rem auto;
+    }
 
-            .logout_confirm_modal {
-                padding: 20px;
-            }
+    .logout_confirm_modal {
+        padding: 20px;
+    }
 
-            .logout_button_container button {
-                width: auto;
-                font-size: 1.125rem;
-                width: 100px;
-            }
+    .logout_button_container button {
+        width: auto;
+        font-size: 1.125rem;
+        width: 100px;
+    }
 
-            .logout_confirm_modal h1 {
-                text-align: center;
-                font-size: 1.5rem;
-            }
+    .logout_confirm_modal h1 {
+        text-align: center;
+        font-size: 1.5rem;
+    }
   
 }
