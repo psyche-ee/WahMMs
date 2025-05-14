@@ -33,6 +33,18 @@ class ValidationRules {
         return false;
     }
 
+    public function isNumeric($value) {
+        return is_numeric($value);
+    }
+
+    public function isPhoneNumber($value) {
+        return preg_match('/^[0-9]{10,15}$/', $value); // Adjust regex as needed
+    }
+
+    public function isDate($value) {
+        return (bool)strtotime($value);
+    }
+
     /**
      * check if value is a valid email
      * 

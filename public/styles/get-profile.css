@@ -38,11 +38,12 @@ form {
 form div {
     display: flex;
     flex-direction: column;
-    margin: 40px 20px;
+    margin: 10px 10px;
 }
 
 form div h4 {
-    margin-bottom: 20px;
+    text-align: center;
+    margin: 20px 0 0;
 }
 
 form div input, select {
@@ -52,8 +53,14 @@ form div input, select {
 }
 
 form div label {
-    margin: 5px 5px 10px;
+    margin: 10px 0 5px;
     color: #555;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
 }
 
 span {

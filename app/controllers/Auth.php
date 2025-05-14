@@ -62,9 +62,9 @@ class Auth extends Controller {
                 $data['errconfirm_password'] = 'passwords do not match.';
             }
 
-            $data['name'] = $name;
-            $data['email'] = $email;
-            $data['password'] = $password;
+            // $data['name'] = $name;
+            // $data['email'] = $email;
+            // $data['password'] = $password;
 
             if (empty($data)) {
                 $result = $this->authmodel->register($name, $email, $password, $confirmPassword);
@@ -72,7 +72,7 @@ class Auth extends Controller {
                     return $this->view('500');
                 } else {
                     $data['success'] = 'Account created successfully. Check your email to activate your account within 24 hours';
-                    return $this->view('auth/signup', $data);
+                    return $this->view('auth/signup', ['data' => $data]);
                 }
                 
             }
@@ -128,7 +128,7 @@ class Auth extends Controller {
             }
 
             $emaildata = $email;
-    
+            
             if (empty($data)) {
                 $userinfo = $this->authmodel->login($email, $password, $this->request->clientIp(), $this->request->userAgent());
                 
@@ -141,6 +141,7 @@ class Auth extends Controller {
                     );
                     $_SESSION['email'] = $userinfo['email'];
                     $_SESSION['name'] = $userinfo['name'];
+                    $_SESSION['user_id'] = $userinfo['id'];
                     return $this->redirect->to('pages/home');
                 } elseif ($userinfo === 'unverified') {
                     // Set email in session for resend verification use
