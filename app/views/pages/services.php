@@ -50,7 +50,16 @@
                 <input type="date" id="date" name="date" required>
 
                 <label for="time">Time:</label>
-                <input type="time" id="time" name="time" required>
+                
+                <select name="time" id="time">
+                    <option value="18:00:00">6:00 pm</option>
+                    <option value="18:30:00">6:30 pm</option>
+                    <option value="19:00:00">7:00 pm</option>
+                    <option value="19:30:00">7:30 pm</option>
+                    <option value="20:00:00">8:00 pm</option>
+                    <option value="20:30:00">8:30 pm</option>
+                    <option value="21:00:00">9:00 pm</option>
+                </select>
 
                 <div>
                     <button type="submit" id="book">Book</button>
@@ -180,6 +189,48 @@
                 alert("Please log in to book an appointment.");
             }
         });
+    });
+
+    document.getElementById("date").addEventListener("change", function () {
+        const selectedDate = this.value; // Get the selected date
+        const timeSelect = document.getElementById("time"); // Get the time dropdown
+        const fullyBookedMessage = document.createElement("p"); // Create a message element
+        fullyBookedMessage.id = "fully-booked-message"; // Add an ID for easy reference
+        fullyBookedMessage.style.color = "red"; // Style the message
+        fullyBookedMessage.textContent = "This date is fully booked. Please select another date.";
+
+        // Remove any existing fully booked message
+        const existingMessage = document.getElementById("fully-booked-message");
+        if (existingMessage) {
+            existingMessage.remove();
+        }
+
+        // Clear any previously disabled options
+        Array.from(timeSelect.options).forEach(option => {
+            option.disabled = false; // Reset all options to enabled
+        });
+
+        // Fetch booked times for the selected date
+        fetch(`<?= baseurl() ?>/pages/getBookedTimes?date=${selectedDate}`)
+            .then(response => response.json())
+            .then(bookedTimes => {
+                // Disable options that are already booked
+                bookedTimes.forEach(bookedTime => {
+                    const optionToDisable = Array.from(timeSelect.options).find(option => option.value === bookedTime);
+                    if (optionToDisable) {
+                        optionToDisable.disabled = true; // Disable the booked time slot
+                    }
+                });
+
+                // Check if all options are disabled
+                const allDisabled = Array.from(timeSelect.options).every(option => option.disabled);
+                if (allDisabled) {
+                    // Append the fully booked message to the modal
+                    const modalForm = document.getElementById("book-appointment-form");
+                    modalForm.appendChild(fullyBookedMessage);
+                }
+            })
+            .catch(error => console.error("Error fetching booked times:", error));
     });
 
     // Handle Cancel button inside modal

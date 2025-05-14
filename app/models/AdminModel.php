@@ -118,4 +118,13 @@ class AdminModel extends Model {
         $stmt->execute();
         return $stmt->fetchALL(PDO::FETCH_ASSOC);
     }
+
+    public function getBookedTimesByDate($date) {
+        $sql = "SELECT appointment_time FROM appointments WHERE appointment_date = :date";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':date', $date);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_COLUMN); // Return an array of booked times
+    }
 }

@@ -204,43 +204,80 @@ class Auth extends Controller {
     }
 
     public function updatepassword() {
-
         $data = [];
         if ($this->request->isPost()) {
             $password = $this->request->data("password");
             $confirmPassword = $this->request->data("confirm_password");
-            $userId = Session::get("user_id_reset_password");
+            
+            // Changed from $_SESSION['user_id'] to $_SESSION['user_id_reset_password']
+            $userId = $_SESSION['user_id_reset_password'] ?? null;
+
+            if (!$userId) {
+                return $this->redirect->to("auth/resetpassword");
+            }
 
             $rule = new ValidationRules();
 
             if (!$rule->isRequired($password)) {
-                $data['errpassword'] = 'password can not be empty.';
+                $data['errpassword'] = 'Password cannot be empty.';
             } elseif (!$rule->minLen($password, 5)) {
-                $data['errpassword'] = 'password must not be less than 5 characters.';
+                $data['errpassword'] = 'Password must not be less than 5 characters.';
             } elseif (!$rule->password($password)) {
-                $data['errpassword'] = 'password must have atleast a lowercase, uppercase, integer and special character.';
+                $data['errpassword'] = 'Password must have at least a lowercase, uppercase, integer, and special character.';
             }
 
-            if (empty($confirmPassword) || !$rule->equal($this->request->data("password"), [$this->request->data("confirm_password")])) {
-                $data['errconfirm_password'] = 'passwords do not match.';
+            if (empty($confirmPassword) || !$rule->equal($password, [$confirmPassword])) {
+                $data['errconfirm_password'] = 'Passwords do not match.';
             }
 
             if (empty($data)) {
                 $result = $this->authmodel->updatePassword($userId, $password, $confirmPassword);
                 if (!$result) {
-                    return $this->redirect->to("auth/resetpassword", ['id' => $this->request->data("id"), 'token' => $this->request->data("token")]);
+                    error_log("Failed to update password for user ID: $userId");
                 } else {
-                    $this->authmodel->logout(Session::getUserId());
-                    //Session::unset("user_id_reset_password");
-                    // $_SESSION['success'] = true;
+                    // Clear the reset password session after successful update
+                    unset($_SESSION['user_id_reset_password']);
+                    
                     $_SESSION['updated'] = true;
-                    // return $this->redirect->to("/pages/home"); // redirect to success notification page
+                    $this->view('auth/update-password', $data);
+                    exit;
                 }
-            } else {
-                $this->view('auth/update-password', $data);
             }
         }
         $this->view('auth/update-password', $data);
+    }
+
+    public function changepassword() {
+        if ($this->request->isPost()) {
+           
+            $newPassword = $this->request->data("password");
+            $confirmPassword = $this->request->data("confirm_password");
+
+            $rule = new ValidationRules();
+
+           if (!$rule->isRequired($newPassword)) {
+                $data['errnewpassword'] = 'New password cannot be empty.';
+            } elseif (!$rule->minLen($newPassword, 5)) {
+                $data['errnewpassword'] = 'New password must not be less than 5 characters.';
+            } elseif (!$rule->password($newPassword)) {
+                $data['errnewpassword'] = 'New password must have at least a lowercase, uppercase, integer, and special character.';
+            }
+
+            if (empty($confirmPassword) || !$rule->equal($newPassword, [$confirmPassword])) {
+                $data['errconfirm_password'] = 'Passwords do not match.';
+            }
+
+            if (empty($data)) {
+                $result = $this->authmodel->updatePassword($_SESSION['user_id'], $newPassword, $confirmPassword);
+                if ($result) {
+                    Session::set('success', 'Password changed successfully.');
+                    return $this->redirect->to('pages/home');
+                } else {
+                    Session::set('danger', 'Failed to change password. Please try again.');
+                }
+            }
+        }
+        $this->view('auth/update-password', ['data' => $data]);
     }
 
     public function logout() {

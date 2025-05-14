@@ -146,7 +146,7 @@ class AuthModel extends Model {
     }
 
     private function isEmailExists($email) {
-        $this->db->prepare("SELECT * FROM users WHERE email = :email AND is_email_activated = 1 LIMIT 1");
+        $this->db->prepare("SELECT * FROM users WHERE email = :email AND is_email_activated = TRUE LIMIT 1");
         $this->db->bindValue(':email', $email);
         $this->db->execute();
 
@@ -293,7 +293,7 @@ class AuthModel extends Model {
         Session::destroy();
     
         // Optionally, remove any cookies
-        Cookie::reset($userId);
+        // Cookie::reset($userId);
     
         return true;
     }

@@ -270,7 +270,7 @@ section {
   margin: 20px 0;
 }
 
-.bookmodal form input {
+.bookmodal form input, .bookmodal form select {
   margin: 10px 0;
   padding: 10px;
   border-radius: 5px;

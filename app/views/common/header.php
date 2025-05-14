@@ -41,21 +41,9 @@
         <h1>Notifications</h1>
     </dialog>
 
-    <!-- <dialog class="change_pass_modal">
-        <h1>Change Password</h1>
-        <form action="<?= baseurl() ?>/auth/updatepassword" method="POST">
-        <input type="hidden" name="token" value="<?= htmlspecialchars($_GET['token'] ?? '') ?>">
-        <label for="password">New Password</label>
-        <input type="password" name="password" placeholder="New Password" required>
-        <label for="confirm_password">Confirm Password</label>
-        <input type="password" name="confirm_password" placeholder="Confirm New Password" required>
-        <button type="submit">Update Password</button>
-        </form>
-    </dialog> -->
-
     <dialog class="change_pass_modal">
     <h1>Change Password</h1>
-    <form action="<?= baseurl() ?>/auth/updatepassword" method="POST">
+    <form action="<?= baseurl() ?>/auth/changepassword" method="POST">
         <input type="hidden" name="token" value="<?= htmlspecialchars($_GET['token'] ?? '') ?>">
 
         <label for="password">New Password</label>

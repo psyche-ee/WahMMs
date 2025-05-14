@@ -158,4 +158,22 @@ class Pages extends Controller {
 
         $this->view('doctor/pages/patients', ['patients' => $patients]);
     }
+
+    public function getBookedTimes() {
+        $adminModel = $this->model('AdminModel');
+        $date = $_GET['date'] ?? null;
+
+        if ($date) {
+            // Call the model to fetch booked times
+            $bookedTimes = $adminModel->getBookedTimesByDate($date);
+
+            // Return the booked times as JSON
+            header('Content-Type: application/json');
+            echo json_encode($bookedTimes);
+        } else {
+            // Return an empty array if no date is provided
+            header('Content-Type: application/json');
+            echo json_encode([]);
+        }
+    }
 }
