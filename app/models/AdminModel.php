@@ -15,6 +15,7 @@ class AdminModel extends Model {
     }
 
     public function getTodayHours() {
+        date_default_timezone_set('Asia/Manila');
         $today = date('l');
         return $this->getHoursByDay($today);
     }
@@ -65,7 +66,7 @@ class AdminModel extends Model {
         FROM appointments
         JOIN user_profiles ON appointments.user_id = user_profiles.user_id
         JOIN services ON appointments.service_id = services.id
-        WHERE appointment_date = CURDATE()");
+        WHERE appointment_date = CURRENT_DATE");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC); 
     }

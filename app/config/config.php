@@ -19,12 +19,12 @@ function baseurl() {
 $GLOBALS['config'] = array(
 
     //configuration for database connection
-    "mysql" => array(
-        "db_host" => "localhost",
-        "db_user" => "root",
-        "db_pass" => "",
-        "db_name" => "wahmms",
-        "db_charset" => "utf8"
+    "database" => array(  // Changed from "mysql" to more generic "database"
+        "db_host" => "aws-0-ap-southeast-1.pooler.supabase.com",
+        "db_user" => "postgres.vmkcpsojjqyodnaflgof",
+        "db_pass" => "&z&.5tyFsQ+R96.",
+        "db_name" => "postgres",
+        "db_type" => "pgsql"  // Add this to specify database type
     ),
 
     //configuration for cookie

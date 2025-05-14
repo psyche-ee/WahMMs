@@ -211,7 +211,7 @@ class AuthModel extends Model {
         error_log("activateUser() called with userId: " . var_export($userId, true));
 
         try {
-            $this->db->query("UPDATE users SET is_email_activated = 1 WHERE id = :id");
+            $this->db->query("UPDATE users SET is_email_activated = TRUE WHERE id = :id");
             $this->db->bindValue(':id', $userId);
             $result = $this->db->execute();
             error_log("Update result: " . var_export($result, true));

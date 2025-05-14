@@ -45,12 +45,12 @@
                                         <?php if ($appointment['status'] === 'pending'): ?>
                                             <form method="post" action="<?= baseurl() ?>/admin/Action" style="display:inline;">
                                                 <input type="hidden" name="appointment_id" value="<?= $appointment['id'] ?>">
-                                                <input type="hidden" name="action" value="accept">
+                                                <input type="hidden" name="action" value="confirmed">
                                                 <button type="submit" class="btn-accept">Accept</button>
                                             </form>
                                             <form method="post" action="<?= baseurl() ?>/admin/Action" style="display:inline;">
                                                 <input type="hidden" name="appointment_id" value="<?= $appointment['id'] ?>">
-                                                <input type="hidden" name="action" value="decline">
+                                                <input type="hidden" name="action" value="cancelled">
                                                 <button type="submit" class="btn-decline">Decline</button>
                                             </form>
                                         <?php else: ?>

@@ -7,11 +7,28 @@ class Database {
     private static $database = null;
 
     public function __construct() {
-        $this->dbcon = new PDO('mysql:dbname=' .Config::get('mysql/db_name').'; host=' .Config::get('mysql/db_host').'; 
-        charset=' .Config::get('mysql/db_charset'), Config::get('mysql/db_user'), Config::get('mysql/db_pass'));
+        // Get config values first
+        $host = Config::get('database/db_host');
+        $dbname = Config::get('database/db_name');
+        $user = Config::get('database/db_user');
+        $pass = Config::get('database/db_pass');
         
-        $this->dbcon->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-        $this->dbcon->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        // Verify these values are strings
+        if (is_array($host) || is_array($dbname) || is_array($user) || is_array($pass)) {
+            throw new Exception('Database configuration values must be strings, not arrays');
+        }
+        
+        $dsn = "pgsql:host={$host};dbname={$dbname}";
+        
+        try {
+            $this->dbcon = new PDO($dsn, $user, $pass);
+            $this->dbcon->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $this->dbcon->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->dbcon->exec("SET NAMES 'utf8'");
+            $this->dbcon->exec("SET TIME ZONE 'Asia/Manila'");
+        } catch (PDOException $e) {
+            die('Database connection failed: ' . $e->getMessage());
+        }
     }
 
     public static function open_db() {
