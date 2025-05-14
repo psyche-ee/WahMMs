@@ -40,27 +40,27 @@
     </dialog>
 
     <dialog class="change_pass_modal">
-    <h1>Change Password</h1>
-    <form action="<?= baseurl() ?>/auth/changepassword" method="POST">
-        <input type="hidden" name="token" value="<?= htmlspecialchars($_GET['token'] ?? '') ?>">
+        <h1>Change Password</h1>
+        <form action="<?= baseurl() ?>/auth/changepassword" method="POST">
+            <input type="hidden" name="token" value="<?= htmlspecialchars($_GET['token'] ?? '') ?>">
 
-        <label for="password">New Password</label>
-        <div class="password-field">
-            <input type="password" id="password" name="password" placeholder="New Password" required style="width: 100%; padding-right: 40px;">
-            <button type="button" class="toggle-password" onclick="togglePassword('password', this)"><i class="fa-regular fa-eye"></i></button>
-        </div>
+            <label for="password">New Password</label>
+            <div class="password-field">
+                <input type="password" id="password" name="password" placeholder="New Password" required style="width: 100%; padding-right: 40px;">
+                <button type="button" class="toggle-password" onclick="togglePassword('password', this)"><i class="fa-regular fa-eye"></i></button>
+            </div>
 
-        <label for="confirm_password">Confirm Password</label>
-        <div class="password-field">
-            <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm New Password" required style="width: 100%; padding-right: 40px;">
-            <button type="button" class="toggle-password" onclick="togglePassword('confirm_password', this)"><i class="fa-regular fa-eye"></i></button>
-        </div>
-        <div class="save_cancel_cntnr">
-            <button class="submit_btn" type="submit">Save</button>
-            <button class="cancel_btn" onclick="window.location.href='<?= baseurl() ?>/pages/home';">Cancel</button>
-        </div>
-    </form>
-</dialog>
+            <label for="confirm_password">Confirm Password</label>
+            <div class="password-field">
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm New Password" required style="width: 100%; padding-right: 40px;">
+                <button type="button" class="toggle-password" onclick="togglePassword('confirm_password', this)"><i class="fa-regular fa-eye"></i></button>
+            </div>
+            <div class="save_cancel_cntnr">
+                <button class="submit_btn" type="submit">Save</button>
+                <button class="cancel_btn" onclick="window.location.href='<?= baseurl() ?>/pages/home';">Cancel</button>
+            </div>
+        </form>
+    </dialog>
 
     <dialog class="profile_modal">
         <button>Back</button>

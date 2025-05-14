@@ -36,33 +36,32 @@
 <body>
     <p style="color: green; text-align:center; margin-top: 10px;"><?= $data['success'] ?? '&nbsp;' ?></p>
     <div class="form" id="signup-form">
-        <div class="close_btn" onclick="window.location.href='<?= baseurl() ?>';">
-            <p>&times;</p>
-        </div>
-        <h2>Signup</h2>
+        <h2 class="signuptitle">SIGNUP</h2>
+        
         <form action="<?= baseurl() ?>/auth/signup" method="POST">
 
             <div class="input-group">
+                 <div class="error-msg"><?= $data['errname'] ?? '&nbsp;' ?></div>
                 <input type="text" name="name" placeholder="Enter username" value="<?= htmlspecialchars($data['name'] ?? '') ?>">
-                <div class="error-msg"><?= $data['errname'] ?? '&nbsp;' ?></div>
             </div>
 
             <div class="input-group">
-                <input type="text" name="email" placeholder="Enter email" value="<?= htmlspecialchars($data['email'] ?? '') ?>">
                 <div class="error-msg"><?= $data['erremail'] ?? '&nbsp;' ?></div>
+                <input type="text" name="email" placeholder="Enter email" value="<?= htmlspecialchars($data['email'] ?? '') ?>">
             </div>
 
             <div class="input-group">
-                <input type="password" name="password" placeholder="Enter password">
                 <div class="error-msg"><?= $data['errpassword'] ?? '&nbsp;' ?></div>
+                <input type="password" name="password" placeholder="Enter password">
             </div>
 
             <div class="input-group">
-                <input type="password" name="confirm_password" placeholder="Confirm Password">
                 <div class="error-msg"><?= $data['errconfirm_password'] ?? '&nbsp;' ?></div>
+                <input type="password" name="confirm_password" placeholder="Confirm Password">
             </div>
 
-            <button type="submit">Signup</button>
+            <button type="submit" class="signupbtn">Signup</button>
+            <a href="<?= baseurl()?>/pages/signin"><span>Back to Login Page</span></a>
         </form>
     </div>
 </body>

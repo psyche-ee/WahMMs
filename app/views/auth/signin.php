@@ -40,10 +40,7 @@
 </head>
 <body>
     <div class="form" id="login-form">
-        <div class="close_btn" onclick="window.location.href='<?= baseurl() ?>';">
-            <p>&times;</p>
-        </div>
-        <h2>Login</h2>
+        <h2>LOGIN</h2>
 
         <?php if (!empty($data['loginerror'])): ?>
             <div class="error-msg"><?= $data['loginerror']; ?></div>
@@ -54,18 +51,18 @@
         <form action="<?= baseurl() ?>/auth/signin" method="POST">
 
             <div class="input-group">
+                <div class="error-msg"><?= $data['erremail'] ?? '&nbsp;' ?></div>
                 <input 
                     type="text" 
                     name="email" 
                     placeholder="Enter email" 
-                    value="<?= htmlspecialchars($data['email'] ?? '') ?>"
+                    value="<?= htmlspecialchars($emaildata ?? '') ?>"
                 >
-                <div class="error-msg"><?= $data['erremail'] ?? '&nbsp;' ?></div>
             </div>
 
             <div class="input-group">
-                <input type="password" name="password" placeholder="Enter password">
                 <div class="error-msg"><?= $data['errpassword'] ?? '&nbsp;' ?></div>
+                <input type="password" name="password" placeholder="Enter password">
             </div>
 
             <a href="<?= baseurl() ?>/auth/forgotpassword" class="pwd"><span>Forgot Password?</span></a>
@@ -73,6 +70,7 @@
         </form>
 
         <a href="<?= baseurl() ?>/auth/signup" class="create_one">No Account? <span>Create one.</span></a>
+        <a href="<?= baseurl() ?>/pages/home"><span>Back to Home</span></a>
     </div>
 </body>
 </html>

@@ -139,7 +139,7 @@ class AuthModel extends Model {
         return True;
     }
 
-    private function isEmailExists($email) {
+    public function isEmailExists($email) {
         $this->db->prepare("SELECT * FROM users WHERE email = :email AND is_email_activated = TRUE LIMIT 1");
         $this->db->bindValue(':email', $email);
         $this->db->execute();

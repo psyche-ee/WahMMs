@@ -42,10 +42,8 @@
 </head>
 <body>
     <div class="form" id="forgot-form">
-        <div class="close_btn" onclick="window.location.href='<?= baseurl() ?>';">
-            <p>&times;</p>
-        </div>
-        <h2>Forgot Password</h2>
+        
+        <h2>FORGOT PASSWORD</h2>
 
         <?php if (Session::get('success')): ?>
             <p class="success-msg"><?= Session::get('success') ?></p>
@@ -53,12 +51,16 @@
                 setTimeout(() => {
                     const msg = document.querySelector('.success-msg');
                     if (msg) msg.style.display = 'none';
+                    window.location.href = "<?= baseurl() ?>/pages/home";
                 }, 5000);
+            
             </script>
             <?php Session::remove('success'); ?>
         <?php else: ?>
             <p class="success-msg">&nbsp;</p>
         <?php endif; ?>
+
+        <div class="error-msg"><?= $data['erremail'] ?? '&nbsp;' ?></div>
 
         <form action="<?= baseurl() ?>/auth/forgotpassword" method="POST">
             <div class="input-group">
@@ -68,7 +70,6 @@
                     placeholder="Enter email"
                     value="<?= htmlspecialchars($data['email'] ?? '') ?>"
                 >
-                <div class="error-msg"><?= $data['erremail'] ?? '&nbsp;' ?></div>
             </div>
             <button type="submit">Send Reset Link</button>
         </form>

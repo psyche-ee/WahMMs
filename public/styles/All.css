@@ -223,28 +223,17 @@ nav a:hover {
     color: #555;
 }
 
-.close_btn {
-    align-self: flex-end;
-    height: 80px;
-    width: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .close_btn p {
-    font-size: 80px;
+    font-size: 5rem;
     cursor: pointer;
     transition: 0.3s ease-in;
+    position: absolute;
+    top: 20px;
+    right: 40px;
 }
 
 .close_btn p:hover {
     transform: rotate(90deg);
-}
-
-.form h2 {
-    font-size: 56px;
-    margin: 0 40px 10px;
 }
 
 .form form {
@@ -257,8 +246,12 @@ nav a:hover {
     padding: 14px 20px;
 }
 
-#signup-form h2 {
-    margin: 0 40px;
+.form h2 {
+    font-size: 3rem;
+    margin: 10px 40px;
+    font-weight: 900;
+    text-align: center;
+
 }
 
 #signup-form button {
@@ -289,13 +282,9 @@ nav a:hover {
 
 .form a {
     color: black;
-    font-size: 20px;
-    text-decoration: 1px underline white;
-    transition: 0.5s ease;
-}
-
-.form a:hover {
-    text-decoration: 1px underline #D81616;
+    font-size: 1.1rem;
+    text-align: center;
+    font-weight: 600;
 }
 
 .pwd {
@@ -310,11 +299,21 @@ nav a:hover {
 
 .form span {
     color: #D81616;
+    display: inline-block; /* Ensure the span behaves like a block for padding */
+    padding-bottom: 2px; /* Add padding between the text and the border */
+    box-sizing: border-box;
+    border-bottom: 1px solid white;
+    transition: 0.5s ease;
+}
+
+.form span:hover {
+    text-decoration: none; /* Remove underline if present */
+    border-bottom: 1px solid #D81616;
 }
 
 .form button {
     height: 60px;
-    margin: 0 40px 10px;
+    margin: 0 40px 40px;
     font-size: 24px;
     font-weight: 700;
     background-color: #D81616;

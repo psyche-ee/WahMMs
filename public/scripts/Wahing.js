@@ -25,9 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const open_logout = document.getElementById('open_logout');
 
     //Settings Modals Dialog Variables
-    const notifications_modal = document.querySelector('.notifications_modal');
+    // const notifications_modal = document.querySelector('.notifications_modal');
     const change_pass_modal = document.querySelector('.change_pass_modal');
-    const sample_modal = document.querySelector('.sample_modal');
+    // const sample_modal = document.querySelector('.sample_modal');
     const profile_modal = document.querySelector('.profile_modal');
     const logout_confirm_modal = document.querySelector('.logout_confirm_modal');
 
@@ -51,9 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // List of all modal elements
     const modals = [
-        notifications_modal,
         change_pass_modal,
-        sample_modal,
         profile_modal,
         logout_confirm_modal,
         settings_modal

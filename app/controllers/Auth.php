@@ -62,6 +62,10 @@ class Auth extends Controller {
                 $data['errconfirm_password'] = 'passwords do not match.';
             }
 
+            $data['name'] = $name;
+            $data['email'] = $email;
+            $data['password'] = $password;
+
             if (empty($data)) {
                 $result = $this->authmodel->register($name, $email, $password, $confirmPassword);
                 if (!$result) {
@@ -73,7 +77,7 @@ class Auth extends Controller {
                 
             }
         }
-        $this->view('auth/signup');
+        $this->view('auth/signup', ['data' => $data]);
     }
 
     public function verifyuser() {
@@ -122,6 +126,8 @@ class Auth extends Controller {
             if (!$rule->isRequired($password)) {
                 $data['errpassword'] = 'Password cannot be empty.';
             }
+
+            $emaildata = $email;
     
             if (empty($data)) {
                 $userinfo = $this->authmodel->login($email, $password, $this->request->clientIp(), $this->request->userAgent());
@@ -146,11 +152,15 @@ class Auth extends Controller {
                     $this->redirect->to('pages/doctordashboard');
                     return;
                 } else {
-                    $data['loginerror'] = 'Invalid email or password.';
+                    if ($this->authmodel->isEmailExists($email)) {
+                        $data['errpassword'] = 'Incorrect password. Please try again.';
+                    } else {
+                        $data['loginerror'] = 'Invalid email or password.';
+                    }
                 }
             } 
         }
-        $this->view('auth/signin', ['data' => $data]);
+        $this->view('auth/signin', ['data' => $data, 'emaildata' => $emaildata]);
     }    
 
     public function forgotpassword() {
@@ -170,6 +180,8 @@ class Auth extends Controller {
                 $data['erremail'] = 'this email is not recognized';
             }
 
+            
+            $data['email'] = $email;
 
             if (empty($data)) {
                 $result = $this->authmodel->forgotPassword($email);
