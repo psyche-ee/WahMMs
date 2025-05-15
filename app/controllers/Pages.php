@@ -21,12 +21,7 @@ class Pages extends Controller {
         if (!$userHasProfile && isset($_SESSION['user_id'])) {
             $data = [];
             $userdata = [];
-            // Log the value of $_SESSION['user_id']
-            if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
-                error_log("User ID is set: " . $_SESSION['user_id']);
-            } else {
-                error_log("User ID is not set or is empty.");
-            }
+            
             if ($this->request->isPost()) {
                 $userId = $_SESSION['user_id'];
                 $firstname = $this->request->data('fname');
@@ -109,8 +104,14 @@ class Pages extends Controller {
             $this->view('auth/get-profile', ['data' => $data, 'userdata' => $userdata] );
             return;
         }
+
+        $userInfo = [];
+        if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+            $usermodel = $this->model('UserModel');
+            $userInfo = $usermodel->getUserProfile($_SESSION['user_id']);
+        }
         
-        $this->view('pages/home', ['today' => $today]);
+        $this->view('pages/home', ['today' => $today, 'userInfo' => $userInfo]);
     }
 
     public function services() {
@@ -121,7 +122,13 @@ class Pages extends Controller {
         $bookingResult = $_SESSION['booking_result'] ?? null;
         unset($_SESSION['booking_result']); // Clear it after reading
 
-        $this->view('pages/services', ['services' => $services, 'loggedIn' => $loggedIn, 'result' => $bookingResult]);
+        $userInfo = [];
+        if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+            $usermodel = $this->model('UserModel');
+            $userInfo = $usermodel->getUserProfile($_SESSION['user_id']);
+        }
+
+        $this->view('pages/services', ['services' => $services, 'loggedIn' => $loggedIn, 'result' => $bookingResult, 'userInfo' => $userInfo]);
     }
 
     public function bookservices() {
@@ -144,7 +151,12 @@ class Pages extends Controller {
     }
 
     public function about() {
-        $this->view('pages/about');
+        $userInfo = [];
+        if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+            $usermodel = $this->model('UserModel');
+            $userInfo = $usermodel->getUserProfile($_SESSION['user_id']);
+        }
+        $this->view('pages/about', ['userInfo' => $userInfo]);
     }
 
     public function announcements() {
@@ -153,8 +165,14 @@ class Pages extends Controller {
         if (!$announceModel) {
             $announceModel = []; 
         }
+
+        $userInfo = [];
+        if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+            $usermodel = $this->model('UserModel');
+            $userInfo = $usermodel->getUserProfile($_SESSION['user_id']);
+        }
        
-        $this->view('pages/announcements', ['announcements' => $announceModel]);
+        $this->view('pages/announcements', ['announcements' => $announceModel, 'userInfo' => $userInfo]);
     }
 
     public function verifiedconfirmation() {

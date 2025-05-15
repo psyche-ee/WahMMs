@@ -491,6 +491,35 @@ nav a:hover {
     border: 2px solid #D81616;
 }
 
+.profile_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 20px 0;
+    gap: 20px;
+}
+
+.userInfo {
+    padding: 20px 0;
+    width: 100%;
+}
+
+.userInfo span {
+    font-size: 1.2rem;
+    font-weight: 500;
+
+}
+
+.userInfo h4 {
+    margin: 10px 0;
+}
+
+.profile_container img {
+    width: 40%;
+    border-radius: 20px;
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
     .logo img {

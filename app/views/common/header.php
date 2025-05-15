@@ -63,8 +63,31 @@
     </dialog>
 
     <dialog class="profile_modal">
-        <button>Back</button>
         <h1>Profile</h1>
+        <div class="profile_container">
+            <img src="<?= baseurl() ?>/public/assets/profile_pic.jpg" alt="">
+            <div class="userInfo">
+                <h4>Name: <span><?= htmlspecialchars($userInfo['firstname'] . ' ' . $userInfo['middlename'] . ' ' . $userInfo['lastname']) ?></span></h4>
+                <h4>Email: <span><?= htmlspecialchars($userInfo['email']) ?></span></h4>
+                <h4>Phone: <span><?= htmlspecialchars($userInfo['phone_number']) ?></span></h4>
+                <h4>Age: 
+                    <span>
+                            <?php
+                                $dob = new DateTime($userInfo['date_of_birth']);
+                                $now = new DateTime();
+                                $age = $now->diff($dob)->y;
+                                echo htmlspecialchars($age);
+                            ?>
+                    </span>
+                </h4>
+                <h4>Address: <span><?= htmlspecialchars($userInfo['user_address']) ?></span></h4>
+                <h4>Date Created: <span> 
+                    <?php
+                        $createdAt = new DateTime($userInfo['created_at']);
+                        echo htmlspecialchars($createdAt->format('F j, Y')); // e.g., May 15, 2025
+                    ?>
+            </div>
+        </div>
     </dialog>
 
     <dialog class="logout_confirm_modal">
