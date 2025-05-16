@@ -45,25 +45,24 @@
         <h2>Change Password</h2>
 
         <?php if (!empty($_SESSION['updated'])): ?>
-            <dialog class = "successmodal" id="successModal" open style="padding:2em 3em;text-align:center;border:none;border-radius:8px;box-shadow:0 2px 16px rgba(0,0,0,0.2);">
-                <p class="success-msg" style="font-size:1.1em;">Password updated successfully!</p>
-                <!-- <button onclick="window.location.href='<?= baseurl() ?>/auth/signin';">Go to Login</button> -->
-            </dialog>
+            <p class="success-msg" id="successMessage">Password updated successfully!</p>
             <script>
-                // Prevent interaction with the form while modal is open
-                document.getElementById('signup-form').style.pointerEvents = 'none';
-                // Optionally, you can redirect after a few seconds:
-                // setTimeout(() => { window.location.href = '<?= baseurl() ?>/auth/signin'; }, 4000);
+                setTimeout(() => {
+                    const msg = document.getElementById('successMessage');
+                    if (msg) msg.style.display = 'none';
+                }, 5000);
             </script>
             <?php unset($_SESSION['updated']); ?>
+        <?php else: ?>
+            <p class="success-msg" style="visibility: hidden;">.</p>
         <?php endif; ?>
 
-        <form action="<?= baseurl() ?>/auth/updatepassword" method="POST">
+        <form action="<?= baseurl() ?>/auth/changepassword" method="POST">
             <input type="hidden" name="token" value="<?= htmlspecialchars($_GET['token'] ?? '') ?>">
 
             <div class="input-group">
                 <input type="password" name="password" placeholder="New Password">
-                <div class="error-msg"><?= $data['errpassword'] ?? '&nbsp;' ?></div>
+                <div class="error-msg"><?= $data['errnewpassword'] ?? '&nbsp;' ?></div>
             </div>
 
             <div class="input-group">
@@ -72,6 +71,7 @@
             </div>
 
             <button type="submit" id="updateBtn">Update Password</button>
+            <a href="<?= baseurl() ?>/pages/home">Cancel</a>
         </form>
     </div>
 </body>

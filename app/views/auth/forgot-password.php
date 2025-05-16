@@ -68,7 +68,7 @@
                     type="text" 
                     name="email" 
                     placeholder="Enter email"
-                    value="<?= htmlspecialchars($data['email'] ?? '') ?>"
+                    value="<?= htmlspecialchars($userdata['email'] ?? '') ?>"
                 >
             </div>
             <button type="submit">Send Reset Link</button>

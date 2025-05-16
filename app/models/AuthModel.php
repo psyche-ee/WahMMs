@@ -63,6 +63,36 @@ class AuthModel extends Model {
         
         return $this->db->execute();
     }
+
+    public function updateUserProfile($userId, $firstname, $lastname, $middlename, $gender, $user_address, $postal_code, $phone_number, $blood_type, $date_of_birth, $place_of_birth) {
+        $this->db->prepare("UPDATE user_profiles SET 
+            firstname = :firstname,
+            lastname = :lastname,
+            middlename = :middlename,
+            gender = :gender,
+            user_address = :user_address,
+            postal_code = :postal_code,
+            phone_number = :phone_number,
+            blood_type = :blood_type,
+            date_of_birth = :date_of_birth,
+            place_of_birth = :place_of_birth,
+            updated_at = NOW()
+            WHERE user_id = :user_id
+        ");
+        $this->db->bindValue(':user_id', $userId);
+        $this->db->bindValue(':firstname', $firstname);
+        $this->db->bindValue(':lastname', $lastname);
+        $this->db->bindValue(':middlename', $middlename);
+        $this->db->bindValue(':gender', $gender);
+        $this->db->bindValue(':user_address', $user_address);
+        $this->db->bindValue(':postal_code', $postal_code);
+        $this->db->bindValue(':phone_number', $phone_number);
+        $this->db->bindValue(':blood_type', $blood_type);
+        $this->db->bindValue(':date_of_birth', $date_of_birth);
+        $this->db->bindValue(':place_of_birth', $place_of_birth);
+        
+        return $this->db->execute();
+    }
     
 
     public function login($email, $password, $userIp, $userAgent) {
@@ -285,8 +315,6 @@ class AuthModel extends Model {
     public function logout($userId) {
         // Destroy user session
         Session::destroy();
-    
-        
     
         return true;
     }

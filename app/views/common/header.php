@@ -34,25 +34,25 @@
             <?php endif; ?>
         </div>
         <div class="settingsline"></div>
-        <p id="open_change_pass"><i class="fa-regular fa-pen-to-square"></i>Change Password</p>
+        <a href="<?= baseurl() ?>/auth/changepassword"><p id="open_change_pass"><i class="fa-regular fa-pen-to-square"></i>Change Password</p></a>
         <p id="open_profile"><i class="fa-regular fa-user"></i>Profile</p>
         <p id="open_logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</p>
     </dialog>
 
-    <dialog class="change_pass_modal">
+    <!-- <dialog class="change_pass_modal">
         <h1>Change Password</h1>
         <form action="<?= baseurl() ?>/auth/changepassword" method="POST">
             <input type="hidden" name="token" value="<?= htmlspecialchars($_GET['token'] ?? '') ?>">
 
             <label for="password">New Password</label>
             <div class="password-field">
-                <input type="password" id="password" name="password" placeholder="New Password" required style="width: 100%; padding-right: 40px;">
+                <input type="password" id="password" name="password" placeholder="New Password" style="width: 100%; padding-right: 40px;">
                 <button type="button" class="toggle-password" onclick="togglePassword('password', this)"><i class="fa-regular fa-eye"></i></button>
             </div>
 
             <label for="confirm_password">Confirm Password</label>
             <div class="password-field">
-                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm New Password" required style="width: 100%; padding-right: 40px;">
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm New Password" style="width: 100%; padding-right: 40px;">
                 <button type="button" class="toggle-password" onclick="togglePassword('confirm_password', this)"><i class="fa-regular fa-eye"></i></button>
             </div>
             <div class="save_cancel_cntnr">
@@ -60,7 +60,14 @@
                 <button class="cancel_btn" onclick="window.location.href='<?= baseurl() ?>/pages/home';">Cancel</button>
             </div>
         </form>
-    </dialog>
+    </dialog> -->
+
+    <!-- <dialog id="confirmation-modal">
+        <div>
+            <p id="confirmation-message"></p>
+            <button class="ok" onclick="document.getElementById('confirmation-modal').close()">OK</button>
+        </div>
+    </dialog> -->
 
     <dialog class="profile_modal">
         <h1>Profile</h1>
@@ -70,6 +77,8 @@
                 <h4>Name: <span><?= htmlspecialchars($userInfo['firstname'] . ' ' . $userInfo['middlename'] . ' ' . $userInfo['lastname']) ?></span></h4>
                 <h4>Email: <span><?= htmlspecialchars($userInfo['email']) ?></span></h4>
                 <h4>Phone: <span><?= htmlspecialchars($userInfo['phone_number']) ?></span></h4>
+                <h4>Blood Type: <span><?= htmlspecialchars($userInfo['blood_type']) ?></span></h4>
+                <h4>Gender: <span><?= htmlspecialchars($userInfo['gender']) ?></span></h4>
                 <h4>Age: 
                     <span>
                             <?php
@@ -87,13 +96,15 @@
                         echo htmlspecialchars($createdAt->format('F j, Y')); // e.g., May 15, 2025
                     ?>
             </div>
+
         </div>
+        <a href="<?= baseurl() ?>/pages/edit_profile">Edit</a>
     </dialog>
 
     <dialog class="logout_confirm_modal">
         <h1>Are you sure you want to logout?</h1>
         <div class="logout_button_container">
-            <form action="<?= baseurl() ?>/auth/logout" method="post">
+            <form action="<?= baseurl() ?>/auth/logout" method="POST">
                 <button type="submit" id="logout">Yes</button>
             </form>
             <button id="no_logout">No</button>
@@ -111,13 +122,13 @@
         });
 
         function togglePassword(fieldId, toggleBtn) {
-        const input = document.getElementById(fieldId);
-        if (input.type === "password") {
-            input.type = "text";
-            toggleBtn.innerHTML = '<i class="fa-regular fa-eye-slash"></i>'; // Closed eye / hidden
-        } else {
-            input.type = "password";
-            toggleBtn.innerHTML = '<i class="fa-regular fa-eye"></i>'; // Open eye / visible
+            const input = document.getElementById(fieldId);
+            if (input.type === "password") {
+                input.type = "text";
+                toggleBtn.innerHTML = '<i class="fa-regular fa-eye-slash"></i>'; // Closed eye / hidden
+            } else {
+                input.type = "password";
+                toggleBtn.innerHTML = '<i class="fa-regular fa-eye"></i>'; // Open eye / visible
+            }
         }
-    }
     </script>

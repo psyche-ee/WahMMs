@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //Settings Modal's Button Activator Variables
     
-    const open_change_pass = document.getElementById('open_change_pass');
+    // const open_change_pass = document.getElementById('open_change_pass');
     const open_profile = document.getElementById('open_profile');
     const open_logout = document.getElementById('open_logout');
 
@@ -33,9 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //Adding eventListener to Buttons to activate and deactivate modals
 
-    open_change_pass.addEventListener("click", () => {
-        change_pass_modal.showModal();
-    });
+    // open_change_pass.addEventListener("click", () => {
+    //     change_pass_modal.showModal();
+    // });
 
     open_profile.addEventListener("click", () => {
         profile_modal.showModal();
@@ -51,7 +51,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // List of all modal elements
     const modals = [
-        change_pass_modal,
         profile_modal,
         logout_confirm_modal,
         settings_modal

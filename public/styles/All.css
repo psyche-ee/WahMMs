@@ -396,6 +396,17 @@ nav a:hover {
     font-weight: 700;
 }
 
+.settings_modal a {
+    text-decoration: none;
+    color: black;
+}
+
+.settings_modal a:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
+
 .pp {
     margin: 20px;
 }
@@ -518,6 +529,24 @@ nav a:hover {
 .profile_container img {
     width: 40%;
     border-radius: 20px;
+}
+
+.profile_modal a {
+    padding: 10px 20px;
+    border-radius: 10px;
+    outline: none;
+    border: 2px solid #D81616;
+    font-size: 24px;
+    font-weight: 700;
+    width: 150px;
+    cursor: pointer;
+    background-color: #D81616;
+    color: white;
+    transition: 0.5s ease;
+}
+
+.profile_modal a:hover {
+    background-color: #ac170d;
 }
 
 /* Responsive Styles */

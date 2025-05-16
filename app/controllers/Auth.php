@@ -182,7 +182,7 @@ class Auth extends Controller {
             }
 
             
-            $data['email'] = $email;
+            $userdata['email'] = $email;
 
             if (empty($data)) {
                 $result = $this->authmodel->forgotPassword($email);
@@ -193,6 +193,8 @@ class Auth extends Controller {
                 } else {
                     $data['erremail'] = 'Something went wrong, try again.';
                 }
+            } else {
+                $this->view('auth/forgot-password', $data, $userdata);
             }
         }
         $this->view('auth/forgot-password', $data);
@@ -256,7 +258,7 @@ class Auth extends Controller {
                 }
             }
         }
-        $this->view('auth/update-password', $data);
+        $this->view('auth/update-password', ['data' => $data]);
     }
 
     public function changepassword() {
@@ -286,10 +288,14 @@ class Auth extends Controller {
                     return $this->redirect->to('pages/home');
                 } else {
                     Session::set('danger', 'Failed to change password. Please try again.');
+                    
                 }
+            } else {
+                $this->view('auth/changepassword', ['data' => $data]);
+                exit;
             }
         }
-        $this->view('auth/update-password', ['data' => $data]);
+        $this->view('auth/changepassword');
     }
 
     public function logout() {

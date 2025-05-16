@@ -255,4 +255,94 @@ class Pages extends Controller {
             echo json_encode([]);
         }
     }
+
+    public function edit_profile() {
+        $data = [];
+        $userdata = [];
+        $authmodel = $this->model('AuthModel');
+        
+        if ($this->request->isPost()) {
+            $userId = $_SESSION['user_id'];
+            $firstname = $this->request->data('fname');
+            $lastname = $this->request->data('lname');
+            $middlename = $this->request->data('mname');
+            $gender = $this->request->data('gender');
+            $barangay = $this->request->data('barangay');
+            $municipality = $this->request->data('municipality');
+            $city = $this->request->data('city');
+            $postal_code = $this->request->data('postal_code');
+            $phone_number = $this->request->data('phone_number');
+            $blood_type = $this->request->data('blood_type');
+            $date_of_birth = $this->request->data('dob');
+            $place_of_birth = $this->request->data('pob');
+            $confirm = $this->request->data('confirm');
+
+            $rule = new ValidationRules();
+
+            $userdata['fname'] = $firstname;
+            $userdata['lname'] = $lastname;
+            $userdata['mname'] = $middlename;
+            $userdata['barangay'] = $barangay;
+            $userdata['municipality'] = $municipality;
+            $userdata['city'] = $city;
+            $userdata['postal_code'] = $postal_code;
+            $userdata['phone_number'] = $phone_number;
+            $userdata['blood_type'] = $blood_type;
+            $userdata['dob'] = $date_of_birth;
+            $userdata['pob'] = $place_of_birth;
+            $userdata['confirm'] = $confirm;
+
+            // Validate each input
+            if (!$rule->isRequired($firstname)) {
+                $data['errfirstname'] = 'First name cannot be empty.';
+            }
+            if (!$rule->isRequired($lastname)) {
+                $data['errlastname'] = 'Last name cannot be empty.';
+            }
+            if (!$rule->isRequired($barangay)) {
+                $data['errbarangay'] = 'Barangay cannot be empty.';
+            }
+            if (!$rule->isRequired($municipality)) {
+                $data['errmunicipality'] = 'Municipality cannot be empty.';
+            }
+            if (!$rule->isRequired($city)) {
+                $data['errcity'] = 'City cannot be empty.';
+            }
+            if (!$rule->isRequired($postal_code) || !$rule->isNumeric($postal_code)) {
+                $data['errpostal_code'] = 'Postal code must be a valid number.';
+            }
+            if (!$rule->isRequired($phone_number) || !$rule->isPhoneNumber($phone_number)) {
+                $data['errphone_number'] = 'Phone number must be valid.';
+            }
+            if (!$rule->isRequired($blood_type)) {
+                $data['errblood_type'] = 'Blood type cannot be empty.';
+            }
+            if (!$rule->isRequired($date_of_birth) || !$rule->isDate($date_of_birth)) {
+                $data['errdob'] = 'Date of birth must be a valid date.';
+            }
+            if (!$rule->isRequired($place_of_birth)) {
+                $data['errpob'] = 'Place of birth cannot be empty.';
+            }
+            if (!$rule->isRequired($confirm)) {
+                $data['errconfirm'] = 'You must confirm that the information is correct.';
+            }
+
+            if (empty($data)) {
+                $user_address = $barangay . ', ' . $municipality . ', ' . $city;
+
+                $result = $authmodel->updateUserProfile($userId, $firstname, $lastname, $middlename, $gender, $user_address, $postal_code, $phone_number, $blood_type, $date_of_birth, $place_of_birth);
+                if ($result) {
+                    $data['result'] = true;
+                    $this->redirect->to('pages/home');
+                    exit;
+                } else {
+                    $data['result'] = false;
+                }
+            }
+
+        }
+
+        $this->view('auth/edit_profile', ['data' => $data, 'userdata' => $userdata]);
+    }
+
 }
