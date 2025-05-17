@@ -192,8 +192,12 @@ class Pages extends Controller {
     }
 
     public function doctordashboard() {
-        $appointments = $this->model('AdminModel')->getDailyAppointments();
-        $this->view('doctor/pages/dashboard', ['appointments' => $appointments]);
+        $appointment_data = [];
+        $adminModel = $this->model('AdminModel');
+        $appointments = $adminModel->getDailyAppointments();
+        $appointment_data['confirmed_appointments'] = $adminModel->getTotalAppointments('confirmed');
+        $appointment_data['pending_appointments'] = $adminModel->getTotalAppointments('pending');
+        $this->view('doctor/pages/dashboard', ['appointments' => $appointments, 'appointment_data' => $appointment_data]);
     }
 
     public function doctorappointments() {

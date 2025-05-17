@@ -53,6 +53,14 @@ class AdminModel extends Model {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getTotalAppointments($status) {
+        $stmt = $this->db->prepare("SELECT COUNT(*) AS total FROM appointments WHERE appointment_date = CURRENT_DATE AND status = :appointment_status ");
+        $stmt->bindValue('appointment_status', $status);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
+    }
+
     public function getDailyAppointments() {
         $stmt = $this->db->prepare("SELECT 
             appointments.id,
@@ -66,7 +74,7 @@ class AdminModel extends Model {
         FROM appointments
         JOIN user_profiles ON appointments.user_id = user_profiles.user_id
         JOIN services ON appointments.service_id = services.id
-        WHERE appointment_date = CURRENT_DATE");
+        WHERE appointment_date = CURRENT_DATE AND status = 'confirmed' ");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC); 
     }
@@ -113,10 +121,30 @@ class AdminModel extends Model {
         return $stmt->execute();
     }
 
+    // public function getAllPatients() {
+    //     $stmt = $this->db->prepare("SELECT DISTINCT user_profiles.*, users.email  FROM user_profiles JOIN appointments on user_profiles.user_id = appointments.user_id JOIN users on user_profiles.user_id = users.id WHERE appointments.status = 'completed' ");
+    //     $stmt->execute();
+    //     return $stmt->fetchALL(PDO::FETCH_ASSOC);
+    // }
+
     public function getAllPatients() {
-        $stmt = $this->db->prepare("SELECT * FROM user_profiles JOIN appointments on user_profiles.user_id = appointments.user_id JOIN users on user_profiles.user_id = users.id WHERE appointments.status = 'completed' ");
+        $stmt = $this->db->prepare("
+            SELECT DISTINCT ON (user_profiles.user_id) 
+                user_profiles.*, 
+                users.email, 
+                appointments.appointment_date,
+                appointments.appointment_time
+            FROM 
+                user_profiles 
+            JOIN appointments ON user_profiles.user_id = appointments.user_id 
+            JOIN users ON user_profiles.user_id = users.id 
+            WHERE 
+                appointments.status = 'completed'
+            ORDER BY 
+                user_profiles.user_id, appointments.id DESC
+        ");
         $stmt->execute();
-        return $stmt->fetchALL(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getBookedTimesByDate($date) {

@@ -46,19 +46,19 @@
 
             <div class="total_appointments">
                 <div class="data">
-                    <h1>10</h1>
+                    <h1><?= htmlspecialchars($appointment_data['confirmed_appointments']) ?></h1>
                 </div>
                 <div class="title">
-                    <p>Total Appointments</p>
+                    <p>Confirmed Appointments</p>
                 </div>
             </div>
 
             <div class="total_patients">
                 <div class="data">
-                    <h1>100</h1>
+                    <h1><?= htmlspecialchars($appointment_data['pending_appointments']) ?></h1>
                 </div>
                 <div class="title">
-                    <p>Total Patients</p>
+                    <p>Pending Appointments</p>
                 </div>
             </div>
         </div>
