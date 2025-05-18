@@ -121,12 +121,6 @@ class AdminModel extends Model {
         return $stmt->execute();
     }
 
-    // public function getAllPatients() {
-    //     $stmt = $this->db->prepare("SELECT DISTINCT user_profiles.*, users.email  FROM user_profiles JOIN appointments on user_profiles.user_id = appointments.user_id JOIN users on user_profiles.user_id = users.id WHERE appointments.status = 'completed' ");
-    //     $stmt->execute();
-    //     return $stmt->fetchALL(PDO::FETCH_ASSOC);
-    // }
-
     public function getAllPatients() {
         $stmt = $this->db->prepare("
             SELECT DISTINCT ON (user_profiles.user_id) 
@@ -155,4 +149,59 @@ class AdminModel extends Model {
 
         return $stmt->fetchAll(PDO::FETCH_COLUMN); // Return an array of booked times
     }
+
+    public function getAnnouncements() {
+        $stmt = $this->db->prepare("SELECT * FROM announcements");
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function addAnnouncement($title, $description, $type, $date_start, $date_end) {
+        $stmt = $this->db->prepare("
+            INSERT INTO announcements (title, description, type, date_start, date_end)
+            VALUES (:title, :description, :type, :date_start, :date_end) ");
+        $stmt->bindValue(':title', $title);
+        $stmt->bindValue(':description', $description);
+        $stmt->bindValue(':type', $type);
+        $stmt->bindValue(':date_start', $date_start);
+        $stmt->bindValue(':date_end', $date_end);
+
+        return $stmt->execute();
+    }
+
+
+    public function deleteAnnouncement($id) {
+        $stmt = $this->db->prepare("DELETE FROM announcements WHERE id = :id");
+        $stmt->bindValue(':id', $id);
+        return $stmt->execute();
+    }
+
+    public function getServices() {
+        $stmt = $this->db->prepare("SELECT * FROM services");
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function deleteService($id) {
+        $stmt = $this->db->prepare("DELETE FROM services WHERE id = :id");
+        $stmt->bindValue(':id', $id);
+        return $stmt->execute();
+    }
+
+    public function addService($name, $description, $long_description, $price, $category, $is_active = true) {
+    $stmt = $this->db->prepare("
+        INSERT INTO services (name, description, long_description, price, category, is_active)
+        VALUES (:name, :description, :long_description, :price, :category, :is_active)
+    ");
+    $stmt->bindValue(':name', $name);
+    $stmt->bindValue(':description', $description);
+    $stmt->bindValue(':long_description', $long_description);
+    $stmt->bindValue(':price', $price);
+    $stmt->bindValue(':category', $category);
+    $stmt->bindValue(':is_active', $is_active, PDO::PARAM_BOOL);
+
+    return $stmt->execute();
+}
 }

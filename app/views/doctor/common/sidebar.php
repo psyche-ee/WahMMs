@@ -33,9 +33,9 @@
 
             <!-- Collapsible Sub-menu -->
             <div class="settings-options" id="settingsOptions">
-            <a href="#">Announcements</a>
-            <a href="#">Availability</a>
-            <a href="#">Services</a>
+            <a href="<?= baseurl() ?>/pages/manageannouncements">Announcements</a>
+            <a href="<?= baseurl() ?>/pages/manageavailability">Availability</a>
+            <a href="<?= baseurl() ?>/pages/manageservices">Services</a>
             <a href="#">Comments</a>
             <a href="#">Change Password</a>
             </div>

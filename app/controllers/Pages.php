@@ -349,4 +349,18 @@ class Pages extends Controller {
         $this->view('auth/edit_profile', ['data' => $data, 'userdata' => $userdata]);
     }
 
+    public function manageannouncements() {
+        $announcements = $this->model('AdminModel')->getAnnouncements();
+        $this->view('doctor/pages/manageannouncements', ['announcements' => $announcements]);
+    }
+
+    public function manageavailability() {
+        $this->view('doctor/pages/manageavailability');
+    }
+
+    public function manageservices() {
+        $services = $this->model('AdminModel')->getServices();
+        $this->view('doctor/pages/manageservices', ['services' => $services]);
+    }
+
 }
