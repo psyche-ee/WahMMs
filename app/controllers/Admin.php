@@ -100,4 +100,20 @@ class Admin extends Controller {
             }
         } 
     }
+
+    public function updatebusinesshour() {
+        if ($this->request->isPost()) {
+            $id = $this->request->data('id');
+            $open_time = $this->request->data('open_time');
+            $close_time = $this->request->data('close_time');
+            $is_open = $this->request->data('is_open');
+            $result = $this->adminmodel->updateBusinessHour($id, $open_time, $close_time, $is_open);
+
+            if ($result) {
+                $this->redirect->to('pages/manageavailability');
+            } else {
+                $this->redirect->to('pages/systemerror');
+            }
+        }
+    }
 }

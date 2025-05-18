@@ -191,17 +191,48 @@ class AdminModel extends Model {
     }
 
     public function addService($name, $description, $long_description, $price, $category, $is_active = true) {
-    $stmt = $this->db->prepare("
-        INSERT INTO services (name, description, long_description, price, category, is_active)
-        VALUES (:name, :description, :long_description, :price, :category, :is_active)
-    ");
-    $stmt->bindValue(':name', $name);
-    $stmt->bindValue(':description', $description);
-    $stmt->bindValue(':long_description', $long_description);
-    $stmt->bindValue(':price', $price);
-    $stmt->bindValue(':category', $category);
-    $stmt->bindValue(':is_active', $is_active, PDO::PARAM_BOOL);
+        $stmt = $this->db->prepare("
+            INSERT INTO services (name, description, long_description, price, category, is_active)
+            VALUES (:name, :description, :long_description, :price, :category, :is_active)
+        ");
+        $stmt->bindValue(':name', $name);
+        $stmt->bindValue(':description', $description);
+        $stmt->bindValue(':long_description', $long_description);
+        $stmt->bindValue(':price', $price);
+        $stmt->bindValue(':category', $category);
+        $stmt->bindValue(':is_active', $is_active, PDO::PARAM_BOOL);
 
-    return $stmt->execute();
-}
+        return $stmt->execute();
+    }
+
+    public function getBusinessHours() {
+        $stmt = $this->db->prepare("
+        SELECT * FROM business_hours 
+        ORDER BY 
+            CASE day
+                WHEN 'Monday' THEN 1
+                WHEN 'Tuesday' THEN 2
+                WHEN 'Wednesday' THEN 3
+                WHEN 'Thursday' THEN 4
+                WHEN 'Friday' THEN 5
+                WHEN 'Saturday' THEN 6
+                WHEN 'Sunday' THEN 7
+            END
+    ");
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function updateBusinessHour($id, $open_time, $close_time, $is_open) {
+        $stmt = $this->db->prepare("UPDATE business_hours SET open_time = :open_time, close_time = :close_time, is_open = :is_open WHERE id = :id");
+        $stmt->bindValue('open_time', $open_time);
+        $stmt->bindValue('close_time', $close_time);
+        $stmt->bindValue('is_open', $is_open);
+        $stmt->bindValue('id', $id);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

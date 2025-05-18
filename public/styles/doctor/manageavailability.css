@@ -1,0 +1,95 @@
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.day_container {
+    display: flex;
+    flex-direction:column;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background-color: green;
+    padding: 20px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+}
+
+.day_container h1 {
+    color: #D81616;
+    text-align: center;
+    margin: 0 0 20px;
+}
+
+.day_card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    padding: 1rem;
+    width: 800px;
+    height: 60px;
+    gap: 20px;
+    text-align: center;
+}
+
+.view_mode {
+    display: flex;
+    align-items: center;
+}
+
+.view_mode h3 {
+    width: 170px;
+    text-align: left;
+}
+
+.view_mode p {
+    width: 170px;
+    text-align: left;
+}
+
+span {
+    color: red;
+}
+
+.edit-btn, form button {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    font-weight: 600;
+}
+
+.edit-btn {
+    background-color: #007bff;
+}
+
+form {
+    display: none; 
+    align-items: center; 
+}
+
+form h3 {
+    width: 170px;
+    text-align: left;
+}
+
+form label {
+    width: 150px;
+    text-align: left;
+}
+
+.save-btn {
+    background-color: #28a745;
+    margin-right: 20px;
+}
+
+.cancel-btn {
+    background-color: #D81616;
+}
+
+.status {
+    text-align: center;
+}

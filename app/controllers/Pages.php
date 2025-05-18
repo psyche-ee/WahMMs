@@ -355,7 +355,8 @@ class Pages extends Controller {
     }
 
     public function manageavailability() {
-        $this->view('doctor/pages/manageavailability');
+        $businesshours = $this->model('AdminModel')->getBusinessHours();
+        $this->view('doctor/pages/manageavailability', ['businesshours' => $businesshours]);
     }
 
     public function manageservices() {
