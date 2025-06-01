@@ -60,9 +60,12 @@
                 >
             </div>
 
-            <div class="input-group">
+            <div class="input-group" style="position: relative;">
                 <div class="error-msg"><?= $data['errpassword'] ?? '&nbsp;' ?></div>
-                <input type="password" name="password" placeholder="Enter password">
+                <input type="password" name="password" id="password" placeholder="Enter password" style="padding-right: 40px;">
+                <button type="button" id="togglePassword" style="position: absolute; right: 30px; top: 35px; background: none; border: none; cursor: pointer;">
+                    👁️
+                </button>
             </div>
 
             <a href="<?= baseurl() ?>/auth/forgotpassword" class="pwd"><span>Forgot Password?</span></a>
@@ -74,3 +77,13 @@
     </div>
 </body>
 </html>
+
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const passwordInput = document.getElementById('password');
+        const type = passwordInput.type === 'password' ? 'text' : 'password';
+        passwordInput.type = type;
+        // Optionally change the icon/text
+        this.textContent = type === 'password' ? '👁️' : '🙈';
+    });
+</script>

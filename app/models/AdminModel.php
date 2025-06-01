@@ -235,4 +235,42 @@ class AdminModel extends Model {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function insertConfirmedPatients() {
+        $stmt = $this->db->prepare("
+            INSERT INTO patient (user_id)
+            SELECT DISTINCT a.user_id
+            FROM appointments a
+            LEFT JOIN patient p ON a.user_id = p.user_id
+            WHERE a.status = 'confirmed' AND p.user_id IS NULL
+        ");
+
+        return $stmt->execute();
+    }
+
+    public function insertNewDoctors() {
+        // Select users with role 'doctor' who are not yet in doctor table
+        $stmt = $this->db->prepare("
+            SELECT id 
+            FROM users 
+            WHERE role = 'doctor' 
+            AND id NOT IN (SELECT user_id FROM doctor)
+        ");
+        $stmt->execute();
+        $doctors = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        // Insert each doctor into the doctor table
+        $insertStmt = $this->db->prepare("
+            INSERT INTO doctor (user_id) VALUES (:user_id)
+        ");
+
+        foreach ($doctors as $user_id) {
+            $insertStmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            $insertStmt->execute();
+        }
+
+        return count($doctors); // Return how many doctors were inserted
+    }
+
+
 }

@@ -50,14 +50,20 @@
                 <input type="text" name="email" placeholder="Enter email" value="<?= htmlspecialchars($data['email'] ?? '') ?>">
             </div>
 
-            <div class="input-group">
+            <div class="input-group" style="position: relative;">
                 <div class="error-msg"><?= $data['errpassword'] ?? '&nbsp;' ?></div>
-                <input type="password" name="password" placeholder="Enter password">
+                <input type="password" name="password" id="password" placeholder="Enter password" style="padding-right: 40px;">
+                <button type="button" class="toggle-password" data-target="password" style="position: absolute; right: 10px; top: 35px; background: none; border: none; cursor: pointer;">
+                    👁️
+                </button>
             </div>
 
-            <div class="input-group">
+            <div class="input-group" style="position: relative;">
                 <div class="error-msg"><?= $data['errconfirm_password'] ?? '&nbsp;' ?></div>
-                <input type="password" name="confirm_password" placeholder="Confirm Password">
+                <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" style="padding-right: 40px;">
+                <button type="button" class="toggle-password" data-target="confirm_password" style="position: absolute; right: 10px; top: 35px; background: none; border: none; cursor: pointer;">
+                    👁️
+                </button>
             </div>
 
             <button type="submit" class="signupbtn">Signup</button>
@@ -73,3 +79,18 @@
         }, 3000); // Redirects after 3 seconds
     </script>
 <?php endif; ?>
+
+<script>
+document.querySelectorAll('.toggle-password').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const target = document.getElementById(this.dataset.target);
+        if (target.type === 'password') {
+            target.type = 'text';
+            this.textContent = '🙈';
+        } else {
+            target.type = 'password';
+            this.textContent = '👁️';
+        }
+    });
+});
+</script>

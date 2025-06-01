@@ -29,6 +29,7 @@ class Admin extends Controller {
     
         if ($appointmentId && $status) {
             $this->adminmodel->addAction($appointmentId, $status);
+            $this->adminmodel->insertConfirmedPatients();
         }
     
         $this->redirect->to('pages/doctorappointments');
@@ -36,6 +37,7 @@ class Admin extends Controller {
     }
 
     public function addannouncement() {
+        $photoPath = null;
         if ($this->request->isPost()) {
             $title = $this->request->data('title');
             $description = $this->request->data('description');
@@ -77,7 +79,7 @@ class Admin extends Controller {
 
 
             // Call your model's addService method
-            $result = $adminmodel->addService($name, $description, $long_description, $price, $category, $is_active);
+            $result = $this->adminmodel->addService($name, $description, $long_description, $price, $category, $is_active);
 
             if ($result) {
                 $this->redirect->to('pages/manageservices');
