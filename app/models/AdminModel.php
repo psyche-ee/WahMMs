@@ -88,7 +88,8 @@ class AdminModel extends Model {
             services.name,
             appointments.appointment_date,
             appointments.appointment_time,
-            appointments.status
+            appointments.status,
+            appointments.user_id
         FROM appointments
         JOIN user_profiles ON appointments.user_id = user_profiles.user_id
         JOIN services ON appointments.service_id = services.id
@@ -118,8 +119,22 @@ class AdminModel extends Model {
         $stmt = $this->db->prepare("UPDATE appointments SET status = :editstatus WHERE id = :id");
         $stmt->bindValue(':editstatus', $status);
         $stmt->bindValue(':id', $id);
-        return $stmt->execute();
+        $stmt->execute();
+
+        // Fetch user info for email
+        $stmt = $this->db->prepare("
+            SELECT a.appointment_date, a.appointment_time, u.email, u.name, s.name AS service_name
+            FROM appointments a
+            JOIN users u ON a.user_id = u.id
+            LEFT JOIN services s ON a.service_id = s.id
+            WHERE a.id = :id
+        ");
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        
+        return $stmt->fetch(PDO::FETCH_ASSOC); // Return appointment & user info
     }
+
 
     public function getAllPatients() {
         $stmt = $this->db->prepare("
@@ -271,6 +286,70 @@ class AdminModel extends Model {
 
         return count($doctors); // Return how many doctors were inserted
     }
+
+    // Returns patient info by patient ID
+    public function getPatientInfo($user_id)
+    {
+        $stmt = $this->db->prepare("
+            SELECT 
+                p.patient_id,
+                u.id AS user_id,
+                u.name AS account_name,
+                u.email,
+                u.role,
+                u.created_at AS user_created_at,
+                up.firstname,
+                up.middlename,
+                up.lastname,
+                up.gender,
+                up.user_address,
+                up.postal_code,
+                up.phone_number,
+                up.blood_type,
+                up.date_of_birth,
+                up.place_of_birth,
+                up.created_at AS profile_created_at,
+                up.updated_at AS profile_updated_at
+            FROM patient p
+            JOIN users u ON u.id = p.user_id
+            LEFT JOIN user_profiles up ON up.user_id = u.id
+            WHERE up.user_id = :user_id
+        ");
+
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getPatientMedicalRecords($patient_id) {
+    $stmt = $this->db->prepare("
+        SELECT 
+            mr.medical_record_id,
+            s.name AS service_name,
+            mr.allergy,
+            mr.blood_pressure,
+            mr.heart_rate,
+            mr.temperature,
+            mr.height,
+            mr.weight,
+            mr.immunization_status,
+            mr.follow_up_date,
+            mr.diagnostic,
+            mr.created_at,
+            d.doctor_id,
+            u.name AS doctor_name
+        FROM medical_record mr
+        LEFT JOIN services s ON mr.service_id = s.id
+        LEFT JOIN doctor d ON mr.doctor_id = d.doctor_id
+        LEFT JOIN users u ON u.id = d.user_id
+        WHERE mr.patient_id = :patient_id
+        ORDER BY mr.created_at DESC
+    ");
+    $stmt->bindValue(':patient_id', $patient_id, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 
 }

@@ -77,4 +77,15 @@ class Templates {
 
         return $body;
      }
+
+     public static function getAppointmentStatusNotificationBody($userData, $data) {
+      $body = "";
+      $body .= "Dear " . htmlspecialchars($userData["name"]) . ",<br><br>";
+      $body .= "This is to inform you that the status of your appointment on <strong>" . htmlspecialchars($data["date"]) . "</strong> at <strong>" . htmlspecialchars($data["time"]) . "</strong> for the service <strong>" . htmlspecialchars($data["service_name"]) . "</strong> has been <strong>" . htmlspecialchars($data["status"]) . "</strong>.<br><br>";
+      $body .= "If you have any questions or concerns, feel free to contact our office.<br><br>";
+      $body .= "Regards,<br>WahMMs Team";
+
+      return $body;
+   }
+
 }

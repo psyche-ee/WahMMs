@@ -80,8 +80,11 @@ $GLOBALS['config'] = array(
 
         //successful booking notification
         "email_booking_notification" => "4",
-        "email_booking_notification_subject" => "Successful Booking Notification"
+        "email_booking_notification_subject" => "Successful Booking Notification",
 
+        //appointment status update notification
+        "email_appointment_status_notification" => "5",
+        "email_booking_notification_subject" => "Appointment Status Notification"
     ),
 
 

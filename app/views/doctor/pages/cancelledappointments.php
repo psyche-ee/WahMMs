@@ -29,7 +29,9 @@
                     <tbody>
                         <?php if (!empty($appointments)): ?>
                             <?php foreach ($appointments as $appointment): ?>
-                                <tr>
+                                <tr 
+                                    class="clickable-row" 
+                                    data-href="<?= baseurl() ?>/admin/patientInfo/<?= $appointment['user_id'] ?>" style="cursor: pointer;">
                                     <td><?= htmlspecialchars($appointment['lastname']) . ', ' . $appointment['firstname'] . ' ' . $appointment['middlename'] ?></td>
                                     <td><?= htmlspecialchars($appointment['name']) ?></td>
                                     <td><?= htmlspecialchars($appointment['appointment_date']) ?></td>
@@ -55,3 +57,4 @@
     
 </body>
 </html>
+<script src="<?= baseurl()?>/public/scripts/DoctorWahing.js"></script>

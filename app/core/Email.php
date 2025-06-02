@@ -75,6 +75,14 @@
                     $mail->Subject = Config::get('mailer/email_booking_notification_subject');
                     $mail->AddAddress($email);
                     break;
+
+                case(Config::get('mailer/email_appointment_status_notification')):
+                    $mail->Body = Templates::getAppointmentStatusNotificationBody($userData, $data);
+                    $mail->SetFrom(Config::get('mailer/email_from'), Config::get('mailer/email_from_name'));
+                    $mail->AddReplyTo(Config::get('mailer/email_reply_to'));
+                    $mail->Subject = Config::get('mailer/email_booking_notification_subject');
+                    $mail->AddAddress($email);
+                    break;
             }
 
             if ($mail->Send()) {

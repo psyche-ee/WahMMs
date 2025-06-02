@@ -25,16 +25,38 @@ class Admin extends Controller {
 
     public function Action() {
         $appointmentId = $this->request->data('appointment_id');
-        $status = $this->request->data('action'); // this is 'accept', 'decline', or 'completed'
-    
+        $status = $this->request->data('action'); // 'accept', 'decline', or 'completed'
+
         if ($appointmentId && $status) {
-            $this->adminmodel->addAction($appointmentId, $status);
+            $appointment = $this->adminmodel->addAction($appointmentId, $status);
             $this->adminmodel->insertConfirmedPatients();
+
+            if ($appointment) {
+                // Map readable status
+                $statusText = [
+                    'confirmed' => 'confirmed',
+                    'cancelled' => 'declined',
+                    'completed' => 'marked as completed'
+                ][$status] ?? $status;
+
+                Email::sendEmail(
+                    Config::get('mailer/email_appointment_status_notification'), // Template name
+                    $appointment['email'],                                   // Recipient
+                    ["name" => $appointment['name']],                        // Variables for greeting
+                    [
+                        "status" => $statusText,
+                        "date" => $appointment['appointment_date'],
+                        "time" => $appointment['appointment_time'],
+                        "service_name" => $appointment['service_name'] ?? 'your service'
+                    ]
+                );
+            }
         }
-    
+
         $this->redirect->to('pages/doctorappointments');
         exit;
     }
+
 
     public function addannouncement() {
         $photoPath = null;
@@ -118,4 +140,11 @@ class Admin extends Controller {
             }
         }
     }
+
+    public function patientInfo($id) {
+        $data['patient'] = $this->adminmodel->getPatientInfo($id);
+        $data['medical_records'] = $this->adminmodel->getPatientMedicalRecords($id);
+        $this->view('doctor/pages/get_patient_info', $data);
+    }
+
 }
