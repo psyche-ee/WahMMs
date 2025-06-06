@@ -88,4 +88,19 @@ class Templates {
       return $body;
    }
 
+   public static function getPrescriptionNotificationBody($userData, $data) {
+      $body = "";
+      $body .= "Dear " . htmlspecialchars($userData["name"]) . ",<br><br>";
+      $body .= "A new prescription has been added for you.<br><br>";
+      $body .= "<strong>Prescription Details:</strong><br>";
+      foreach ($data['prescriptions'] as $prescription) {
+         $body .= "Name: " . htmlspecialchars($prescription['prescription_name']) . "<br>";
+         $body .= "Dosage: " . htmlspecialchars($prescription['dosage']) . "<br>";
+         $body .= "Frequency: " . htmlspecialchars($prescription['frequency']) . "<br><br>";
+      }
+      $body .= "If you have questions, please contact the clinic.<br><br>";
+      $body .= "Regards,<br> WahMMs";
+      return $body;
+   }
+
 }

@@ -29,7 +29,7 @@
      */
 
      public static function sendEmail($type, $email, $userData, $data) {
-        error_log("Attempting to send email to $email with type: $type");
+        
         try {
             $mail = new PHPMailer();
             $mail->IsSMTP();
@@ -81,6 +81,14 @@
                     $mail->SetFrom(Config::get('mailer/email_from'), Config::get('mailer/email_from_name'));
                     $mail->AddReplyTo(Config::get('mailer/email_reply_to'));
                     $mail->Subject = Config::get('mailer/email_booking_notification_subject');
+                    $mail->AddAddress($email);
+                    break;
+
+                case(Config::get('mailer/email_prescription_notification')):
+                    $mail->Body = Templates::getPrescriptionNotificationBody($userData, $data);
+                    $mail->SetFrom(Config::get('mailer/email_from'), Config::get('mailer/email_from_name'));
+                    $mail->AddReplyTo(Config::get('mailer/email_reply_to'));
+                    $mail->Subject = Config::get('mailer/email_prescription_notification_subject');
                     $mail->AddAddress($email);
                     break;
             }

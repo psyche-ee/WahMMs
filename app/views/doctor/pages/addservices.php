@@ -15,7 +15,7 @@
         <div class="container">
             <a href="<?= baseurl() ?>/pages/manageservices" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back</a>
 
-            <form action="addservice.php" method="post" enctype="multipart/form-data">
+            <form action="<?= baseurl() ?>/admin/addservice" method="post" enctype="multipart/form-data">
                 <label for="name">Service Name:</label>
                 <input type="text" name="name" id="name" required>
 
@@ -37,7 +37,7 @@
                 <label for="is_active">Active:</label>
                 <input type="checkbox" name="is_active" id="is_active" checked>
 
-                <button type="submit" class="add-btn" >Add</button>
+                <button type="submit">Add</button>
             </form>
         </div>
     </main>

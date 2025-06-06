@@ -20,6 +20,9 @@
                 <div class="box">
                     <div class="card-inner">
                         <div class="box-front">
+                            <?php
+                                $img = $service['image_path'] ? htmlspecialchars($service['image_path']) : 'default_service.png';
+                            ?>
                             <div class="img" style="background-image: url('<?= baseurl() ?>/public/uploads/<?= htmlspecialchars($service['image_path']) ?>'); background-size: cover; background-position: center;"></div>
                             <h3><?= htmlspecialchars($service['name']) ?></h3>
                             <p><?= htmlspecialchars($service['description']) ?></p>

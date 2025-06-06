@@ -97,7 +97,7 @@ class Admin extends Controller {
             $long_description = $this->request->data('long_description');
             $price = $this->request->data('price');
             $category = $this->request->data('category');
-            $is_active = $this->request->data('is_active');
+            $is_active = $this->request->data('is_active') ? true : false;
 
 
             // Call your model's addService method
@@ -145,6 +145,110 @@ class Admin extends Controller {
         $data['patient'] = $this->adminmodel->getPatientInfo($id);
         $data['medical_records'] = $this->adminmodel->getPatientMedicalRecords($id);
         $this->view('doctor/pages/get_patient_info', $data);
+    }
+
+    public function addDiagnostic($id) {
+        $appointment_id = $_GET['appointment_id'] ?? null;
+        if ($appointment_id && $this->adminmodel->hasMedicalRecordForAppointment($appointment_id)) {
+            // Show error or prevent duplicate
+            $this->redirect->to('admin/addDiagnostic/' . $id . '?error=record_exists');
+            return;
+        }
+
+        if ($this->request->isPost()) {
+            // Collect form data
+            $data = [
+                'service_id'          => $this->request->data('service_id'), // You may need to map service_name to service_id
+                'patient_id'          => $id,
+                'allergy'             => $this->request->data('allergy'),
+                'blood_pressure'      => $this->request->data('blood_pressure'),
+                'heart_rate'          => $this->request->data('heart_rate'),
+                'temperature'         => $this->request->data('temperature'),
+                'height'              => $this->request->data('height'),
+                'weight'              => $this->request->data('weight'),
+                'immunization_status' => $this->request->data('immunization_status'),
+                'follow_up_date'      => $this->request->data('follow_up_date'),
+                'doctor_id'           => $this->request->data('doctor_id'), // Or however you store the doctor ID in session
+                'appointment_id'      => $this->request->data('appointment_id'),
+                'diagnostic'          => $this->request->data('diagnostic')
+            ];
+
+            // Call the model to insert the record
+            $medical_record_id = $this->adminmodel->addMedicalRecord($data);
+
+            if ($this->request->isAjax()) {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => (bool)$medical_record_id,
+                    'medical_record_id' => $medical_record_id
+                ]);
+                exit;
+            }
+
+            if ($medical_record_id) {
+                $this->redirect->to('admin/addDiagnostic/' . $id . '?success=1');
+            } else {
+                $this->redirect->to('admin/addDiagnostic/' . $id . '?error=1');
+            }
+            return;
+        }
+
+        // If not POST, show the form as usual
+        $service_id = $_GET['service_id'] ?? null;
+        $service_name = $_GET['service_name'] ?? null;
+
+        $data['patient'] = $this->adminmodel->getPatientInfo($id);
+        $data['medical_records'] = $this->adminmodel->getPatientMedicalRecords($id);
+        $data['service_id'] = $service_id;
+        $data['service_name'] = $service_name;
+        $this->view('doctor/pages/add_diagnostic', $data);
+    }
+
+    public function addPrescription() {
+        if ($this->request->isPost()) {
+            $medical_record_id = $this->request->data('medical_record_id');
+            $prescriptions = $this->request->data('prescriptions'); // array of prescriptions
+
+            // Fetch patient_id using medical_record_id
+            $medical_record = $this->adminmodel->getMedicalRecordById($medical_record_id);
+            $patient_id = $medical_record['patient_id'] ?? null;
+
+            if ($medical_record_id && is_array($prescriptions) && count($prescriptions) > 0) {
+                foreach ($prescriptions as $prescription) {
+                    $data = [
+                        'medical_record_id' => $medical_record_id,
+                        'dosage' => $prescription['dosage'],
+                        'frequency' => $prescription['frequency'],
+                        'prescription_name' => $prescription['prescription_name']
+                    ];
+                    $this->adminmodel->addPrescription($data);
+                }
+                
+                // After successfully adding prescriptions
+                $user = $this->adminmodel->getUserByPatientId($patient_id);
+                if ($user) {
+                    $userData = [
+                        'id' => $user['id'],
+                        'name' => $user['name'],
+                        'email' => $user['email']
+                    ];
+                    $data = [
+                        'prescriptions' => $prescriptions // The array you just added
+                    ];
+                    Email::sendEmail(
+                        Config::get('mailer/email_prescription_notification'),
+                        $user['email'],
+                        $userData,
+                        $data
+                    );
+                }
+                // Redirect with success message
+                $this->redirect->to('admin/addDiagnostic/' . $user['id'] . '?prescription_success=1');
+
+            } else {
+                $this->redirect->to('admin/addDiagnostic/' . $medical_record_id . '?prescription_error=1');
+            }
+        }
     }
 
 }

@@ -150,6 +150,15 @@ class Auth extends Controller {
                     $this->redirect->to('auth/resendverification');
                     return;
                 } elseif ($userinfo === 'doctor') {
+                    // Fetch doctor info using the email or user_id
+                    $user = $this->authmodel->getUserByEmail($email);
+                    if ($user) {
+                        $doctor = $this->authmodel->getDoctorByUserId($user['id']);
+                        if ($doctor) {
+                            $_SESSION['doctor_id'] = $doctor['doctor_id'];
+                            $_SESSION['name'] = $doctor['name'];
+                        }
+                    }
                     $this->redirect->to('pages/doctordashboard');
                     return;
                 } else {

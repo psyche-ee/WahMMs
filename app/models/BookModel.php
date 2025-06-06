@@ -8,6 +8,8 @@ class BookModel extends Model {
     }
 
     public function bookAppointment($userId, $serviceId, $serviceName, $date, $time) {
+        $time = date("h:i A", strtotime($_POST["time"]));
+
         $stmt = $this->db->prepare("INSERT INTO appointments (user_id, service_id, appointment_date, appointment_time) VALUES (:user_id, :service_id, :appointment_date, :appointment_time)");
         $stmt->bindValue(':user_id', $userId);
         $stmt->bindValue(':service_id', $serviceId);

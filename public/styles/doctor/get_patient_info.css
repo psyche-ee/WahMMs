@@ -1,0 +1,84 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.patientinfo_container {
+    height: 100%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 0 0;
+}
+
+.patient-info, .medical-history {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    width: 100%;
+    margin: 30px auto 0 auto;
+    padding: 30px 40px;
+    height: fit-content;
+}
+
+.patient-info p {
+    margin: 8px 0;
+    font-size: 1.05em;
+    color: #444;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto 30px auto;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+th, td {
+    padding: 10px 8px;
+    text-align: center;
+}
+
+th {
+    background: #D81616;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1em;
+}
+
+tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+tr:hover {
+    background: #ffeaea;
+}
+
+.back-btn {
+    height: fit-content;
+    width: fit-content;
+    padding: 10px 22px;
+    background: #D81616;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1em;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+}
+.back-btn i {
+    margin-right: 8px;
+}
+.back-btn:hover {
+    background: #b31313;
+    color: #fff;
+}

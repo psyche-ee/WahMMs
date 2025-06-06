@@ -25,8 +25,6 @@
                             <th>Age</th> -->
                             <th>Contact Number</th>
                             <th>Email</th>
-                            <th>Appointment Date</th>
-                            <th>Time</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,8 +44,7 @@
                                     </td> -->
                                     <td><?= htmlspecialchars($patient['phone_number']) ?></td>
                                     <td><?= htmlspecialchars($patient['email']) ?></td>
-                                    <td><?= htmlspecialchars($patient['appointment_date']) ?></td>
-                                    <td><?= htmlspecialchars($patient['appointment_time']) ?></td>
+                                    
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>

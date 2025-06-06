@@ -6,6 +6,7 @@
     <title>Wahing Medical Clinic</title>
     <link rel="icon" type="image/png" href="<?= baseurl()?>/public/assets/wahing_logo.png">
     <link rel="stylesheet" href="<?= baseurl()?>/public/styles/All.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         .input-group {
             margin-bottom: 10px;
@@ -36,6 +37,11 @@
             display: block;
             font-size: 0.9em;
         }
+
+        #eyeIcon {
+            color: #555; 
+            font-size: 1.2em;
+        }
     </style>
 </head>
 <body>
@@ -63,8 +69,8 @@
             <div class="input-group" style="position: relative;">
                 <div class="error-msg"><?= $data['errpassword'] ?? '&nbsp;' ?></div>
                 <input type="password" name="password" id="password" placeholder="Enter password" style="padding-right: 40px;">
-                <button type="button" id="togglePassword" style="position: absolute; right: 30px; top: 35px; background: none; border: none; cursor: pointer;">
-                    👁️
+                <button type="button" id="togglePassword" style="position: absolute; right: 10px; top: 35px; background: none; border: none; cursor: pointer;">
+                    <i class="fa-regular fa-eye" id="eyeIcon"></i>
                 </button>
             </div>
 
@@ -81,9 +87,16 @@
 <script>
     document.getElementById('togglePassword').addEventListener('click', function () {
         const passwordInput = document.getElementById('password');
+        const eyeIcon = document.getElementById('eyeIcon');
         const type = passwordInput.type === 'password' ? 'text' : 'password';
         passwordInput.type = type;
-        // Optionally change the icon/text
-        this.textContent = type === 'password' ? '👁️' : '🙈';
+        // Toggle icon class
+        if (type === 'password') {
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+        } else {
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+        }
     });
 </script>

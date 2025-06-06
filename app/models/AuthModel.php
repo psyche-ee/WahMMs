@@ -111,7 +111,7 @@ class AuthModel extends Model {
             return false;
         }
 
-        if ($user["is_email_activated"] == 0) {
+        if ($user["is_email_activated"] == 0 ) {
             // Store info in session so user can request a resend link
             Session::set('unverified_email', $email);
             Session::set('warning', 'Your email is not verified. Please verify to continue.');
@@ -317,6 +317,20 @@ class AuthModel extends Model {
         Session::destroy();
     
         return true;
+    }
+
+    public function getUserByEmail($email) {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
+        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getDoctorByUserId($user_id) {
+        $stmt = $this->db->prepare("SELECT d.doctor_id, u.name FROM doctor d JOIN users u ON d.user_id = u.id WHERE d.user_id = :user_id");
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
 }

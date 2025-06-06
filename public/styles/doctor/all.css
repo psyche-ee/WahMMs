@@ -56,6 +56,7 @@ nav a i {
     padding: 20px 15px;
     color: white;
     gap: 10px;
+    margin-left: 20px;
 }
 
 .logo img {
@@ -77,13 +78,13 @@ nav a i {
 .settings-options , .appointments-options {
     display: none;
     flex-direction: column;
-    padding-left: 50px;
+    width: 100%;
     margin-top: 10px;
 }
   
 .settings-options a , .appointments-options a {
     font-size: 14px;
-    padding: 10px 0;
+    padding: 10px 0 10px 50px;
     color: white;
     background-color: transparent;
     text-decoration: none;
@@ -98,4 +99,10 @@ nav a i {
 .settings-toggle.open .dropdown-icon , .appointments-toggle.open .dropdown-icon{
     transform: rotate(180deg);
     transition: transform 0.3s;
+}
+
+.appointments-options a.active, .settings-options a.active {
+    background: #fff;
+    color: #D81616 !important;
+    font-weight: bold;
 }

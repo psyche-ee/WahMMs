@@ -127,7 +127,7 @@ class Pages extends Controller {
             $usermodel = $this->model('UserModel');
             $userInfo = $usermodel->getUserProfile($_SESSION['user_id']);
         }
-
+        error_log(print_r($services, true));
         $this->view('pages/services', ['services' => $services, 'loggedIn' => $loggedIn, 'result' => $bookingResult, 'userInfo' => $userInfo]);
     }
 
@@ -197,6 +197,7 @@ class Pages extends Controller {
         $appointments = $adminModel->getDailyAppointments();
         $appointment_data['confirmed_appointments'] = $adminModel->getTotalAppointments('confirmed');
         $appointment_data['pending_appointments'] = $adminModel->getTotalAppointments('pending');
+        $appointment_data['total_patients'] = $adminModel->getTotalPatients();
         $this->view('doctor/pages/dashboard', ['appointments' => $appointments, 'appointment_data' => $appointment_data]);
     }
 

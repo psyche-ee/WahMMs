@@ -53,4 +53,11 @@ class Request {
     public static function userAgent() {
         return isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
     }
+
+    public function isAjax() {
+        return (
+            !empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest'
+        );
+    }
 }

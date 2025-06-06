@@ -1,0 +1,193 @@
+body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden; /* Prevent body scrolling */
+    display: flex;
+    flex-direction: column;
+    background-color: #f5f5f5; /* Optional: Add background color */
+}
+
+.container-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 1400px;
+    margin: 30px auto;
+    padding: 0 30px;
+    flex: 1; /* Take up remaining space */
+    overflow-y: auto; /* Enable scrolling for the container */
+    height: calc(100vh - 60px); /* Account for margin */
+    align-items: flex-start; /* Align items to the top */
+    scrollbar-width: thin;
+}
+
+.left-column {
+    flex: 1;
+    min-width: 300px;
+    position: sticky;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-self: flex-start;
+}
+
+.right-column {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.patient-info, .medical-history, .prescription-section, .medical-record {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 30px;
+    height: fit-content;
+}
+
+.patient-info h1 {
+    color: #D81616;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+.patient-info h2 {
+    margin: 0 0 15px 0;
+    font-size: 1.4em;
+    color: #333;
+}
+
+.patient-info p {
+    margin: 8px 0;
+    font-size: 1.05em;
+    color: #444;
+    line-height: 1.5;
+}
+
+.medical-history h2, .prescription-section h2, .medical-record h2 {
+    color: #D81616;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto 30px auto;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+th, td {
+    padding: 10px 8px;
+    text-align: center;
+}
+
+th {
+    background: #D81616;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1em;
+}
+
+tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+tr:hover {
+    background: #ffeaea;
+}
+
+.back-btn {
+    margin: 30px 0 0 30px;
+    height: fit-content;
+    width: fit-content;
+    padding: 10px 22px;
+    background: #D81616;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1em;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    position: fixed;
+    z-index: 100;
+}
+.back-btn i {
+    margin-right: 8px;
+}
+.back-btn:hover {
+    background: #b31313;
+    color: #fff;
+}
+
+.form-group {
+    margin-bottom: 12px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+.form-group input {
+    width: 100%;
+    padding: 6px 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+.add-record-btn, .add-prescription-btn {
+    margin-top: 14px;
+    margin-right: 10px;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 6px;
+    background: #D81616;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+.add-prescription-btn {
+    background: #28a745;
+}
+.add-record-btn:hover, .add-prescription-btn:hover {
+    opacity: 0.9;
+}
+
+.prescription-section {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    max-width: 800px;
+    margin: 30px auto 0 auto;
+    padding: 30px 40px;
+}
+.prescription-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+.prescription-item input {
+    padding: 6px 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+.delete-prescription-btn {
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+}
+.delete-prescription-btn:hover {
+    background: #c0392b;
+}

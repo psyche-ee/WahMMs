@@ -44,7 +44,7 @@ class AdminModel extends Model {
             user_profiles.middlename,
             services.name,
             appointments.appointment_date,
-            appointments.appointment_time,
+            TO_CHAR(appointments.appointment_time, 'HH12:MI AM') AS appointment_time,
             appointments.status
         FROM appointments
         JOIN user_profiles ON appointments.user_id = user_profiles.user_id
@@ -64,10 +64,12 @@ class AdminModel extends Model {
     public function getDailyAppointments() {
         $stmt = $this->db->prepare("SELECT 
             appointments.id,
+            user_profiles.user_id,
             user_profiles.lastname,
             user_profiles.firstname,
             user_profiles.middlename,
             services.name,
+            services.id AS service_id,
             appointments.appointment_date,
             appointments.appointment_time,
             appointments.status
@@ -87,7 +89,7 @@ class AdminModel extends Model {
             user_profiles.middlename,
             services.name,
             appointments.appointment_date,
-            appointments.appointment_time,
+            TO_CHAR(appointments.appointment_time, 'HH12:MI AM') AS appointment_time,
             appointments.status,
             appointments.user_id
         FROM appointments
@@ -138,19 +140,19 @@ class AdminModel extends Model {
 
     public function getAllPatients() {
         $stmt = $this->db->prepare("
-            SELECT DISTINCT ON (user_profiles.user_id) 
-                user_profiles.*, 
-                users.email, 
-                appointments.appointment_date,
-                appointments.appointment_time
-            FROM 
-                user_profiles 
-            JOIN appointments ON user_profiles.user_id = appointments.user_id 
-            JOIN users ON user_profiles.user_id = users.id 
-            WHERE 
-                appointments.status = 'completed'
-            ORDER BY 
-                user_profiles.user_id, appointments.id DESC
+            SELECT 
+                p.patient_id,
+                u.id AS user_id,
+                up.firstname,
+                up.lastname,
+                up.gender,
+                up.date_of_birth,
+                up.phone_number,
+                u.email
+            FROM patient p
+            JOIN users u ON p.user_id = u.id
+            LEFT JOIN user_profiles up ON up.user_id = u.id
+            ORDER BY up.lastname, up.firstname
         ");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -263,6 +265,29 @@ class AdminModel extends Model {
         return $stmt->execute();
     }
 
+    // public function insertPatientIfCompleted($user_id) {
+    //     // Check if user is already a patient
+    //     $stmt = $this->db->prepare("SELECT COUNT(*) FROM patient WHERE user_id = :user_id");
+    //     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    //     $stmt->execute();
+    //     if ($stmt->fetchColumn() > 0) {
+    //         return false; // Already a patient
+    //     }
+
+    //     // Check if user has at least one completed appointment
+    //     $stmt = $this->db->prepare("SELECT COUNT(*) FROM appointments WHERE user_id = :user_id AND status = 'completed'");
+    //     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    //     $stmt->execute();
+    //     if ($stmt->fetchColumn() == 0) {
+    //         return false; // No completed appointment
+    //     }
+
+    //     // Insert as patient
+    //     $stmt = $this->db->prepare("INSERT INTO patient (user_id) VALUES (:user_id)");
+    //     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    //     return $stmt->execute();
+    // }
+
     public function insertNewDoctors() {
         // Select users with role 'doctor' who are not yet in doctor table
         $stmt = $this->db->prepare("
@@ -323,33 +348,150 @@ class AdminModel extends Model {
     }
 
     public function getPatientMedicalRecords($patient_id) {
-    $stmt = $this->db->prepare("
-        SELECT 
-            mr.medical_record_id,
-            s.name AS service_name,
-            mr.allergy,
-            mr.blood_pressure,
-            mr.heart_rate,
-            mr.temperature,
-            mr.height,
-            mr.weight,
-            mr.immunization_status,
-            mr.follow_up_date,
-            mr.diagnostic,
-            mr.created_at,
-            d.doctor_id,
-            u.name AS doctor_name
-        FROM medical_record mr
-        LEFT JOIN services s ON mr.service_id = s.id
-        LEFT JOIN doctor d ON mr.doctor_id = d.doctor_id
-        LEFT JOIN users u ON u.id = d.user_id
-        WHERE mr.patient_id = :patient_id
-        ORDER BY mr.created_at DESC
-    ");
-    $stmt->bindValue(':patient_id', $patient_id, PDO::PARAM_INT);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+        $stmt = $this->db->prepare("
+            SELECT 
+                mr.medical_record_id,
+                s.name AS service_name,
+                mr.allergy,
+                mr.blood_pressure,
+                mr.heart_rate,
+                mr.temperature,
+                mr.height,
+                mr.weight,
+                mr.immunization_status,
+                mr.follow_up_date,
+                mr.diagnostic,
+                mr.created_at,
+                d.doctor_id,
+                u.name AS doctor_name
+            FROM medical_record mr
+            LEFT JOIN services s ON mr.service_id = s.id
+            LEFT JOIN doctor d ON mr.doctor_id = d.doctor_id
+            LEFT JOIN users u ON u.id = d.user_id
+            WHERE mr.patient_id = :patient_id
+            ORDER BY mr.created_at DESC
+        ");
+        $stmt->bindValue(':patient_id', $patient_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
+    public function addMedicalRecord($data) {
+        $stmt = $this->db->prepare("
+            INSERT INTO medical_record (
+                service_id,
+                patient_id,
+                allergy,
+                blood_pressure,
+                heart_rate,
+                temperature,
+                height,
+                weight,
+                immunization_status,
+                follow_up_date,
+                doctor_id,
+                appointment_id,
+                diagnostic
+            ) VALUES (
+                :service_id,
+                :patient_id,
+                :allergy,
+                :blood_pressure,
+                :heart_rate,
+                :temperature,
+                :height,
+                :weight,
+                :immunization_status,
+                :follow_up_date,
+                :doctor_id,
+                :appointment_id,
+                :diagnostic
+            )
+            RETURNING medical_record_id
+        ");
+
+        $stmt->bindValue(':service_id', $data['service_id'] ?? null, PDO::PARAM_INT);
+        $stmt->bindValue(':patient_id', $data['patient_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':allergy', $data['allergy'] ?? null, PDO::PARAM_STR);
+        $stmt->bindValue(':blood_pressure', $data['blood_pressure'] ?? null, PDO::PARAM_STR);
+        $stmt->bindValue(':heart_rate', $data['heart_rate'] ?? null, PDO::PARAM_INT);
+        $stmt->bindValue(':temperature', $data['temperature'] ?? null, PDO::PARAM_STR);
+        $stmt->bindValue(':height', $data['height'] ?? null, PDO::PARAM_STR);
+        $stmt->bindValue(':weight', $data['weight'] ?? null, PDO::PARAM_STR);
+        $stmt->bindValue(':immunization_status', $data['immunization_status'] ?? null, PDO::PARAM_STR);
+        
+        $follow_up_date = empty($data['follow_up_date']) ? null : $data['follow_up_date'];
+        $stmt->bindValue(':follow_up_date', $follow_up_date, $follow_up_date === null ? PDO::PARAM_NULL : PDO::PARAM_STR);
+
+        $stmt->bindValue(':doctor_id', $data['doctor_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':appointment_id', $data['appointment_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':diagnostic', $data['diagnostic'] ?? null, PDO::PARAM_STR);
+
+        $stmt->execute();
+        return $stmt->fetchColumn(); // returns the new medical_record_id
+    }
+
+    // Add a prescription for a given medical record
+    public function addPrescription($data)
+    {
+        $stmt = $this->db->prepare("
+            INSERT INTO prescription (medical_record_id, dosage, frequency, prescription_name)
+            VALUES (:medical_record_id, :dosage, :frequency, :prescription_name)
+            RETURNING prescription_id
+        ");
+        $stmt->bindValue(':medical_record_id', $data['medical_record_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':dosage', $data['dosage'], PDO::PARAM_STR);
+        $stmt->bindValue(':frequency', $data['frequency'], PDO::PARAM_STR);
+        $stmt->bindValue(':prescription_name', $data['prescription_name'], PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchColumn(); // returns the new prescription_id
+    }
+
+    // Get all prescriptions for a medical record
+    public function getPrescriptionsByMedicalRecord($medical_record_id)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM prescription WHERE medical_record_id = :medical_record_id");
+        $stmt->bindValue(':medical_record_id', $medical_record_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Delete a prescription by ID
+    public function deletePrescription($prescription_id)
+    {
+        $stmt = $this->db->prepare("DELETE FROM prescription WHERE prescription_id = :prescription_id");
+        $stmt->bindValue(':prescription_id', $prescription_id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    public function getMedicalRecordById($medical_record_id) {
+        $stmt = $this->db->prepare("SELECT * FROM medical_record WHERE medical_record_id = :medical_record_id LIMIT 1");
+        $stmt->bindValue(':medical_record_id', $medical_record_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getUserByPatientId($patient_id) {
+        $stmt = $this->db->prepare("SELECT u.id, u.name, u.email FROM users u JOIN patient p ON u.id = p.user_id WHERE p.user_id = :patient_id");
+        $stmt->bindValue(':patient_id', $patient_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function hasMedicalRecordForAppointment($appointment_id) {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM medical_record WHERE appointment_id = :appointment_id");
+        $stmt->bindValue(':appointment_id', $appointment_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchColumn() > 0;
+    }
+
+    public function getTotalPatients() {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM patient");
+        $stmt->execute();
+        if ($stmt) {
+            return $stmt->fetchColumn();
+        }
+        return 0; // or handle error as needed
+    }
 
 }

@@ -84,7 +84,11 @@ $GLOBALS['config'] = array(
 
         //appointment status update notification
         "email_appointment_status_notification" => "5",
-        "email_booking_notification_subject" => "Appointment Status Notification"
+        "email_booking_notification_subject" => "Appointment Status Notification",
+
+        // prescription notification
+        "email_prescription_notification" => "6",
+        "email_prescription_notification_subject" => "New Prescription Added"
     ),
 
 
