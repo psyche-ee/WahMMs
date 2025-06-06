@@ -123,8 +123,8 @@ class AuthModel extends Model {
         $_SESSION['user_id'] = $user['id']; // Store user ID in session
 
         $date = date('js F, Y - h:i:s A');
-
-        Email::sendEmail(Config::get('mailer/email_login_notification'), $email, ["name" => $user["name"]], ["date" =>time(), 'browser' =>$userAgent]);
+        $deviceInfo = Email::getDeviceInfo();
+        Email::sendEmail(Config::get('mailer/email_login_notification'), $email, ["name" => $user["name"]], ["date" =>time(), 'browser' =>$deviceInfo['browser'], "os" => $deviceInfo['os']]);
 
         if ($user["role"] === 'doctor') {
             return 'doctor';
