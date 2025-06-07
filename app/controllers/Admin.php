@@ -284,4 +284,44 @@ class Admin extends Controller {
         ]);
     }
 
+    public function printReferralNote($patient_id, $record_id) {
+        $patient = $this->adminmodel->getPatientInfo($patient_id);
+        $record = $this->adminmodel->getMedicalRecordById($record_id);
+        $doctor_name = $_SESSION['name'] ?? 'Attending Physician';
+
+        $this->view('doctor/pages/referral_note', [
+            'patient' => $patient,
+            'record' => $record,
+            'doctor_name' => $doctor_name
+        ]);
+    }
+
+    public function printPrescriptionNote($patient_id, $record_id) {
+        $patient = $this->adminmodel->getPatientInfo($patient_id);
+        $record = $this->adminmodel->getMedicalRecordById($record_id);
+        $doctor_name = $_SESSION['name'] ?? 'Attending Physician';
+        $prescriptions = $this->adminmodel->getPrescriptionsByMedicalRecord($record_id);
+
+        $this->view('doctor/pages/prescription_note', [
+            'patient' => $patient,
+            'record' => $record,
+            'doctor_name' => $doctor_name,
+            'prescriptions' => $prescriptions
+        ]);
+    }
+
+    public function printMedicalRecordNote($patient_id, $record_id) {
+        $patient = $this->adminmodel->getPatientInfo($patient_id);
+        $record = $this->adminmodel->getMedicalRecordById($record_id);
+        $doctor_name = $_SESSION['name'] ?? 'Attending Physician';
+        $prescriptions = $this->adminmodel->getPrescriptionsByMedicalRecord($record_id);
+
+        $this->view('doctor/pages/medical_record_note', [
+            'patient' => $patient,
+            'record' => $record,
+            'doctor_name' => $doctor_name,
+            'prescriptions' => $prescriptions
+        ]);
+    }
+
 }

@@ -1,5 +1,8 @@
 <?php
-require_once __DIR__ . '/../app/init.php'; // adjust path as needed
+
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/start.php';
+require_once __DIR__ . '/models/AdminModel.php';
 
 $adminModel = new AdminModel();
 
@@ -9,7 +12,7 @@ $prescriptions = $adminModel->getActivePrescriptionsForReminders();
 foreach ($prescriptions as $prescription) {
     // 2. Check if a reminder should be sent now
     if (shouldSendReminder($prescription)) {
-        // 3. Send the reminder (email/SMS)
+        
         Email::sendEmail(
             Config::get('mailer/email_medication_reminder'),
             $prescription['email'],
@@ -39,6 +42,9 @@ function shouldSendReminder($prescription) {
 // Helper: convert frequency string to seconds
 function parseFrequencyToSeconds($frequency) {
     // You can improve this parser as needed
+    if (preg_match('/every (\d+) minutes?/', $frequency, $m)) {
+        return $m[1] * 60;
+    }
     if (preg_match('/every (\d+) hours?/', $frequency, $m)) {
         return $m[1] * 3600;
     }

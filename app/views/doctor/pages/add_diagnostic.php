@@ -1,3 +1,7 @@
+<?php
+$record_exists = isset($_GET['error']) && $_GET['error'] === 'record_exists';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -107,7 +111,7 @@
                 href="<?= baseurl() ?>/admin/printMedicalCertificate/<?= $patient['user_id'] ?>/<?php if (!empty($medical_records)) echo $medical_records[0]['medical_record_id']; ?>"
                 target="_blank"
                 class="btn-print-cert"
-                style="display:inline-block; margin:20px 0; background:#D81616; color:#fff; padding:10px 22px; border-radius:5px; text-decoration:none; font-weight:bold;"
+                style="display:inline-block; width: 250px; margin:20px 0; background:#D81616; color:#fff; padding:10px 22px; border-radius:5px; text-decoration:none; font-weight:bold;"
             >
                 <i class="fa fa-print"></i> Print Medical Certificate
             </a>
@@ -116,118 +120,153 @@
                 href="<?= baseurl() ?>/admin/printLaboratoryRequest/<?= $patient['user_id'] ?>/<?php if (!empty($medical_records)) echo $medical_records[0]['medical_record_id']; ?>"
                 target="_blank"
                 class="btn-print-cert"
-                style="display:inline-block; margin:10px 0 20px 0; background:#D81616; color:#fff; padding:10px 22px; border-radius:5px; text-decoration:none; font-weight:bold;"
+                style="display:inline-block; width: 250px; margin:10px 0 20px 0; background:#D81616; color:#fff; padding:10px 22px; border-radius:5px; text-decoration:none; font-weight:bold;"
             >
                 <i class="fa fa-flask"></i> Laboratory Request
             </a>
+
+            <a
+                href="<?= baseurl() ?>/admin/printReferralNote/<?= $patient['user_id'] ?>/<?php if (!empty($medical_records)) echo $medical_records[0]['medical_record_id']; ?>"
+                target="_blank"
+                class="btn-print-cert"
+                style="display:inline-block; width: 250px; margin:10px 0 20px 0; background:#D81616; color:#fff; padding:10px 22px; border-radius:5px; text-decoration:none; font-weight:bold;"
+            >
+                <i class="fa fa-file-medical"></i> Referral Note
+            </a>
+
+            <a
+                href="<?= baseurl() ?>/admin/printPrescriptionNote/<?= $patient['user_id'] ?>/<?php if (!empty($medical_records)) echo $medical_records[0]['medical_record_id']; ?>"
+                target="_blank"
+                class="btn-print-cert"
+                style="display:inline-block; width: 250px; margin:10px 0 20px 0; background:#D81616; color:#fff; padding:10px 22px; border-radius:5px; text-decoration:none; font-weight:bold;"
+            >
+                <i class="fa fa-prescription"></i> Print Prescription
+            </a>
+
+            <a
+                href="<?= baseurl() ?>/admin/printMedicalRecordNote/<?= $patient['user_id'] ?>/<?php if (!empty($medical_records)) echo $medical_records[0]['medical_record_id']; ?>"
+                target="_blank"
+                class="btn-print-cert"
+                style="display:inline-block; width: 250px; margin:10px 0 20px 0; background:#D81616; color:#fff; padding:10px 22px; border-radius:5px; text-decoration:none; font-weight:bold;"
+            >
+                <i class="fa fa-notes-medical"></i> Print Medical Record
+            </a>
+
         </div>
 
         <div class="right-column">
-            <div class="medical-record">
-                <h2>Add Medical Record</h2>
-                <form id="medicalRecordForm" action="<?= baseurl() ?>/admin/addDiagnostic/<?= $patient['user_id'] ?>" method="post">
-                    <input type="hidden" name="service_id" value="<?= htmlspecialchars($service_id ?? '') ?>">
-                    <input type="hidden" name="appointment_id" value="<?= htmlspecialchars($_GET['appointment_id'] ?? '') ?>">
-                    
-                    <div class="form-group">
-                        <label>Service</label>
+            <?php if (!$record_exists): ?>
+                <div class="medical-record">
+                    <h2>Add Medical Record</h2>
+                    <form id="medicalRecordForm" action="<?= baseurl() ?>/admin/addDiagnostic/<?= $patient['user_id'] ?>" method="post">
+                        <input type="hidden" name="service_id" value="<?= htmlspecialchars($service_id ?? '') ?>">
+                        <input type="hidden" name="appointment_id" value="<?= htmlspecialchars($_GET['appointment_id'] ?? '') ?>">
+                        
+                        <div class="form-group">
+                            <label>Service</label>
+                            <p style="margin:0 0 10px 0; font-weight:600;">
+                                <?= htmlspecialchars($service_name ?? 'N/A') ?>
+                            </p>
+                        </div>
+
+                        <input type="hidden" name="doctor_id" value="<?= htmlspecialchars($_SESSION['doctor_id'] ?? '') ?>">
                         <p style="margin:0 0 10px 0; font-weight:600;">
-                            <?= htmlspecialchars($service_name ?? 'N/A') ?>
+                            <?= htmlspecialchars($_SESSION['name'] ?? 'Doctor') ?>
                         </p>
-                    </div>
-
-                    <input type="hidden" name="doctor_id" value="<?= htmlspecialchars($_SESSION['doctor_id'] ?? '') ?>">
-                    <p style="margin:0 0 10px 0; font-weight:600;">
-                        <?= htmlspecialchars($_SESSION['name'] ?? 'Doctor') ?>
-                    </p>
-                    
-                    <div class="form-group">
-                        <label>Allergy</label>
-                        <input type="text" name="allergy">
-                    </div>
-                    <div class="form-group">
-                        <label>Blood Pressure</label>
-                        <input type="text" name="blood_pressure">
-                    </div>
-                    <div class="form-group">
-                        <label>Heart Rate</label>
-                        <input type="text" name="heart_rate">
-                    </div>
-                    <div class="form-group">
-                        <label>Temperature</label>
-                        <input type="text" name="temperature">
-                    </div>
-                    <div class="form-group">
-                        <label>Height</label>
-                        <input type="text" name="height">
-                    </div>
-                    <div class="form-group">
-                        <label>Weight</label>
-                        <input type="text" name="weight">
-                    </div>
-                    <div class="form-group">
-                        <label>Immunization Status</label>
-                        <input type="text" name="immunization_status">
-                    </div>
-                    <div class="form-group">
-                        <label>Follow-up Date</label>
-                        <input type="date" name="follow_up_date">
-                    </div>
-                    <div class="form-group">
-                        <label>Diagnostic</label>
-                        <input type="text" name="diagnostic">
-                    </div>
-                    <button type="submit" class="add-record-btn">Save</button>
-                    
-                </form>
-            </div>
-            <!-- Success Modal -->
-            <div id="successModal" class="modal" style="display:none;">
-                <div class="modal-content">
-                    <span class="close" id="closeModal">&times;</span>
-                    <h2>Success!</h2>
-                    <p>Medical record has been added successfully.</p>
+                        
+                        <div class="form-group">
+                            <label>Allergy</label>
+                            <input type="text" name="allergy">
+                        </div>
+                        <div class="form-group">
+                            <label>Blood Pressure</label>
+                            <input type="text" name="blood_pressure">
+                        </div>
+                        <div class="form-group">
+                            <label>Heart Rate</label>
+                            <input type="text" name="heart_rate">
+                        </div>
+                        <div class="form-group">
+                            <label>Temperature</label>
+                            <input type="text" name="temperature">
+                        </div>
+                        <div class="form-group">
+                            <label>Height</label>
+                            <input type="text" name="height">
+                        </div>
+                        <div class="form-group">
+                            <label>Weight</label>
+                            <input type="text" name="weight">
+                        </div>
+                        <div class="form-group">
+                            <label>Immunization Status</label>
+                            <input type="text" name="immunization_status">
+                        </div>
+                        <div class="form-group">
+                            <label>Follow-up Date</label>
+                            <input type="date" name="follow_up_date">
+                        </div>
+                        <div class="form-group">
+                            <label>Diagnostic</label>
+                            <input type="text" name="diagnostic">
+                        </div>
+                        <button type="submit" class="add-record-btn">Save</button>
+                        
+                    </form>
                 </div>
-            </div>
-
-            <!-- No Prescription Modal -->
-            <div id="noPrescriptionModal" class="modal" style="display:none;">
-                <div class="modal-content">
-                    <span class="close" id="closeNoPrescriptionModal">&times;</span>
-                    <h2>Notice</h2>
-                    <p>Please add at least one prescription before saving.</p>
-                </div>
-            </div>
-
-            <!-- No Medical Record Modal -->
-            <div id="noMedicalRecordModal" class="modal" style="display:none;">
-                <div class="modal-content">
-                    <span class="close" id="closeNoMedicalRecordModal">&times;</span>
-                    <h2>Notice</h2>
-                    <p>No medical record has been added for this appointment. Please add a medical record before marking as complete.</p>
-                </div>
-            </div>
-
-            <!-- Record Exists Modal -->
-            <div id="recordExistsModal" class="modal" style="display:none;">
-                <div class="modal-content">
-                    <span class="close" id="closeRecordExistsModal">&times;</span>
-                    <h2>Notice</h2>
-                    <p>A medical record for this appointment already exists. You cannot add another one.</p>
-                </div>
-            </div>
-
-            <div class="prescription-section">
-                <h2>Add Prescription</h2>
-                <form id="prescriptionForm" action="<?= baseurl() ?>/admin/addPrescription/<?= $patient['patient_id'] ?>" method="post">
-                    <input type="hidden" name="medical_record_id" id="medical_record_id">
-                    <div id="prescriptions-list">
-                        <!-- Prescription items will be added here -->
+                <!-- Success Modal -->
+                <div id="successModal" class="modal" style="display:none;">
+                    <div class="modal-content">
+                        <span class="close" id="closeModal">&times;</span>
+                        <h2>Success!</h2>
+                        <p>Medical record has been added successfully.</p>
                     </div>
-                    <button type="button" class="add-prescription-btn" onclick="addPrescription()">Add Prescription</button>
-                    <button type="submit" class="add-record-btn" style="background:#D81616;">Save Prescriptions</button>
-                </form>
-            </div>
+                </div>
+
+                <!-- No Prescription Modal -->
+                <div id="noPrescriptionModal" class="modal" style="display:none;">
+                    <div class="modal-content">
+                        <span class="close" id="closeNoPrescriptionModal">&times;</span>
+                        <h2>Notice</h2>
+                        <p>Please add at least one prescription before saving.</p>
+                    </div>
+                </div>
+
+                <!-- No Medical Record Modal -->
+                <div id="noMedicalRecordModal" class="modal" style="display:none;">
+                    <div class="modal-content">
+                        <span class="close" id="closeNoMedicalRecordModal">&times;</span>
+                        <h2>Notice</h2>
+                        <p>No medical record has been added for this appointment. Please add a medical record before marking as complete.</p>
+                    </div>
+                </div>
+
+                <!-- Record Exists Modal -->
+                <div id="recordExistsModal" class="modal" style="display:none;">
+                    <div class="modal-content">
+                        <span class="close" id="closeRecordExistsModal">&times;</span>
+                        <h2>Notice</h2>
+                        <p>A medical record for this appointment already exists. You cannot add another one.</p>
+                    </div>
+                </div>
+
+                <div class="prescription-section">
+                    <h2>Add Prescription</h2>
+                    <form id="prescriptionForm" action="<?= baseurl() ?>/admin/addPrescription/<?= $patient['patient_id'] ?>" method="post">
+                        <input type="hidden" name="medical_record_id" id="medical_record_id">
+                        <div id="prescriptions-list">
+                            <!-- Prescription items will be added here -->
+                        </div>
+                        <button type="button" class="add-prescription-btn" onclick="addPrescription()">Add Prescription</button>
+                        <button type="submit" class="add-record-btn" style="background:#D81616;">Save Prescriptions</button>
+                    </form>
+                </div>
+            <?php else: ?>
+                <div class="notice" style="color: #D81616; font-weight: bold; margin: 30px 0;">
+                    A medical record for this appointment already exists. You cannot add another one.
+                </div>
+            <?php endif; ?>
+            
         </div>
     </div>
 <script>
