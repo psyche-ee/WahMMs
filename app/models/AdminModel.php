@@ -524,13 +524,15 @@ class AdminModel extends Model {
                 u.email,
                 up.firstname AS patient_name,
                 (
-                    SELECT MAX(sent_at) 
+                    SELECT sent_at 
                     FROM prescription_reminder_log 
-                    WHERE prescription_id = p.prescription_id
+                    WHERE prescription_id = p.prescription_id 
+                    ORDER BY sent_at DESC 
+                    LIMIT 1
                 ) AS last_reminder_sent_at
             FROM prescription p
             JOIN medical_record mr ON p.medical_record_id = mr.medical_record_id
-            JOIN patient pat ON mr.patient_id = pat.patient_id
+            JOIN patient pat ON mr.patient_id = pat.user_id
             JOIN users u ON pat.user_id = u.id
             LEFT JOIN user_profiles up ON up.user_id = u.id
             WHERE p.duration IS NULL OR p.time + p.duration > NOW()

@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('Asia/Manila');
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/start.php';
 require_once __DIR__ . '/models/AdminModel.php';
@@ -10,6 +10,7 @@ $adminModel = new AdminModel();
 $prescriptions = $adminModel->getActivePrescriptionsForReminders();
 
 foreach ($prescriptions as $prescription) {
+    
     // 2. Check if a reminder should be sent now
     if (shouldSendReminder($prescription)) {
         
@@ -30,13 +31,17 @@ foreach ($prescriptions as $prescription) {
 
 // Helper: decide if reminder is due
 function shouldSendReminder($prescription) {
-    // Example: send if no reminder sent in the last interval
     $lastSent = $prescription['last_reminder_sent_at'];
-    $frequency = $prescription['frequency']; // e.g., "every 8 hours"
+    $frequency = $prescription['frequency'];
     $interval = parseFrequencyToSeconds($frequency);
 
-    if (!$lastSent) return true; // never sent
-    return (time() - strtotime($lastSent)) >= $interval;
+    $now = time();
+    $lastSentTime = $lastSent ? (new DateTime($lastSent))->getTimestamp() : 0;
+    $diff = $now - $lastSentTime;
+
+    if (!$lastSent) return true;
+    return $diff >= $interval;
+    // return true;
 }
 
 // Helper: convert frequency string to seconds
@@ -50,6 +55,12 @@ function parseFrequencyToSeconds($frequency) {
     }
     if (preg_match('/once a day/', $frequency)) {
         return 86400;
+    }
+    if (preg_match('/(\d+) times? a day/', $frequency, $m)) {
+        $times = (int)$m[1];
+        if ($times > 0) {
+            return (int)(86400 / $times);
+        }
     }
     // Add more rules as needed
     return 86400; // default: once a day
