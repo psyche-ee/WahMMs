@@ -88,7 +88,11 @@ $GLOBALS['config'] = array(
 
         // prescription notification
         "email_prescription_notification" => "6",
-        "email_prescription_notification_subject" => "New Prescription Added"
+        "email_prescription_notification_subject" => "New Prescription Added",
+
+        // medication reminder
+        "email_medication_reminder" => "7",
+        "email_medication_reminder_subject" => "Medication Reminder"
     ),
 
 

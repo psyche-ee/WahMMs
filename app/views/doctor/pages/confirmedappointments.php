@@ -8,6 +8,26 @@
     <link rel="stylesheet" href="<?= baseurl()?>/public/styles/doctor/appointments.css">
     <link rel="stylesheet" href="<?= baseurl()?>/public/styles/doctor/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .btn-cancel-all {
+            background: #D81616;
+            color: #fff;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-cancel-all:hover {
+            background: #b31313;
+        }
+    </style>
 </head>
 <body>
     <?php require __DIR__ . '/../common/sidebar.php'; ?>
@@ -15,6 +35,11 @@
     <main>
         <div class="table_container">
             <h1>Confirmed Appointments</h1>
+            <form method="post" action="<?= baseurl() ?>/admin/autocancelappointments" style="margin-bottom: 20px; text-align: right;">
+                <button type="submit" class="btn-cancel-all">
+                    <i class="fa fa-ban"></i> Cancel All Unattended Appointments
+                </button>
+            </form>
             <div class="table_scroll">
                 <table class="appointments_table">
                     <thead>

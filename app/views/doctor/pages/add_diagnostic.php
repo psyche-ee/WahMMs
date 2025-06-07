@@ -34,6 +34,11 @@
             cursor: pointer;
         }
         .close:hover { color: #D81616; }
+
+        .btn-print-cert:hover {
+            background: #b31313;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -98,6 +103,23 @@
                     <p>No medical records found.</p>
                 <?php endif; ?>
             </div>
+            <a
+                href="<?= baseurl() ?>/admin/printMedicalCertificate/<?= $patient['user_id'] ?>/<?php if (!empty($medical_records)) echo $medical_records[0]['medical_record_id']; ?>"
+                target="_blank"
+                class="btn-print-cert"
+                style="display:inline-block; margin:20px 0; background:#D81616; color:#fff; padding:10px 22px; border-radius:5px; text-decoration:none; font-weight:bold;"
+            >
+                <i class="fa fa-print"></i> Print Medical Certificate
+            </a>
+
+            <a
+                href="<?= baseurl() ?>/admin/printLaboratoryRequest/<?= $patient['user_id'] ?>/<?php if (!empty($medical_records)) echo $medical_records[0]['medical_record_id']; ?>"
+                target="_blank"
+                class="btn-print-cert"
+                style="display:inline-block; margin:10px 0 20px 0; background:#D81616; color:#fff; padding:10px 22px; border-radius:5px; text-decoration:none; font-weight:bold;"
+            >
+                <i class="fa fa-flask"></i> Laboratory Request
+            </a>
         </div>
 
         <div class="right-column">
@@ -218,6 +240,7 @@
             <input type="text" name="prescriptions[${index}][prescription_name]" placeholder="Prescription Name" required>
             <input type="text" name="prescriptions[${index}][dosage]" placeholder="Dosage" required>
             <input type="text" name="prescriptions[${index}][frequency]" placeholder="Frequency" required>
+            <input type="text" name="prescriptions[${index}][duration]" placeholder="Duration (e.g. 7 days, 1 month)" required>
             <button type="button" class="delete-prescription-btn" onclick="this.parentElement.remove()">Delete</button>
         `;
         container.appendChild(div);

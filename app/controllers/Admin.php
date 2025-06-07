@@ -219,7 +219,8 @@ class Admin extends Controller {
                         'medical_record_id' => $medical_record_id,
                         'dosage' => $prescription['dosage'],
                         'frequency' => $prescription['frequency'],
-                        'prescription_name' => $prescription['prescription_name']
+                        'prescription_name' => $prescription['prescription_name'],
+                        'duration' => $prescription['duration'] ?? null
                     ];
                     $this->adminmodel->addPrescription($data);
                 }
@@ -249,6 +250,38 @@ class Admin extends Controller {
                 $this->redirect->to('admin/addDiagnostic/' . $medical_record_id . '?prescription_error=1');
             }
         }
+    }
+
+    public function autocancelappointments() {
+        
+        $this->adminmodel->autoCancelUnattendedAppointments();
+        // Optionally, redirect or show a message
+        $this->redirect->to('pages/confirmedappointments');
+    }
+
+    public function printMedicalCertificate($patient_id, $record_id) {
+        $patient = $this->adminmodel->getPatientInfo($patient_id);
+        $record = $this->adminmodel->getMedicalRecordById($record_id);
+        $doctor_name = $_SESSION['name'] ?? 'Attending Physician';
+        $diagnosis = $record['diagnostic'] ?? '';
+        $days = $record['rest_days'] ?? '';
+        $this->view('doctor/pages/medical_certificate', [
+            'patient' => $patient,
+            'diagnosis' => $diagnosis,
+            'days' => $days,
+            'doctor_name' => $doctor_name
+        ]);
+    }
+
+    public function printLaboratoryRequest($patient_id, $record_id) {
+        $patient = $this->adminmodel->getPatientInfo($patient_id);
+        $record = $this->adminmodel->getMedicalRecordById($record_id);
+        $doctor_name = $_SESSION['name'] ?? 'Attending Physician';
+        $this->view('doctor/pages/laboratory_request', [
+            'patient' => $patient,
+            'record' => $record,
+            'doctor_name' => $doctor_name
+        ]);
     }
 
 }

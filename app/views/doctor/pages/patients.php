@@ -30,7 +30,10 @@
                     <tbody>
                         <?php if (!empty($patients)): ?>
                             <?php foreach ($patients as $patient): ?>
-                                <tr>
+                                <tr 
+                                    class="clickable-row"
+                                    data-href="<?= baseurl() ?>/admin/patientInfo/<?= $patient['user_id'] ?>"
+                                    style="cursor: pointer;">
                                     <td><?= htmlspecialchars($patient['user_id']) ?></td>
                                     <td><?= htmlspecialchars($patient['firstname'] . ' ' . $patient['lastname']) ?></td>
                                     <!-- <td><?= htmlspecialchars($patient['gender']) ?></td>
@@ -59,5 +62,15 @@
             </div>
         </div>
     </main>
+<!-- <script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.clickable-row').forEach(function(row) {
+        row.addEventListener('click', function() {
+            window.location = this.getAttribute('data-href');
+        });
+    });
+});
+</script> -->
 </body>
 </html>
+<script src="<?= baseurl() ?>/public/scripts/DoctorWahing.js"></script>

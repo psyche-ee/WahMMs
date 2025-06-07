@@ -130,6 +130,15 @@ private function __construct(){}
                 $mail->Subject = Config::get('mailer/email_prescription_notification_subject');
                 $mail->AddAddress($email);
                 break;
+
+            case(Config::get('mailer/email_medication_reminder')):
+                $mail->Body = Templates::getMedicationReminderBody($userData, $data);
+                $mail->SetFrom(Config::get('mailer/email_from'), Config::get('mailer/email_from_name'));
+                $mail->AddReplyTo(Config::get('mailer/email_reply_to'));
+                $mail->Subject = "Medication Reminder";
+                $mail->AddAddress($email);
+                break;
+                
         }
 
         if ($mail->Send()) {

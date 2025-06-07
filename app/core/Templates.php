@@ -135,4 +135,17 @@ class Templates {
       return self::wrapEmailTemplate($body, 'Prescription');
    }
 
+   public static function getMedicationReminderBody($userData, $data) {
+      $body = "";
+      $body .= "Dear " . htmlspecialchars($userData["name"]) . ",<br><br>";
+      $body .= "This is a friendly reminder to take your medication:<br><br>";
+      $body .= "<strong>Medication:</strong> " . htmlspecialchars($data["prescription_name"]) . "<br>";
+      $body .= "<strong>Dosage:</strong> " . htmlspecialchars($data["dosage"]) . "<br>";
+      $body .= "<strong>Frequency:</strong> " . htmlspecialchars($data["frequency"]) . "<br><br>";
+      $body .= "Please follow your prescription as advised by your doctor.<br><br>";
+      $body .= "If you have any questions or concerns, please contact the clinic.<br><br>";
+      $body .= "Stay healthy!<br>WahMMs";
+      return self::wrapEmailTemplate($body, 'Medication Reminder');
+   }
+
 }

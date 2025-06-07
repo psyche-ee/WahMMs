@@ -117,6 +117,21 @@ class AdminModel extends Model {
         return $this->getSpecificAppointments('completed');
     }
 
+    public function autoCancelUnattendedAppointments($date = null) {
+        // Default to today if no date is provided
+        if ($date === null) {
+            $date = date('Y-m-d');
+        }
+        $stmt = $this->db->prepare("
+            UPDATE appointments
+            SET status = 'cancelled'
+            WHERE status = 'confirmed'
+            AND appointment_date <= :date
+        ");
+        $stmt->bindValue(':date', $date);
+        return $stmt->execute();
+    }
+
     public function addAction($id, $status) {
         $stmt = $this->db->prepare("UPDATE appointments SET status = :editstatus WHERE id = :id");
         $stmt->bindValue(':editstatus', $status);
@@ -435,14 +450,15 @@ class AdminModel extends Model {
     public function addPrescription($data)
     {
         $stmt = $this->db->prepare("
-            INSERT INTO prescription (medical_record_id, dosage, frequency, prescription_name)
-            VALUES (:medical_record_id, :dosage, :frequency, :prescription_name)
+            INSERT INTO prescription (medical_record_id, dosage, frequency, prescription_name, duration)
+            VALUES (:medical_record_id, :dosage, :frequency, :prescription_name, :duration)
             RETURNING prescription_id
         ");
         $stmt->bindValue(':medical_record_id', $data['medical_record_id'], PDO::PARAM_INT);
         $stmt->bindValue(':dosage', $data['dosage'], PDO::PARAM_STR);
         $stmt->bindValue(':frequency', $data['frequency'], PDO::PARAM_STR);
         $stmt->bindValue(':prescription_name', $data['prescription_name'], PDO::PARAM_STR);
+        $stmt->bindValue(':duration', $data['duration'], PDO::PARAM_STR); // INTERVAL as string (e.g. '7 days')
         $stmt->execute();
         return $stmt->fetchColumn(); // returns the new prescription_id
     }
@@ -492,6 +508,45 @@ class AdminModel extends Model {
             return $stmt->fetchColumn();
         }
         return 0; // or handle error as needed
+    }
+
+    // ------------------------------ Medication Tracking ------------------------------
+    // Get all prescriptions that are still active (not expired)
+    public function getActivePrescriptionsForReminders() {
+        $stmt = $this->db->prepare("
+            SELECT 
+                p.prescription_id,
+                p.medical_record_id,
+                p.dosage,
+                p.frequency,
+                p.prescription_name,
+                p.duration,
+                u.email,
+                up.firstname AS patient_name,
+                (
+                    SELECT MAX(sent_at) 
+                    FROM prescription_reminder_log 
+                    WHERE prescription_id = p.prescription_id
+                ) AS last_reminder_sent_at
+            FROM prescription p
+            JOIN medical_record mr ON p.medical_record_id = mr.medical_record_id
+            JOIN patient pat ON mr.patient_id = pat.patient_id
+            JOIN users u ON pat.user_id = u.id
+            LEFT JOIN user_profiles up ON up.user_id = u.id
+            WHERE p.duration IS NULL OR p.time + p.duration > NOW()
+        ");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Log that a reminder was sent
+    public function logPrescriptionReminder($prescription_id) {
+        $stmt = $this->db->prepare("
+            INSERT INTO prescription_reminder_log (prescription_id, sent_at)
+            VALUES (:prescription_id, NOW())
+        ");
+        $stmt->bindValue(':prescription_id', $prescription_id, PDO::PARAM_INT);
+        $stmt->execute();
     }
 
 }
