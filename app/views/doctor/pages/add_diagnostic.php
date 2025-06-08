@@ -158,9 +158,10 @@ $record_exists = isset($_GET['error']) && $_GET['error'] === 'record_exists';
             <?php if (!$record_exists): ?>
                 <div class="medical-record">
                     <h2>Add Medical Record</h2>
-                    <form id="medicalRecordForm" action="<?= baseurl() ?>/admin/addDiagnostic/<?= $patient['user_id'] ?>" method="post">
+                    <form id="medicalRecordForm" action="<?= baseurl() ?>/admin/addDiagnostic/<?= $patient['patient_id'] ?>" method="post">
                         <input type="hidden" name="service_id" value="<?= htmlspecialchars($service_id ?? '') ?>">
                         <input type="hidden" name="appointment_id" value="<?= htmlspecialchars($_GET['appointment_id'] ?? '') ?>">
+                        <input type="hidden" name="patient_id" value="<?= htmlspecialchars($patient['patient_id'] ?? '') ?>">
                         
                         <div class="form-group">
                             <label>Service</label>
@@ -214,7 +215,25 @@ $record_exists = isset($_GET['error']) && $_GET['error'] === 'record_exists';
                         
                     </form>
                 </div>
-                <!-- Success Modal -->
+
+                <div class="prescription-section">
+                    <h2>Add Prescription</h2>
+                    <form id="prescriptionForm" action="<?= baseurl() ?>/admin/addPrescription/<?= $patient['patient_id'] ?>" method="post">
+                        <input type="hidden" name="medical_record_id" id="medical_record_id">
+                        <div id="prescriptions-list">
+                            <!-- Prescription items will be added here -->
+                        </div>
+                        <button type="button" class="add-prescription-btn" onclick="addPrescription()">Add Prescription</button>
+                        <button type="submit" class="add-record-btn" style="background:#D81616;">Save Prescriptions</button>
+                    </form>
+                </div>
+            <?php else: ?>
+                <div class="notice" style="color: #D81616; font-weight: bold; margin: 30px 0;">
+                    A medical record for this appointment already exists. You cannot add another one.
+                </div>
+            <?php endif; ?>
+
+            <!-- Success Modal -->
                 <div id="successModal" class="modal" style="display:none;">
                     <div class="modal-content">
                         <span class="close" id="closeModal">&times;</span>
@@ -249,23 +268,6 @@ $record_exists = isset($_GET['error']) && $_GET['error'] === 'record_exists';
                         <p>A medical record for this appointment already exists. You cannot add another one.</p>
                     </div>
                 </div>
-
-                <div class="prescription-section">
-                    <h2>Add Prescription</h2>
-                    <form id="prescriptionForm" action="<?= baseurl() ?>/admin/addPrescription/<?= $patient['patient_id'] ?>" method="post">
-                        <input type="hidden" name="medical_record_id" id="medical_record_id">
-                        <div id="prescriptions-list">
-                            <!-- Prescription items will be added here -->
-                        </div>
-                        <button type="button" class="add-prescription-btn" onclick="addPrescription()">Add Prescription</button>
-                        <button type="submit" class="add-record-btn" style="background:#D81616;">Save Prescriptions</button>
-                    </form>
-                </div>
-            <?php else: ?>
-                <div class="notice" style="color: #D81616; font-weight: bold; margin: 30px 0;">
-                    A medical record for this appointment already exists. You cannot add another one.
-                </div>
-            <?php endif; ?>
             
         </div>
     </div>

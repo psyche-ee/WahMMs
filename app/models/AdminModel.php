@@ -351,15 +351,22 @@ class AdminModel extends Model {
                 up.created_at AS profile_created_at,
                 up.updated_at AS profile_updated_at
             FROM patient p
-            JOIN users u ON u.id = p.user_id
+            JOIN users u ON p.user_id = u.id
             LEFT JOIN user_profiles up ON up.user_id = u.id
-            WHERE up.user_id = :user_id
+            WHERE u.id = :user_id
         ");
 
         $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getPatientIdByUserId($user_id) {
+        $stmt = $this->db->prepare("SELECT patient_id FROM patient WHERE patient.user_id = :user_id LIMIT 1");
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchColumn(); 
     }
 
     public function getPatientMedicalRecords($patient_id) {
@@ -532,7 +539,7 @@ class AdminModel extends Model {
                 ) AS last_reminder_sent_at
             FROM prescription p
             JOIN medical_record mr ON p.medical_record_id = mr.medical_record_id
-            JOIN patient pat ON mr.patient_id = pat.user_id
+            JOIN patient pat ON mr.patient_id = pat.patient_id
             JOIN users u ON pat.user_id = u.id
             LEFT JOIN user_profiles up ON up.user_id = u.id
             WHERE p.duration IS NULL OR p.time + p.duration > NOW()

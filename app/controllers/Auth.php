@@ -71,7 +71,7 @@ class Auth extends Controller {
                 if (!$result) {
                     return $this->view('500');
                 } else {
-                    $data['success'] = 'Account created successfully. Check your email to activate your account within 24 hours';
+                    $data['success'] = 'Account created successfully. Check your email to activate your account. The activation link will expire in 15 minutes.';
                     return $this->view('auth/signup', ['data' => $data]);
                 }
                 
@@ -197,7 +197,7 @@ class Auth extends Controller {
                 $result = $this->authmodel->forgotPassword($email);
                 if($result) {
                     $_SESSION['success'] = true;
-                    Session::set('success', 'reset link have been sent to your registered email, check and validate within 24 hours.');
+                    Session::set('success', 'A reset link has been sent to your registered email. The link will expire in 15 minutes.');
                     return $this->redirect->to('auth/forgotpassword/');
                 } else {
                     $data['erremail'] = 'Something went wrong, try again.';
@@ -316,22 +316,22 @@ class Auth extends Controller {
         if (!isset($_SESSION['unverified_email'])) {
             return $this->redirect->to('auth/signin');
         }
-    
+
         if ($this->request->isPost()) {
-            
             $email = $_SESSION['unverified_email'];
-        
             $result = $this->authmodel->resendVerificationEmail($email);
-    
-            if ($result) {
-                Session::set('success', 'A new verification link has been sent to your email.');
+
+            if ($result === 'cooldown') {
+                Session::set('danger', 'Please wait a few minutes before requesting another verification email.');
+            } elseif ($result) {
+                Session::set('success', 'A new verification link has been sent to your email. The link will expire in 15 minutes.');
             } else {
                 Session::set('danger', 'Something went wrong. Please try again later.');
             }
-    
+
             return $this->redirect->to('auth/resendverification');
         }
-    
+
         // GET request – just show the page
         $this->view('auth/resend-verification');
     }

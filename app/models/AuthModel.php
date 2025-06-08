@@ -206,20 +206,23 @@ class AuthModel extends Model {
 
     public function isEmailVerificationTokenValid($userId, $emailToken) {
         $user = $this->findUserById($userId);
-    
+
         if (!$user) {
             error_log("User not found with ID: $userId");
             return false;
         }
-    
-        if ($user['email_token'] === $emailToken) {
-            error_log("Email verification token is valid for user ID: $userId");
+
+        $now = time();
+        $lastVerification = is_numeric($user['email_last_verification'])
+            ? (int)$user['email_last_verification']
+            : strtotime($user['email_last_verification']);
+
+        if ($user['email_token'] === $emailToken && ($now - $lastVerification) <= 900) {
             return true;
         } else {
-            error_log("Invalid token for user ID: $userId. Expected: " . $user['email_token'] . ", Provided: $emailToken");
+            error_log("Invalid or expired token for user ID: $userId.");
+            return false;
         }
-    
-        return false;
     }
     
 
@@ -247,30 +250,48 @@ class AuthModel extends Model {
     }
 
     public function resendVerificationEmail($email) {
-        $this->db->prepare("SELECT * FROM users WHERE email = :email AND is_email_activated = 0 LIMIT 1");
+        $this->db->prepare("SELECT * FROM users WHERE email = :email AND is_email_activated = false LIMIT 1");
         $this->db->bindValue(':email', $email);
         $this->db->execute();
         $user = $this->db->fetchAssociative();
-    
+
         if (!$user) {
             return false;
         }
-    
+
+        // Cooldown: 2 minutes (120 seconds)
+        $now = time();
+        if (!empty($user['email_last_verification']) && ($now - $user['email_last_verification']) < 120) {
+            // Too soon to resend
+            return 'cooldown';
+        }
+
         // Use email_token and generate a new one if missing
         if (empty($user['email_token'])) {
             $token = bin2hex(random_bytes(32));
-            $this->db->prepare("UPDATE users SET email_token = :token WHERE id = :id");
+            $this->db->prepare("UPDATE users SET email_token = :token, email_last_verification = :now WHERE id = :id");
             $this->db->bindValue(':token', $token);
+            $this->db->bindValue(':now', $now);
             $this->db->bindValue(':id', $user['id']);
             $this->db->execute();
         } else {
             $token = $user['email_token'];
+            // Always update the timestamp when resending
+            $this->db->prepare("UPDATE users SET email_last_verification = :now WHERE id = :id");
+            $this->db->bindValue(':now', $now);
+            $this->db->bindValue(':id', $user['id']);
+            $this->db->execute();
         }
-    
+
         $encryptedId = Encryption::encrypt($user['id']);
         $verificationLink = baseurl() . "auth/verifyuser?id={$encryptedId}&token={$token}";
-    
-        return Email::sendEmail(Config::get('mailer/email_email_verification'), $email, ["name" => $user['name'], "id" => $user['id']], ["email_token" => $token]);
+
+        return Email::sendEmail(
+            Config::get('mailer/email_email_verification'),
+            $email,
+            ["name" => $user['name'], "id" => $user['id']],
+            ["email_token" => $token]
+        );
     }
 
     public function isForgottenPasswordTokenValid($userId, $token) {
@@ -278,21 +299,18 @@ class AuthModel extends Model {
         $this->db->bindValue(':user_id', $userId);
         $this->db->bindValue(':token', $token);
         $this->db->execute();
-    
+
         $record = $this->db->fetchAssociative();
-    
+
         if (!$record) {
             return false;
         }
-    
-        // Optionally, check for token expiration
-        $tokenLifetime = 3600; // e.g. 1 hour
-        $currentTime = time();
-    
-        if (($currentTime - $record['password_last_reset']) > $tokenLifetime) {
+
+        // 15 minutes = 900 seconds
+        if ((time() - $record['password_last_reset']) > 900) {
             return false;
         }
-    
+
         return true;
     }
 

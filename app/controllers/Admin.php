@@ -155,11 +155,13 @@ class Admin extends Controller {
             return;
         }
 
+        $patient = $this->adminmodel->getPatientInfo($id);
+
         if ($this->request->isPost()) {
             // Collect form data
             $data = [
                 'service_id'          => $this->request->data('service_id'), // You may need to map service_name to service_id
-                'patient_id'          => $id,
+                'patient_id'          => $this->request->data('patient_id'),
                 'allergy'             => $this->request->data('allergy'),
                 'blood_pressure'      => $this->request->data('blood_pressure'),
                 'heart_rate'          => $this->request->data('heart_rate'),
@@ -198,7 +200,7 @@ class Admin extends Controller {
         $service_name = $_GET['service_name'] ?? null;
 
         $data['patient'] = $this->adminmodel->getPatientInfo($id);
-        $data['medical_records'] = $this->adminmodel->getPatientMedicalRecords($id);
+        $data['medical_records'] = $this->adminmodel->getPatientMedicalRecords($patient['patient_id']);
         $data['service_id'] = $service_id;
         $data['service_name'] = $service_name;
         $this->view('doctor/pages/add_diagnostic', $data);
