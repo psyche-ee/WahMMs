@@ -1,4 +1,5 @@
 <?php
+
 $current = $_SERVER['REQUEST_URI'];
 function isActive($path) {
     return strpos($_SERVER['REQUEST_URI'], $path) !== false ? 'active' : '';
@@ -48,12 +49,22 @@ $settingsActive = isActive('/pages/manageannouncements') ||
                 <a href="<?= baseurl() ?>/pages/manageannouncements" class="<?= isActive('/pages/manageannouncements') ?>">Announcements</a>
                 <a href="<?= baseurl() ?>/pages/manageavailability" class="<?= isActive('/pages/manageavailability') ?>">Availability</a>
                 <a href="<?= baseurl() ?>/pages/manageservices" class="<?= isActive('/pages/manageservices') ?>">Services</a>
-                <a href="#" class="<?= isActive('/pages/managecomments') ?>">Comments</a>
+
                 <a href="<?= baseurl() ?>/auth/changepassword" class="<?= isActive('/auth/changepassword') ?>">Change Password</a>
             </div>
         </div>
-        <a href="<?= baseurl() ?>/pages/home"><i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span></a>
+        <a href="#" id="doctor-logout-link"><i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span></a>
     </nav>
+    <!-- Logout Confirmation Modal -->
+    <dialog id="doctor-logout-modal" class="logout_confirm_modal">
+        <h1>Are you sure you want to logout?</h1>
+        <div class="logout_button_container">
+            <form action="<?= baseurl() ?>/auth/logout" method="POST">
+                <button type="submit" id="logout">Yes</button>
+            </form>
+            <button type="button" id="cancel-doctor-logout">No</button>
+        </div>
+    </dialog>
 </aside>
 
 <script>
@@ -76,5 +87,13 @@ $settingsActive = isActive('/pages/manageannouncements') ||
         e.preventDefault();
         appointmentsOptions.style.display = appointmentsOptions.style.display === 'flex' ? 'none' : 'flex';
         appointmentsToggle.classList.toggle('open');
+    });
+
+    document.getElementById('doctor-logout-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('doctor-logout-modal').showModal();
+    });
+    document.getElementById('cancel-doctor-logout').addEventListener('click', function() {
+        document.getElementById('doctor-logout-modal').close();
     });
 </script>

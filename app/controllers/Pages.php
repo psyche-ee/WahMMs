@@ -192,16 +192,23 @@ class Pages extends Controller {
     }
 
     public function doctordashboard() {
+        if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'doctor') {
+            return $this->redirect->to('pages/home');
+        }
         $appointment_data = [];
         $adminModel = $this->model('AdminModel');
         $appointments = $adminModel->getDailyAppointments();
         $appointment_data['confirmed_appointments'] = $adminModel->getTotalAppointments('confirmed');
         $appointment_data['pending_appointments'] = $adminModel->getTotalAppointments('pending');
         $appointment_data['total_patients'] = $adminModel->getTotalPatients();
+
         $this->view('doctor/pages/dashboard', ['appointments' => $appointments, 'appointment_data' => $appointment_data]);
     }
 
     public function doctorappointments() {
+        if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'doctor') {
+            return $this->redirect->to('pages/home');
+        }
         $adminModel = $this->model('AdminModel');
         $appointments = $adminModel->getAllAppointments();
 
@@ -209,6 +216,9 @@ class Pages extends Controller {
     }
 
     public function pendingappointments() {
+        if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'doctor') {
+            return $this->redirect->to('pages/home');
+        }
         $adminModel = $this->model('AdminModel');
         $appointments = $adminModel->getPendingAppointments();
 
@@ -216,6 +226,9 @@ class Pages extends Controller {
     }
 
     public function confirmedappointments() {
+        if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'doctor') {
+            return $this->redirect->to('pages/home');
+        }
         $adminModel = $this->model('AdminModel');
         $appointments = $adminModel->getConfirmedAppointments();
 
@@ -223,6 +236,9 @@ class Pages extends Controller {
     }
 
     public function declinedappointments() {
+        if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'doctor') {
+            return $this->redirect->to('pages/home');
+        }
         $adminModel = $this->model('AdminModel');
         $appointments = $adminModel->getCancelledAppointments();
 
@@ -230,6 +246,9 @@ class Pages extends Controller {
     }
 
     public function completedappointments() {
+        if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'doctor') {
+            return $this->redirect->to('pages/home');
+        }
         $adminModel = $this->model('AdminModel');
         $appointments = $adminModel->getCompletedAppointments();
 
@@ -237,6 +256,9 @@ class Pages extends Controller {
     }
 
     public function doctorpatients() {
+        if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'doctor') {
+            return $this->redirect->to('pages/home');
+        }
         $adminModel = $this->model('AdminModel');
         $patients = $adminModel->getAllPatients();
 
@@ -351,16 +373,25 @@ class Pages extends Controller {
     }
 
     public function manageannouncements() {
+        if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'doctor') {
+            return $this->redirect->to('pages/home');
+        }
         $announcements = $this->model('AdminModel')->getAnnouncements();
         $this->view('doctor/pages/manageannouncements', ['announcements' => $announcements]);
     }
 
     public function manageavailability() {
+        if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'doctor') {
+            return $this->redirect->to('pages/home');
+        }
         $businesshours = $this->model('AdminModel')->getBusinessHours();
         $this->view('doctor/pages/manageavailability', ['businesshours' => $businesshours]);
     }
 
     public function manageservices() {
+        if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'doctor') {
+            return $this->redirect->to('pages/home');
+        }
         $services = $this->model('AdminModel')->getServices();
         $this->view('doctor/pages/manageservices', ['services' => $services]);
     }

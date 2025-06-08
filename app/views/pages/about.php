@@ -19,95 +19,14 @@
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5485.941602361745!2d123.94595466983199!3d10.270003868251031!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a99a40cb6f07c1%3A0x7c4f0a0aa612274a!2sIbabao%20Health%20Station!5e1!3m2!1sen!2sph!4v1742721490749!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
 
+            
+        </div>
+
+        <div class="container2">
             <div class="social-icon">
                 <a href="#"><i class="fa-brands fa-facebook"></i> <span>Wahing Medical Clinic</span></a>
                 <a href="#"><i class="fa-regular fa-envelope"></i> <span>wahingmedicalclinic@gmail.com</span></a>
                 <a href="#"><i class="fa-brands fa-instagram"></i> <span>wahingmedicalclinic</span></a>
-            </div>
-        </div>
-
-        <div class="container2">
-            <h2>Reviews & Comments</h2>
-            <div class="comments">
-                <div class="comment-box">
-                    <div class="star">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                    </div>
-    
-                    <div class="pat_profile">
-                        <img src="<?= baseurl()?>/public/assets/About/profile_pic1.jpg" alt="">
-                        <h5>Gabriel Matthew Cabije</h5>
-                    </div>
-    
-                    <div class="message">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi totam 
-                            sequi accusamus dolorem, deleniti omnis aspernatur beatae earum est.</p>
-                    </div>
-                </div>
-
-                <div class="comment-box">
-                    <div class="star">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                    </div>
-    
-                    <div class="pat_profile">
-                        <img src="<?= baseurl()?>/public/assets/About/profile_pic2.jpg" alt="">
-                        <h5>Gabriel Matthew Cabije</h5>
-                    </div>
-    
-                    <div class="message">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi totam 
-                            sequi accusamus dolorem, deleniti omnis aspernatur beatae earum est.</p>
-                    </div>
-                </div>
-
-                <div class="comment-box">
-                    <div class="star">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                    </div>
-    
-                    <div class="pat_profile">
-                        <img src="<?= baseurl()?>/public/assets/About/profile_pic3.jpg" alt="">
-                        <h5>Gabriel Matthew Cabije</h5>
-                    </div>
-    
-                    <div class="message">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi totam 
-                            sequi accusamus dolorem, deleniti omnis aspernatur beatae earum est.</p>
-                    </div>
-                </div>
-
-                <div class="comment-box">
-                    <div class="star">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                    </div>
-    
-                    <div class="pat_profile">
-                        <img src="<?= baseurl()?>/public/assets/About/profile_pic4.jpg" alt="">
-                        <h5>Gabriel Matthew Cabije</h5>
-                    </div>
-    
-                    <div class="message">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi totam 
-                            sequi accusamus dolorem, deleniti omnis aspernatur beatae earum est.</p>
-                    </div>
-                </div>
             </div>
     
         </div>

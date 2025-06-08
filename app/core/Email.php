@@ -138,6 +138,14 @@ private function __construct(){}
                 $mail->Subject = "Medication Reminder";
                 $mail->AddAddress($email);
                 break;
+
+            // case(Config::get('mailer/email_password_changed')):
+            //     $mail->Body = Templates::getPasswordChangedBody($userData, $data);
+            //     $mail->SetFrom(Config::get('mailer/email_from'), Config::get('mailer/email_from_name'));
+            //     $mail->AddReplyTo(Config::get('mailer/email_reply_to'));
+            //     $mail->Subject = Config::get('mailer/email_password_changed_subject');
+            //     $mail->AddAddress($email);
+            //     break;
                 
         }
 

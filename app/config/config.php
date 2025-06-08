@@ -93,6 +93,10 @@ $GLOBALS['config'] = array(
         // medication reminder
         "email_medication_reminder" => "7",
         "email_medication_reminder_subject" => "Medication Reminder"
+
+        // // password changed notification
+        // 'mailer/email_password_changed' => "password_changed",
+        // 'mailer/email_password_changed_subject' => 'Your Password Was Changed',
     ),
 
 

@@ -157,6 +157,7 @@ class Auth extends Controller {
                         if ($doctor) {
                             $_SESSION['doctor_id'] = $doctor['doctor_id'];
                             $_SESSION['name'] = $doctor['name'];
+                            $_SESSION['role'] = 'doctor';
                         }
                     }
                     $this->redirect->to('pages/doctordashboard');
@@ -294,10 +295,13 @@ class Auth extends Controller {
                 $result = $this->authmodel->updatePassword($_SESSION['user_id'], $newPassword, $confirmPassword);
                 if ($result) {
                     Session::set('success', 'Password changed successfully.');
-                    return $this->redirect->to('pages/home');
+                    if (isset($_SESSION['role']) && $_SESSION['role'] === 'doctor') {
+                        return $this->redirect->to('pages/doctordashboard');
+                    } else {
+                        return $this->redirect->to('pages/home');
+                    }
                 } else {
                     Session::set('danger', 'Failed to change password. Please try again.');
-                    
                 }
             } else {
                 $this->view('auth/changepassword', ['data' => $data]);
@@ -308,6 +312,13 @@ class Auth extends Controller {
     }
 
     public function logout() {
+        // Unset all session variables related to user and doctor
+        unset($_SESSION['user_id']);
+        unset($_SESSION['doctor_id']);
+        unset($_SESSION['role']);
+        unset($_SESSION['name']);
+        unset($_SESSION['email']);
+        
         Session::destroy(); // destroy session
         $this->redirect->to("pages/home"); // redirect to login page
     }

@@ -148,4 +148,13 @@ class Templates {
       return self::wrapEmailTemplate($body, 'Medication Reminder');
    }
 
+   // public static function getPasswordChangedBody($userData, $data) {
+   //    $body = "";
+   //    $body .= "Dear " . htmlspecialchars($userData["name"]) . ",<br><br>";
+   //    $body .= "This is to notify you that your account password was recently changed.<br><br>";
+   //    $body .= "If you did not perform this action, please contact the clinic immediately.<br><br>";
+   //    $body .= "Regards,<br> WahMMs";
+   //    return self::wrapEmailTemplate($body, 'Password Changed');
+   // }
+
 }

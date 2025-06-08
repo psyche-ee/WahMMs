@@ -106,3 +106,60 @@ nav a i {
     color: #D81616 !important;
     font-weight: bold;
 }
+
+.logout_confirm_modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    border-radius: 10px;
+    padding: 2rem 2.5rem;
+    background: #fff;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    max-width: 350px;
+    width: 90%;
+    text-align: center;
+    z-index: 1000;
+}
+
+.logout_confirm_modal h1 {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    color: #d81616;
+}
+
+.logout_button_container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.logout_button_container button {
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s;
+}
+
+.logout_button_container #logout {
+    background: #d81616;
+    color: #fff;
+}
+
+.logout_button_container #cancel-doctor-logout {
+    background: #eee;
+    color: #333;
+}
+
+.logout_button_container #logout:hover {
+    background: #b31313;
+}
+
+.logout_button_container #cancel-doctor-logout:hover {
+    background: #ccc;
+}
