@@ -23,7 +23,7 @@
                             <?php
                                 $img = $service['image_path'] ? htmlspecialchars($service['image_path']) : 'default_service.png';
                             ?>
-                            <div class="img" style="background-image: url('<?= baseurl() ?>/public/uploads/<?= htmlspecialchars($service['image_path']) ?>'); background-size: cover; background-position: center;"></div>
+                            <div class="img" style="background-image: url('<?= htmlspecialchars($service['image_path']) ?>'); background-size: cover; background-position: center;"></div>
                             <h3><?= htmlspecialchars($service['name']) ?></h3>
                             <p><?= htmlspecialchars($service['description']) ?></p>
                         </div>
@@ -38,6 +38,27 @@
                     </div>
                 </div>
             <?php endforeach; ?>
+
+            <?php
+                $serviceCount = count($services);
+                $cardsPerRow = 3; // or whatever your desktop view shows
+                $remainder = $serviceCount % $cardsPerRow;
+                if ($remainder !== 0) {
+                    $emptyCards = $cardsPerRow - $remainder;
+                    for ($i = 0; $i < $emptyCards; $i++): ?>
+                        <div class="box empty-box">
+                            <div class="card-inner">
+                                <div class="box-front">
+                                    <div class="img" style="background-color: #f5f5f5;"></div>
+                                    <h3>More services soon</h3>
+                                    <p>Stay tuned for new offerings!</p>
+                                </div>
+                                <div class="box-back"></div>
+                            </div>
+                        </div>
+            <?php endfor; }
+            ?>
+
             </div>
             <button id="scrollRight" class="nav next"><i class="fa-solid fa-angle-right"></i></button>
             <div class="dot-container">
@@ -50,7 +71,7 @@
                 <input type="hidden" name="service-id" id="selected-service-id">
                 <input type="hidden" name="service-name" id="selected-service-name">
                 <label for="date">Date:</label>
-                <input type="date" id="date" name="date" required>
+                <input type="date" id="date" name="date" required min="<?= date('Y-m-d') ?>">
 
                 <label for="time">Time:</label>
                 
@@ -195,11 +216,12 @@
     });
 
     document.getElementById("date").addEventListener("change", function () {
-        const selectedDate = this.value; // Get the selected date
-        const timeSelect = document.getElementById("time"); // Get the time dropdown
-        const fullyBookedMessage = document.createElement("p"); // Create a message element
-        fullyBookedMessage.id = "fully-booked-message"; // Add an ID for easy reference
-        fullyBookedMessage.style.color = "red"; // Style the message
+        const selectedDate = this.value;
+        const timeSelect = document.getElementById("time");
+        const bookBtn = document.getElementById("book");
+        const fullyBookedMessage = document.createElement("p");
+        fullyBookedMessage.id = "fully-booked-message";
+        fullyBookedMessage.style.color = "red";
         fullyBookedMessage.textContent = "This date is fully booked. Please select another date.";
 
         // Remove any existing fully booked message
@@ -210,8 +232,11 @@
 
         // Clear any previously disabled options
         Array.from(timeSelect.options).forEach(option => {
-            option.disabled = false; // Reset all options to enabled
+            option.disabled = false;
         });
+
+        // Enable the Book button by default
+        bookBtn.disabled = false;
 
         // Fetch booked times for the selected date
         fetch(`<?= baseurl() ?>/pages/getBookedTimes?date=${selectedDate}`)
@@ -221,7 +246,7 @@
                 bookedTimes.forEach(bookedTime => {
                     const optionToDisable = Array.from(timeSelect.options).find(option => option.value === bookedTime);
                     if (optionToDisable) {
-                        optionToDisable.disabled = true; // Disable the booked time slot
+                        optionToDisable.disabled = true;
                     }
                 });
 
@@ -231,6 +256,8 @@
                     // Append the fully booked message to the modal
                     const modalForm = document.getElementById("book-appointment-form");
                     modalForm.appendChild(fullyBookedMessage);
+                    // Disable the Book button
+                    bookBtn.disabled = true;
                 }
             })
             .catch(error => console.error("Error fetching booked times:", error));

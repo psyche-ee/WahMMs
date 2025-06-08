@@ -99,9 +99,11 @@ class Admin extends Controller {
             $category = $this->request->data('category');
             $is_active = $this->request->data('is_active') ? true : false;
 
-
+            // Handle image upload
+            $imagePath = $_POST['image_url'] ?? null;
+            
             // Call your model's addService method
-            $result = $this->adminmodel->addService($name, $description, $long_description, $price, $category, $is_active);
+            $result = $this->adminmodel->addService($name, $description, $long_description, $price, $category, $is_active, $imagePath);
 
             if ($result) {
                 $this->redirect->to('pages/manageservices');

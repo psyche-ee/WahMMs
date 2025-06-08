@@ -16,6 +16,7 @@
             <a href="<?= baseurl() ?>/pages/manageservices" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back</a>
 
             <form action="<?= baseurl() ?>/admin/addservice" method="post" enctype="multipart/form-data">
+                
                 <label for="name">Service Name:</label>
                 <input type="text" name="name" id="name" required>
 
@@ -33,6 +34,7 @@
 
                 <label for="image">Image:</label>
                 <input type="file" name="image" id="image">
+                <input type="hidden" name="image_url" id="supabase_image_url">
 
                 <label for="is_active">Active:</label>
                 <input type="checkbox" name="is_active" id="is_active" checked>
@@ -41,5 +43,48 @@
             </form>
         </div>
     </main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+    const { createClient } = window.supabase;
+    const supabase = createClient('https://vmkcpsojjqyodnaflgof.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZta2Nwc29qanF5b2RuYWZsZ29mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcxMjM4ODEsImV4cCI6MjA2MjY5OTg4MX0.FejG_y8Klqc0Xhs-3cKGf0rWoCtnchJktpW3ZgVGS9E');
+
+    const fileInput = document.getElementById('image');
+    const submitBtn = document.querySelector('button[type="submit"]');
+    const hiddenInput = document.getElementById('supabase_image_url');
+
+    fileInput.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        submitBtn.disabled = true;
+        const filePath = Date.now() + '_' + file.name;
+        const { data, error } = await supabase.storage
+            .from('services')
+            .upload(filePath, file, { upsert: true });
+
+        console.log('Upload data:', data, 'error:', error); // <-- Add this line
+
+        if (!error && data && data.path) {
+            const { data: urlData, error: urlError } = supabase.storage.from('services').getPublicUrl(data.path);
+            if (!urlError && urlData && urlData.publicUrl) {
+                hiddenInput.value = urlData.publicUrl;
+                alert('Image uploaded successfully!');
+            } else {
+                alert('Failed to get public URL!');
+            }
+        } else {
+            alert('Image upload failed!');
+        }
+        submitBtn.disabled = false;
+    });
+
+    // Prevent form submission if image_url is empty
+    document.querySelector('form').addEventListener('submit', function(e) {
+        if (!hiddenInput.value) {
+            e.preventDefault();
+            alert('Please wait for the image to finish uploading.');
+        }
+    });
+</script>
 </body>
 </html>
+

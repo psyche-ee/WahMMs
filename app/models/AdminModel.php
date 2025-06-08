@@ -222,10 +222,10 @@ class AdminModel extends Model {
         return $stmt->execute();
     }
 
-    public function addService($name, $description, $long_description, $price, $category, $is_active = true) {
+    public function addService($name, $description, $long_description, $price, $category, $is_active = true, $imagePath = null) {
         $stmt = $this->db->prepare("
-            INSERT INTO services (name, description, long_description, price, category, is_active)
-            VALUES (:name, :description, :long_description, :price, :category, :is_active)
+            INSERT INTO services (name, description, long_description, price, category, is_active, image_path)
+            VALUES (:name, :description, :long_description, :price, :category, :is_active, :imagePath)
         ");
         $stmt->bindValue(':name', $name);
         $stmt->bindValue(':description', $description);
@@ -233,6 +233,7 @@ class AdminModel extends Model {
         $stmt->bindValue(':price', $price);
         $stmt->bindValue(':category', $category);
         $stmt->bindValue(':is_active', $is_active, PDO::PARAM_BOOL);
+        $stmt->bindValue(':imagePath', $imagePath);
 
         return $stmt->execute();
     }
