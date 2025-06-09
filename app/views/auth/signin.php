@@ -42,6 +42,61 @@
             color: #555; 
             font-size: 1.2em;
         }
+
+        #togglePassword {
+            position: absolute; right: 10px; top: 35px; background: none; border: none; cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            .form {
+                width: 90%;
+                height: auto;
+                padding: 20px 15px;
+                transform: translate(-50%, -50%);
+            }
+
+            .form h2 {
+                font-size: 2rem;
+                margin: 0 0 20px 0;
+            }
+
+            .form input {
+                margin: 10px 0;
+                width: 100%;
+                font-size: 1rem;
+            }
+
+            .form button {
+                margin: 20px 0;
+                width: 100%;
+                font-size: 1rem;
+            }
+
+            .form .pwd,
+            .form .create_one,
+            .form a {
+                margin: 10px 0;
+                text-align: center;
+                width: 100%;
+                display: block;
+            }
+
+            .error-msg {
+                margin-left: 0;
+                font-size: 0.8em;
+            }
+
+            #togglePassword {
+                top: 8px;
+                right: 8px;
+                text-align: right;
+                width: fit-content;
+            }
+
+            #password {
+                padding-right: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -69,7 +124,7 @@
             <div class="input-group" style="position: relative;">
                 <div class="error-msg"><?= $data['errpassword'] ?? '&nbsp;' ?></div>
                 <input type="password" name="password" id="password" placeholder="Enter password" style="padding-right: 40px;">
-                <button type="button" id="togglePassword" style="position: absolute; right: 10px; top: 35px; background: none; border: none; cursor: pointer;">
+                <button type="button" id="togglePassword">
                     <i class="fa-regular fa-eye" id="eyeIcon"></i>
                 </button>
             </div>

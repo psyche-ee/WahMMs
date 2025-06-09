@@ -44,6 +44,87 @@
             font-size: 1em;
         }
 
+        @media (max-width: 1024px) {
+        .form {
+            width: 90%;
+            height: auto;
+            padding: 30px 20px;
+        }
+
+        .form h2 {
+            font-size: 2.5rem;
+            margin: 0 20px 20px;
+        }
+
+        .form input,
+        .form button,
+        .form a {
+            margin: 10px 0;
+            font-size: 1rem;
+        }
+
+        .form input {
+            padding: 12px;
+        }
+
+        .form button {
+            height: 50px;
+            font-size: 20px;
+        }
+
+        .error-msg {
+            margin-left: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        #togglePassword,
+        #togglePassword2 {
+            right: 15px;
+            top: 12px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .form {
+            width: 95%;
+            padding: 15px 10px;
+        }
+
+        .form h2 {
+            font-size: 2rem;
+            margin: 0 15px 20px;
+        }
+
+        .form input {
+            width: 70%;
+            padding: 10px;
+            font-size: 0.95rem;
+        }
+
+        .form button {
+            height: 45px;
+            font-size: 18px;
+        }
+
+        .error-msg {
+            font-size: 0.8em;
+            margin-left: 15px;
+        }
+
+        #togglePassword,
+        #togglePassword2 {
+            right: 10px;
+            top: 10px;
+        }
+
+        #password, #confirm_password {
+                padding-right: 0;
+            }
+    }
+
     </style>
 </head>
 <body>
@@ -60,7 +141,7 @@
             </script>
             <?php unset($_SESSION['updated']); ?>
         <?php else: ?>
-            <p class="success-msg" style="visibility: hidden;">.</p>
+            <p class="success-msg" style="visibility: hidden;">&nbsp;</p>
         <?php endif; ?>
 
         <form action="<?= baseurl() ?>/auth/changepassword" method="POST">

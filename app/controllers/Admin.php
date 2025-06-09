@@ -164,7 +164,6 @@ class Admin extends Controller {
             $data = [
                 'service_id'          => $this->request->data('service_id'), // You may need to map service_name to service_id
                 'patient_id'          => $this->request->data('patient_id'),
-                'allergy'             => $this->request->data('allergy'),
                 'blood_pressure'      => $this->request->data('blood_pressure'),
                 'heart_rate'          => $this->request->data('heart_rate'),
                 'temperature'         => $this->request->data('temperature'),

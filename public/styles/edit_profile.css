@@ -132,3 +132,99 @@ form {
     padding: 20px;
     box-sizing: border-box;
 }
+
+/* --- Responsive Styles for Mobile --- */
+@media (max-width: 768px) {
+    body {
+        align-items: flex-start;
+        justify-content: center;
+        min-height: 100vh;
+        background: #f7f7f7;
+    }
+    main {
+        max-width: 100vw;
+        min-width: 0;
+        height: auto;
+        margin: 1.2rem 3vw;
+        padding: 1.2rem 3vw;
+        border-radius: 10px;
+        box-shadow: 0 0 8px rgba(0,0,0,0.08);
+    }
+    .sticky_header {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+    .form-columns {
+        flex-direction: column;
+        gap: 0;
+        max-height: none;
+    }
+    .left-column, .right-column {
+        max-width: 100%;
+        width: 100%;
+        gap: 10px;
+    }
+    .full_name,
+    .address {
+        flex-direction: column;
+        gap: 0;
+    }
+    .full_name > div,
+    .address > div {
+        min-width: 0;
+        margin-top: 8px;
+    }
+    form {
+        padding: 0;
+        height: auto;
+        min-width: 0;
+    }
+    .submit {
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 18px;
+        align-items: stretch;
+    }
+    .submit button,
+    .submit a button {
+        width: 100%;
+        font-size: 1rem;
+        padding: 12px 0;
+        border-radius: 8px;
+    }
+    label {
+        font-size: 1rem;
+    }
+    input[type="text"],
+    input[type="tel"],
+    input[type="date"],
+    input[type="number"],
+    select {
+        font-size: 1rem;
+        padding: 10px;
+        border-radius: 7px;
+    }
+    .error {
+        font-size: 0.95em;
+        height: 16px;
+    }
+}
+
+/* Even more compact for very small screens */
+@media (max-width: 480px) {
+    main {
+        margin: 0.5rem 1vw;
+        padding: 0.7rem 1vw;
+        border-radius: 7px;
+    }
+    .sticky_header {
+        font-size: 1rem;
+        margin-bottom: 0.7rem;
+    }
+    .submit button,
+    .submit a button {
+        font-size: 0.98rem;
+        padding: 10px 0;
+        border-radius: 7px;
+    }
+}

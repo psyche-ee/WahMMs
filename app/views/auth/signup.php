@@ -38,6 +38,71 @@
             font-size: 1em;
         }
 
+        @media screen and (max-width: 768px) {
+           .form {
+                width: 90%;
+                height: auto;
+                padding: 20px 5px;
+                transform: translate(-50%, -50%);
+            }
+
+            .form h2 {
+                font-size: 2rem;
+                margin: 10px 20px;
+            }
+
+            .form form {
+                padding: 0;
+            }
+
+            .form input {
+                margin: 10px 0;
+                padding: 14px;
+                font-size: 1em;
+            }
+
+            .form button {
+                margin: 20px 20px;
+                font-size: 1rem;
+                height: 50px;
+            }
+
+            .form a {
+                display: block;
+                margin-top: 10px;
+                font-size: 1rem;
+            }
+
+            .error-msg {
+                margin-left: 20px;
+            }
+
+            .input-group {
+                margin-bottom: 10px;
+            }
+
+            .toggle-password {
+                width: fit-content
+                right: 0;
+                top: 50% !important;
+                transform: translateY(-50%);
+            }
+
+            #signup-form div input {
+                width: 80%;
+            }
+
+            .form {
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+
+            #password, #confirm_password {
+                padding-right: 0; 
+            }
+        }
+
+
     </style>
 </head>
 <body>

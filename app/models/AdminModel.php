@@ -375,7 +375,6 @@ class AdminModel extends Model {
             SELECT 
                 mr.medical_record_id,
                 s.name AS service_name,
-                mr.allergy,
                 mr.blood_pressure,
                 mr.heart_rate,
                 mr.temperature,
@@ -404,7 +403,6 @@ class AdminModel extends Model {
             INSERT INTO medical_record (
                 service_id,
                 patient_id,
-                allergy,
                 blood_pressure,
                 heart_rate,
                 temperature,
@@ -418,7 +416,6 @@ class AdminModel extends Model {
             ) VALUES (
                 :service_id,
                 :patient_id,
-                :allergy,
                 :blood_pressure,
                 :heart_rate,
                 :temperature,
@@ -435,7 +432,6 @@ class AdminModel extends Model {
 
         $stmt->bindValue(':service_id', $data['service_id'] ?? null, PDO::PARAM_INT);
         $stmt->bindValue(':patient_id', $data['patient_id'], PDO::PARAM_INT);
-        $stmt->bindValue(':allergy', $data['allergy'] ?? null, PDO::PARAM_STR);
         $stmt->bindValue(':blood_pressure', $data['blood_pressure'] ?? null, PDO::PARAM_STR);
         $stmt->bindValue(':heart_rate', $data['heart_rate'] ?? null, PDO::PARAM_INT);
         $stmt->bindValue(':temperature', $data['temperature'] ?? null, PDO::PARAM_STR);

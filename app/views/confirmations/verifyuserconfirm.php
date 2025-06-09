@@ -70,8 +70,6 @@
       
       <p>You can now access all features of your Wahing Medical Clinic account.</p>
       
-      <a href="#" class="btn">PROCEED TO YOUR ACCOUNT</a>
-      
       <p style="margin-top: 30px; font-size: 0.9em; color: #666;">
          Didn't request this verification? Please contact our support team immediately.
       </p>

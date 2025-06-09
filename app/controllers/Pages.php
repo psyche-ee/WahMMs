@@ -74,15 +74,11 @@ class Pages extends Controller {
                 if (!$rule->isRequired($phone_number) || !$rule->isPhoneNumber($phone_number)) {
                     $data['errphone_number'] = 'Phone number must be valid.';
                 }
-                if (!$rule->isRequired($blood_type)) {
-                    $data['errblood_type'] = 'Blood type cannot be empty.';
-                }
+                
                 if (!$rule->isRequired($date_of_birth) || !$rule->isDate($date_of_birth)) {
                     $data['errdob'] = 'Date of birth must be a valid date.';
                 }
-                if (!$rule->isRequired($place_of_birth)) {
-                    $data['errpob'] = 'Place of birth cannot be empty.';
-                }
+                
                 if (!$rule->isRequired($confirm)) {
                     $data['errconfirm'] = 'You must confirm that the information is correct.';
                 }

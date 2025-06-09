@@ -7,7 +7,7 @@
  */
 
 function baseurl() {
-    return 'https://3cbb-110-54-229-163.ngrok-free.app/WahMMs';
+    return 'https://c114-143-44-164-31.ngrok-free.app/WahMMs';
 }
 
 /**
@@ -54,15 +54,15 @@ $GLOBALS['config'] = array(
     //emails are sent using SMTP
     "mailer" => array(
         "email_smtp_debug" => 0,
-        "email_smtp_auth" => false,
-        "email_smtp_secure" => "",
-        "email_smtp_host" => "localhost",
-        "email_smtp_username" => "noreply@wahmms.local",
-        "email_smtp_password" => "",
-        "email_smtp_port" => "1025",
-        "email_from" => "noreply@wahmms.local",
+        "email_smtp_auth" => true,
+        "email_smtp_secure" => "ssl",
+        "email_smtp_host" => "smtp.hostinger.com",
+        "email_smtp_username" => "med@wahmms.site",
+        "email_smtp_password" => "@Rw/HP4GH57",
+        "email_smtp_port" => "465",
+        "email_from" => "med@wahmms.site",
         "email_from_name" => "WahMMs",
-        "email_reply_to" => "noreply@wahmms.local",
+        "email_reply_to" => "med@wahmms.site",
 
         //configuration for email verification
         "email_email_verification" => "1",
@@ -71,7 +71,7 @@ $GLOBALS['config'] = array(
 
         //configuration for reset password
         "email_password_reset" => "2",
-        "email_password_reset_url" => "http://localhost/WahMMs/auth/resetpassword",
+        "email_password_reset_url" => "https://c114-143-44-164-31.ngrok-free.app/WahMMs/auth/resetpassword",
         "email_password_reset_subject" => "Reset your password",
 
         //configuration for login notification

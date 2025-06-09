@@ -75,7 +75,8 @@
 
                 <label for="time">Time:</label>
                 
-                <select name="time" id="time">
+                <select name="time" id="time" disabled>
+                    <option value="" disabled selected>-Select a time-</option>
                     <option value="18:00:00">6:00 pm</option>
                     <option value="18:30:00">6:30 pm</option>
                     <option value="19:00:00">7:00 pm</option>
@@ -86,7 +87,7 @@
                 </select>
 
                 <div>
-                    <button type="submit" id="book">Book</button>
+                    <button type="submit" id="book" disabled>Book</button>
                     <button type="button" id="cancel-button">Cancel</button>
                 </div>
             </form>
@@ -201,6 +202,15 @@
                 const serviceName = button.dataset.service;
                 const serviceId = button.dataset.serviceId;
 
+                const timeSelect = document.getElementById("time");
+                const bookBtn = document.getElementById("book");
+                const dateInput = document.getElementById("date");
+
+                timeSelect.disabled = true;
+                bookBtn.disabled = true;
+                dateInput.value = "";
+                timeSelect.selectedIndex = 0;
+
                 // sets the modal title dynamically
                 modalTitle.textContent = `${serviceName}`;
 
@@ -220,47 +230,47 @@
         const timeSelect = document.getElementById("time");
         const bookBtn = document.getElementById("book");
         const fullyBookedMessage = document.createElement("p");
+
         fullyBookedMessage.id = "fully-booked-message";
         fullyBookedMessage.style.color = "red";
         fullyBookedMessage.textContent = "This date is fully booked. Please select another date.";
 
+        // Reset time selection
+        timeSelect.selectedIndex = 0;
+        timeSelect.disabled = false;
+        bookBtn.disabled = true;
+
         // Remove any existing fully booked message
         const existingMessage = document.getElementById("fully-booked-message");
-        if (existingMessage) {
-            existingMessage.remove();
-        }
+        if (existingMessage) existingMessage.remove();
 
-        // Clear any previously disabled options
         Array.from(timeSelect.options).forEach(option => {
-            option.disabled = false;
+            option.disabled = option.value === ""; // keep first one disabled
         });
 
-        // Enable the Book button by default
-        bookBtn.disabled = false;
-
-        // Fetch booked times for the selected date
         fetch(`<?= baseurl() ?>/pages/getBookedTimes?date=${selectedDate}`)
             .then(response => response.json())
             .then(bookedTimes => {
-                // Disable options that are already booked
                 bookedTimes.forEach(bookedTime => {
                     const optionToDisable = Array.from(timeSelect.options).find(option => option.value === bookedTime);
-                    if (optionToDisable) {
-                        optionToDisable.disabled = true;
-                    }
+                    if (optionToDisable) optionToDisable.disabled = true;
                 });
 
-                // Check if all options are disabled
-                const allDisabled = Array.from(timeSelect.options).every(option => option.disabled);
+                const allDisabled = Array.from(timeSelect.options).every(option => option.disabled || option.value === "");
                 if (allDisabled) {
-                    // Append the fully booked message to the modal
-                    const modalForm = document.getElementById("book-appointment-form");
-                    modalForm.appendChild(fullyBookedMessage);
-                    // Disable the Book button
+                    document.getElementById("book-appointment-form").appendChild(fullyBookedMessage);
                     bookBtn.disabled = true;
                 }
             })
             .catch(error => console.error("Error fetching booked times:", error));
+    });
+
+    document.getElementById("time").addEventListener("change", function () {
+        const selectedOption = this.options[this.selectedIndex];
+        const bookBtn = document.getElementById("book");
+
+        // Enable book button only if a valid, not-disabled time is selected
+        bookBtn.disabled = !(selectedOption && selectedOption.value && !selectedOption.disabled);
     });
 
     // Handle Cancel button inside modal

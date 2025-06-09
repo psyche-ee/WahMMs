@@ -36,7 +36,6 @@
                             <th>Date</th>
                             <th>Service</th>
                             <th>Doctor</th>
-                            <th>Allergy</th>
                             <th>BP</th>
                             <th>HR</th>
                             <th>Temp</th>
@@ -53,7 +52,6 @@
                                 <td><?= htmlspecialchars(date('Y-m-d', strtotime($record['created_at']))) ?></td>
                                 <td><?= htmlspecialchars($record['service_name']) ?></td>
                                 <td><?= htmlspecialchars($record['doctor_name']) ?></td>
-                                <td><?= htmlspecialchars($record['allergy']) ?></td>
                                 <td><?= htmlspecialchars($record['blood_pressure']) ?></td>
                                 <td><?= htmlspecialchars($record['heart_rate']) ?></td>
                                 <td><?= htmlspecialchars($record['temperature']) ?></td>
