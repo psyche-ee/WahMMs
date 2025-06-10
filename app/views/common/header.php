@@ -36,6 +36,15 @@
         <div class="settingsline"></div>
         <a href="<?= baseurl() ?>/auth/changepassword"><p id="open_change_pass"><i class="fa-regular fa-pen-to-square"></i>Change Password</p></a>
         <p id="open_profile"><i class="fa-regular fa-user"></i>Profile</p>
+        <?php if (!empty($medicalHistory)): ?>
+    <p onclick="openMedicalHistoryModal()" style="cursor:pointer;">
+        <i class="fa-solid fa-notes-medical"></i>Medical History
+    </p>
+<?php else: ?>
+    <p onclick="openMedicalHistoryModal()" style="cursor:pointer;">
+    <i class="fa-solid fa-notes-medical"></i>Medical History
+</p>
+<?php endif; ?>
         <p id="open_logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</p>
     </dialog>
 
@@ -111,6 +120,76 @@
         </div>
     </dialog>
 
+    <?php if (isset($medicalHistory) && !empty($medicalHistory)): ?>
+        <dialog class="big_modal" id="medicalHistoryModal">
+            <div class="modal_content">
+                <div class="modal_header">
+                    <h2>Medical History</h2>
+                    <button id="closeMedicalHistory" class="close_btn">&times;</button>
+                </div>
+                <div class="modal_body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Service</th>
+                                    <th>BP</th>
+                                    <th>HR</th>
+                                    <th>Temp</th>
+                                    <th>Immunization</th>
+                                    <th>Follow-up</th>
+                                    <th>Diagnostic</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($medicalHistory as $record): ?>
+                                    <tr>
+                                        <td data-label="Date">
+                                            <?= (new DateTime($record['created_at'], new DateTimeZone('UTC')))
+                                                    ->setTimezone(new DateTimeZone('Asia/Manila'))
+                                                    ->format('Y-m-d') ?>
+                                        </td>
+                                        <td data-label="Service"><?= htmlspecialchars($record['service_name']) ?></td>
+                                        <td data-label="BP"><?= htmlspecialchars($record['blood_pressure']) ?></td>
+                                        <td data-label="HR"><?= htmlspecialchars($record['heart_rate']) ?></td>
+                                        <td data-label="Temp"><?= htmlspecialchars($record['temperature']) ?></td>
+                                        <td data-label="Immunization"><?= htmlspecialchars($record['immunization_status']) ?></td>
+                                       
+                                        <td data-label="Follow-up">
+                                            <?php
+                                                if (!empty($record['follow_up_date'])) {
+                                                    echo (new DateTime($record['follow_up_date'], new DateTimeZone('UTC')))
+                                                        ->setTimezone(new DateTimeZone('Asia/Manila'))
+                                                        ->format('M d, Y');
+                                                } else {
+                                                    echo '—';
+                                                }
+                                            ?>
+                                        </td>
+                                         <td data-label="Diagnostic"><?= htmlspecialchars($record['diagnostic']) ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+    <?php else: ?>
+        <dialog class="big_modal" id="medicalHistoryModal">
+            <div class="modal_content">
+                <div class="modal_header">
+                    <h2>Medical History</h2>
+                    <button id="closeMedicalHistory" class="close_btn">&times;</button>
+                </div>
+                <div class="modal_body">
+                    <p>No medical history records found.</p>
+                </div>
+            </div>
+        </dialog>
+    <?php endif; ?>
+
     <script src="<?= baseurl()?>/public/scripts/Wahing.js"></script>
     <script>
         // Handle Burger Settings Menu
@@ -131,4 +210,22 @@
                 toggleBtn.innerHTML = '<i class="fa-regular fa-eye"></i>'; // Open eye / visible
             }
         }
+
+        function openMedicalHistoryModal() {
+        const modal = document.getElementById('medicalHistoryModal');
+        if (modal) {
+            modal.showModal();  // this opens a <dialog>
+        }
+    }
+
+    // Also handle close button
+    document.addEventListener("DOMContentLoaded", () => {
+        const closeBtn = document.getElementById("closeMedicalHistory");
+        const modal = document.getElementById("medicalHistoryModal");
+        if (closeBtn && modal) {
+            closeBtn.addEventListener("click", () => {
+                modal.close();
+            });
+        }
+    });
     </script>

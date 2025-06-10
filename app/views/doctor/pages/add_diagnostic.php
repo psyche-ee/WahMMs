@@ -43,6 +43,20 @@ $record_exists = isset($_GET['error']) && $_GET['error'] === 'record_exists';
             background: #b31313;
             color: #fff;
         }
+
+        select {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 8px 10px;
+            font-size: 1em;
+            transition: border-color 0.2s ease-in-out;
+        }
+        select:focus {
+            border-color: #D81616;
+            outline: none;
+        }
+
     </style>
 </head>
 <body>
@@ -196,7 +210,12 @@ $record_exists = isset($_GET['error']) && $_GET['error'] === 'record_exists';
                         </div>
                         <div class="form-group">
                             <label>Immunization Status</label>
-                            <input type="text" name="immunization_status">
+                            <select name="immunization_status" required>
+                                <option value="">-- Select Status --</option>
+                                <option value="none">None</option>
+                                <option value="partial">Partial</option>
+                                <option value="complete">Complete</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>Follow-up Date</label>
@@ -204,7 +223,7 @@ $record_exists = isset($_GET['error']) && $_GET['error'] === 'record_exists';
                         </div>
                         <div class="form-group">
                             <label>Diagnostic</label>
-                            <input type="text" name="diagnostic">
+                            <textarea name="diagnostic" rows="6" style="width: 100%; resize: vertical; padding: 10px; font-size: 1em;"></textarea>
                         </div>
                         <button type="submit" class="add-record-btn">Save</button>
                         

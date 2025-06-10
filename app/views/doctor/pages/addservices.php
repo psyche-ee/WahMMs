@@ -11,7 +11,7 @@
 <body>
     <?php require __DIR__ . '/../common/sidebar.php'; ?>
     <main>
-        <h2>Add New Announcement</h2>
+        <h2>Add New Service</h2>
         <div class="container">
             <a href="<?= baseurl() ?>/pages/manageservices" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back</a>
 
@@ -39,7 +39,7 @@
                 <label for="is_active">Active:</label>
                 <input type="checkbox" name="is_active" id="is_active" checked>
 
-                <button type="submit">Add</button>
+                <button type="submit" class="add-btn">Add</button>
             </form>
         </div>
     </main>

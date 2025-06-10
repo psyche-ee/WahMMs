@@ -1,6 +1,7 @@
 <?php
 
 class Pages extends Controller {
+    
     public $request;
     public $redirect;
 
@@ -10,12 +11,18 @@ class Pages extends Controller {
         $this->redirect     = new Redirect();
     }
 
+    public function index() {
+        $this->redirect->to("pages/home");
+    }
+
     public function home() {
         $adminModel = $this->model('AdminModel');
         $today = $adminModel->getTodayHours();
         $today['is_open'] = $adminModel->isNowOpen();
 
         $authmodel = $this->model('AuthModel');
+
+        $medicalHistory = [];
 
         $userHasProfile = $authmodel->userHasProfile($_SESSION['user_id'] ?? null);
         if (!$userHasProfile && isset($_SESSION['user_id'])) {
@@ -103,11 +110,17 @@ class Pages extends Controller {
 
         $userInfo = [];
         if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+
+            // Get patient ID
+            $patientId = $adminModel->getPatientIdByUserId($_SESSION['user_id']);
+
+            // Get medical records
+            $medicalHistory = $adminModel->getPatientMedicalRecords($patientId);
             $usermodel = $this->model('UserModel');
             $userInfo = $usermodel->getUserProfile($_SESSION['user_id']);
         }
         
-        $this->view('pages/home', ['today' => $today, 'userInfo' => $userInfo]);
+        $this->view('pages/home', ['today' => $today, 'userInfo' => $userInfo, 'medicalHistory' => $medicalHistory]);
     }
 
     public function services() {
@@ -119,12 +132,23 @@ class Pages extends Controller {
         unset($_SESSION['booking_result']); // Clear it after reading
 
         $userInfo = [];
+        $medicalHistory = [];
         if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
             $usermodel = $this->model('UserModel');
+            $adminModel = $this->model('AdminModel');
+
             $userInfo = $usermodel->getUserProfile($_SESSION['user_id']);
+            $patientId = $adminModel->getPatientIdByUserId($_SESSION['user_id']);
+            $medicalHistory = $adminModel->getPatientMedicalRecords($patientId);
         }
-        error_log(print_r($services, true));
-        $this->view('pages/services', ['services' => $services, 'loggedIn' => $loggedIn, 'result' => $bookingResult, 'userInfo' => $userInfo]);
+
+        $this->view('pages/services', [
+            'services' => $services,
+            'loggedIn' => $loggedIn,
+            'result' => $bookingResult,
+            'userInfo' => $userInfo,
+            'medicalHistory' => $medicalHistory
+        ]);
     }
 
     public function bookservices() {
@@ -148,27 +172,41 @@ class Pages extends Controller {
 
     public function about() {
         $userInfo = [];
+        $medicalHistory = [];
+
         if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
             $usermodel = $this->model('UserModel');
+            $adminModel = $this->model('AdminModel');
+
             $userInfo = $usermodel->getUserProfile($_SESSION['user_id']);
+            $patientId = $adminModel->getPatientIdByUserId($_SESSION['user_id']);
+            $medicalHistory = $adminModel->getPatientMedicalRecords($patientId);
         }
-        $this->view('pages/about', ['userInfo' => $userInfo]);
+
+        $this->view('pages/about', ['userInfo' => $userInfo, 'medicalHistory' => $medicalHistory]);
     }
 
     public function announcements() {
         $announce = $this->model('AnnounceModel');
-        $announceModel = $announce->getAllAnnouncements();
-        if (!$announceModel) {
-            $announceModel = []; 
-        }
+        $announceModel = $announce->getAllAnnouncements() ?? [];
 
         $userInfo = [];
+        $medicalHistory = [];
+
         if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
             $usermodel = $this->model('UserModel');
+            $adminModel = $this->model('AdminModel');
+
             $userInfo = $usermodel->getUserProfile($_SESSION['user_id']);
+            $patientId = $adminModel->getPatientIdByUserId($_SESSION['user_id']);
+            $medicalHistory = $adminModel->getPatientMedicalRecords($patientId);
         }
-       
-        $this->view('pages/announcements', ['announcements' => $announceModel, 'userInfo' => $userInfo]);
+
+        $this->view('pages/announcements', [
+            'announcements' => $announceModel,
+            'userInfo' => $userInfo,
+            'medicalHistory' => $medicalHistory
+        ]);
     }
 
     public function verifiedconfirmation() {
@@ -391,5 +429,33 @@ class Pages extends Controller {
         $services = $this->model('AdminModel')->getServices();
         $this->view('doctor/pages/manageservices', ['services' => $services]);
     }
+
+    public function viewMedicalHistory() {
+        if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+            return $this->redirect->to('pages/home');
+        }
+
+        $userId = $_SESSION['user_id'];
+
+        // Load models
+        $userModel = $this->model('UserModel');
+        $adminModel = $this->model('AdminModel');
+
+        // Get user profile
+        $userInfo = $userModel->getUserProfile($userId);
+
+        // Get patient ID
+        $patientId = $adminModel->getPatientIdByUserId($userId);
+
+        // Get medical records
+        $medicalHistory = $adminModel->getPatientMedicalRecords($patientId);
+
+        // Load settings modal or full settings page
+        $this->view('pages/settings_medical_history', [
+            'userInfo' => $userInfo,
+            'medicalHistory' => $medicalHistory,
+        ]);
+    }
+
 
 }

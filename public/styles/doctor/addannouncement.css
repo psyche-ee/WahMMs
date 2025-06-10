@@ -60,8 +60,17 @@ textarea {
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
+    padding: 16px 30px; /* Bigger padding */
+    font-size: 1.2rem;   /* Larger font */
+    border-radius: 8px;  /* More rounded corners */
     cursor: pointer;
-    margin: 20px 0 0;
+    margin: 30px auto 0;
+    display: block;
+    width: 100%;         /* Make it stretch full width for emphasis */
+    max-width: 300px;    /* Limit size on large screens */
+    transition: background-color 0.3s ease;
+}
+
+.add-btn:hover {
+    background-color: #0056b3;
 }

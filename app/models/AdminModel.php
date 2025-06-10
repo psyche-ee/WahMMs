@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('Asia/Manila');
 class AdminModel extends Model {
     protected $db;
 

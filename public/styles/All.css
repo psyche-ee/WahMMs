@@ -275,7 +275,7 @@ nav a:hover {
     margin: 10px 40px;
     font-size: 20px;
     background-color: #D9D9D9;
-    color: #898888;
+    color: black;
     border: none;
     border-radius: 15px;
 }
@@ -391,7 +391,7 @@ nav a:hover {
 
 .settings_modal p {
     cursor: pointer;
-    margin: 40px 0;
+    margin: 30px 0;
     font-size: 24px;
     font-weight: 700;
 }
@@ -548,6 +548,157 @@ nav a:hover {
 .profile_modal a:hover {
     background-color: #ac170d;
 }
+
+/* Center and darken backdrop */
+.big_modal::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* Center the modal using flexbox */
+.big_modal {
+    
+    justify-content: center;
+    align-items: center;
+
+    width: 90%;
+    max-width: 1000px;
+    margin: auto;
+    border: none;
+    border-radius: 10px;
+    padding: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Modal content */
+.modal_content {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 100%;
+}
+
+/* Force consistent layout between thead and tbody */
+.table-responsive {
+    display: block;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+/* Table full width with borders */
+.table-responsive table {
+    width: 100%;
+    border-collapse: collapse; /* Ensure borders collapse cleanly */
+    table-layout: fixed; /* Ensures th and td align */
+}
+
+/* Set borders for all cells */
+.table-responsive th,
+.table-responsive td {
+    border: 1px solid #dee2e6;
+    padding: 0.75rem;
+    text-align: center;
+    vertical-align: middle;
+    word-wrap: break-word;
+}
+
+/* Sticky header for scrolling */
+.table-responsive thead th {
+    position: sticky;
+    top: 0;
+    background-color: #343a40;
+    color: white;
+    z-index: 1;
+}
+
+/* Header with red color */
+.modal_header {
+    padding: 1rem;
+    background-color: #D81616;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Modal body with scroll on overflow */
+.modal_body {
+    padding: 0;
+    max-height: 70vh;
+    overflow: hidden;
+}
+
+/* Close button styling */
+.close_btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Mobile (vertical table) */
+@media screen and (max-width: 768px) {
+    .table-responsive table,
+    .table-responsive thead,
+    .table-responsive tbody,
+    .table-responsive th,
+    .table-responsive td,
+    .table-responsive tr {
+        display: block;
+        width: 100%;
+    }
+
+    .table-responsive thead {
+        display: none; /* Hide table headers */
+    }
+
+    .table-responsive tr {
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 0.5rem;
+        background-color: #fff;
+    }
+
+    .table-responsive td {
+        text-align: left;
+        padding-left: 50%;
+        position: relative;
+    }
+
+    .table-responsive td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 1rem;
+        top: 0;
+        bottom: 0;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .modal_content {
+        font-size: 0.9rem;
+    }
+
+    .modal_header h2 {
+        font-size: 1.2rem;
+    }
+
+    .close_btn {
+        font-size: 1.2rem;
+    }
+
+    .modal_body {
+        padding: 0.75rem;
+    }
+}
+
 
 /* Responsive Styles */
 @media (max-width: 768px) {
