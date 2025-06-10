@@ -202,6 +202,7 @@ class Admin extends Controller {
 
         $data['patient'] = $this->adminmodel->getPatientInfo($id);
         $data['medical_records'] = $this->adminmodel->getPatientMedicalRecords($patient['patient_id']);
+        $data['medical_record_id'] = $this->adminmodel->getLatestMedicalRecordIdByPatientId($patient['patient_id']);
         $data['service_id'] = $service_id;
         $data['service_name'] = $service_name;
         $this->view('doctor/pages/add_diagnostic', $data);
@@ -209,7 +210,7 @@ class Admin extends Controller {
 
     public function addPrescription() {
         if ($this->request->isPost()) {
-            $medical_record_id = $this->request->data('medical_record_id');
+            $medical_record_id = (int) $_POST['medical_record_id'];
             $prescriptions = $this->request->data('prescriptions'); // array of prescriptions
 
             // Fetch patient_id using medical_record_id
@@ -247,7 +248,7 @@ class Admin extends Controller {
                     );
                 }
                 // Redirect with success message
-                $this->redirect->to('admin/addDiagnostic/' . $user['id'] . '?prescription_success=1');
+                $this->redirect->to('pages/doctordashboard?prescription_success=1');
 
             } else {
                 $this->redirect->to('admin/addDiagnostic/' . $medical_record_id . '?prescription_error=1');

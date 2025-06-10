@@ -7,7 +7,7 @@
  */
 
 function baseurl() {
-    return 'https://c114-143-44-164-31.ngrok-free.app/WahMMs';
+    return 'https://4182-202-90-133-67.ngrok-free.app/WahMMs';
 }
 
 /**
@@ -71,7 +71,7 @@ $GLOBALS['config'] = array(
 
         //configuration for reset password
         "email_password_reset" => "2",
-        "email_password_reset_url" => "https://c114-143-44-164-31.ngrok-free.app/WahMMs/auth/resetpassword",
+        "email_password_reset_url" => "https://4182-202-90-133-67.ngrok-free.app/auth/resetpassword",
         "email_password_reset_subject" => "Reset your password",
 
         //configuration for login notification

@@ -109,6 +109,28 @@ class AdminModel extends Model {
         return $this->getSpecificAppointments('confirmed');
     }
 
+    // ---------------------------------------------------------------------------
+    public function cancelPastConfirmedAppointments() {
+        $stmt = $this->db->prepare("UPDATE appointments 
+            SET status = 'cancelled' 
+            WHERE status = 'confirmed' 
+            AND appointment_date < CURRENT_DATE");
+        $stmt->execute();
+    }
+
+    // public function cancelPastConfirmedAppointments() {
+    //     $stmt = $this->db->prepare("
+    //         UPDATE appointments 
+    //         SET status = 'cancelled' 
+    //         WHERE status = 'confirmed' 
+    //         AND (appointment_date < CURRENT_DATE 
+    //             OR (appointment_date = CURRENT_DATE AND appointment_time < CURRENT_TIME))
+    //     ");
+    //     $stmt->execute();
+    // }
+
+    //-----------------------------------------------------------------------------
+
     public function getCancelledAppointments() {
         return $this->getSpecificAppointments('cancelled');
     }
@@ -396,6 +418,19 @@ class AdminModel extends Model {
         $stmt->bindValue(':patient_id', $patient_id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getLatestMedicalRecordIdByPatientId($patient_id) {
+        $stmt = $this->db->prepare("
+            SELECT medical_record_id
+            FROM medical_record
+            WHERE patient_id = :patient_id
+            ORDER BY created_at DESC
+            LIMIT 1
+        ");
+        $stmt->bindValue(':patient_id', $patient_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchColumn(); // returns just the ID (or false if none found)
     }
 
     public function addMedicalRecord($data) {

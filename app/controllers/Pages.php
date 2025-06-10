@@ -11,10 +11,6 @@ class Pages extends Controller {
         $this->redirect     = new Redirect();
     }
 
-    public function index() {
-        $this->redirect->to("pages/home");
-    }
-
     public function home() {
         $adminModel = $this->model('AdminModel');
         $today = $adminModel->getTodayHours();
@@ -258,17 +254,23 @@ class Pages extends Controller {
 
         $this->view('doctor/pages/pendingappointments', ['appointments' => $appointments]);
     }
-
+    // ---------------------------------------------------------------------------------------------
     public function confirmedappointments() {
         if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'doctor') {
             return $this->redirect->to('pages/home');
         }
+
         $adminModel = $this->model('AdminModel');
+
+        // Automatically cancel past confirmed appointments
+        $adminModel->cancelPastConfirmedAppointments();
+
+        // Then fetch the updated list of confirmed appointments
         $appointments = $adminModel->getConfirmedAppointments();
 
         $this->view('doctor/pages/confirmedappointments', ['appointments' => $appointments]);
     }
-
+    // ---------------------------------------------------------------------------------------------
     public function declinedappointments() {
         if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'doctor') {
             return $this->redirect->to('pages/home');
