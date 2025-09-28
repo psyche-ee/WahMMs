@@ -1,5 +1,6 @@
 <?php
 
+die('Loaded index.php');
 
 /**
  * ----------------------------------------------------------
@@ -16,6 +17,9 @@
  */
 
 Session::init();
+
+error_log('SESSION: ' . print_r($_SESSION, true));
+error_log('COOKIES: ' . print_r($_COOKIE, true));
 
 /**
  * ----------------------------------------------------------

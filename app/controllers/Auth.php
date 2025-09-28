@@ -17,7 +17,7 @@ class Auth extends Controller {
 
     public function index() {
         if ($this->authmodel->isLoggedIn()) {
-            return $this->redirect->to('home/');
+            //return $this->redirect->to('home/');
         }
     }
 
@@ -106,7 +106,7 @@ class Auth extends Controller {
 
     public function signin() {
         if ($this->authmodel->isLoggedIn()) {
-            return $this->redirect->to('pages/home');
+            //return $this->redirect->to('pages/home');
         }
     
         $data = [];
