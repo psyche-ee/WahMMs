@@ -1,10 +1,11 @@
 FROM php:8.2-cli
 
-# Install system dependencies: git, zip, unzip
+# Install system dependencies: git, zip, unzip, and PostgreSQL dev libraries
 RUN apt-get update && \
-    apt-get install -y git zip unzip && \
+    apt-get install -y git zip unzip libpq-dev && \
     rm -rf /var/lib/apt/lists/*
 
+# Install pdo_pgsql extension
 RUN docker-php-ext-install pdo_pgsql
 
 # Install composer

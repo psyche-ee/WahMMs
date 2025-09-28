@@ -7,7 +7,7 @@
  */
 
 function baseurl() {
-    return 'https://4182-202-90-133-67.ngrok-free.app/WahMMs';
+    return 'https://localhost/WahMMs';
 }
 
 /**
