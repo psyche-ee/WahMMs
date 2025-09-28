@@ -33,7 +33,7 @@ $GLOBALS['config'] = array(
         "session_cookie_expiry" => 604800,
         "cookie_domain" =>baseurl(),
         "cookie_path" => "/",
-        "cookie_secure" => false,
+        "cookie_secure" => true,
         "cookie_http" => true,
         "cookie_secret_key" => "af&70-GF^!a{f64r5@g38l]#kQ4B+43%"
     ),
