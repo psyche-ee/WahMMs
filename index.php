@@ -17,8 +17,12 @@
 
 Session::init();
 
-error_log('SESSION: ' . print_r($_SESSION, true));
-error_log('COOKIES: ' . print_r($_COOKIE, true));
+if (empty($_SESSION['test'])) {
+    $_SESSION['test'] = rand(1000, 9999);
+    error_log('Set test session: ' . $_SESSION['test']);
+} else {
+    error_log('Read test session: ' . $_SESSION['test']);
+}
 
 /**
  * ----------------------------------------------------------

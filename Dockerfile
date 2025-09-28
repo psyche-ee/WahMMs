@@ -14,6 +14,12 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /app
 
+# Create a directory for PHP sessions and set permissions
+RUN mkdir -p /var/lib/php/sessions && chmod 777 /var/lib/php/sessions
+
+# Set PHP to use this directory for sessions
+ENV PHP_SESSION_SAVE_PATH=/var/lib/php/sessions
+
 # Copy project files
 COPY . .
 
@@ -23,5 +29,4 @@ RUN if [ -f composer.json ]; then composer install; fi
 # Expose port
 EXPOSE 10000
 
-# Start the PHP built-in server
-CMD ["php", "-S", "0.0.0.0:10000", "index.php"]
+CMD ["php", "-d", "session.save_path=/var/lib/php/sessions", "-S", "0.0.0.0:10000", "index.php"]
