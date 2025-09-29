@@ -29,5 +29,5 @@ RUN if [ -f composer.json ]; then composer install; fi
 # Expose port
 EXPOSE 10000
 
-...
+
 CMD ["php", "-d", "session.save_path=/var/lib/php/sessions", "-S", "0.0.0.0:${PORT}", "index.php"]
