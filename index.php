@@ -1,8 +1,5 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 // Serve static files directly when using PHP's built-in server
 if (php_sapi_name() === 'cli-server') {
@@ -28,13 +25,6 @@ if (php_sapi_name() === 'cli-server') {
  */
 
 Session::init();
-
-if (empty($_SESSION['test'])) {
-    $_SESSION['test'] = rand(1000, 9999);
-    error_log('Set test session: ' . $_SESSION['test']);
-} else {
-    error_log('Read test session: ' . $_SESSION['test']);
-}
 
 /**
  * ----------------------------------------------------------
