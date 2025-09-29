@@ -1,10 +1,7 @@
 services:
   - type: web
     name: wahmms-php
-    env: php
     plan: free
-    buildCommand: ""
-    startCommand: ""
     rootDir: .
     envVars:
       - key: PHP_VERSION

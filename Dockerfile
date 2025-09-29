@@ -1,6 +1,6 @@
-FROM php:8.2-cli
+FROM php:8.2-apache
 
-# Install system dependencies: git, zip, unzip, and PostgreSQL dev libraries
+# Install system dependencies
 RUN apt-get update && \
     apt-get install -y git zip unzip libpq-dev && \
     rm -rf /var/lib/apt/lists/*
@@ -12,13 +12,7 @@ RUN docker-php-ext-install pdo_pgsql
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Set working directory
-WORKDIR /app
-
-# Create a directory for PHP sessions and set permissions
-RUN mkdir -p /var/lib/php/sessions && chmod 777 /var/lib/php/sessions
-
-# Set PHP to use this directory for sessions
-ENV PHP_SESSION_SAVE_PATH=/var/lib/php/sessions
+WORKDIR /var/www/html
 
 # Copy project files
 COPY . .
@@ -26,8 +20,10 @@ COPY . .
 # Install dependencies if composer.json exists
 RUN if [ -f composer.json ]; then composer install; fi
 
-# Expose port
-EXPOSE 10000
+# Set permissions for sessions
+RUN mkdir -p /var/lib/php/sessions && chmod 777 /var/lib/php/sessions
 
+# Expose port 80 (Apache default)
+EXPOSE 80
 
-CMD ["php", "-d", "session.save_path=/var/lib/php/sessions", "-S", "0.0.0.0:${PORT}", "index.php"]
+# Apache will start automatically
