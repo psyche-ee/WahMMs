@@ -14,6 +14,12 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
+# Enable Apache mod_rewrite
+RUN a2enmod rewrite
+
+# Allow .htaccess overrides
+RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
+
 # Copy project files
 COPY . .
 
