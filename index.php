@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // Serve static files directly when using PHP's built-in server
 if (php_sapi_name() === 'cli-server') {
     $url  = parse_url($_SERVER['REQUEST_URI']);
